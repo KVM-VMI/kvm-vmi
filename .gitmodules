@@ -1,0 +1,3 @@
+[submodule "kvm"]
+	path = kvm
+	url = git@github.com:Wenzel/kvm.git
