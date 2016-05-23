@@ -1,3 +1,7 @@
 [submodule "kvm"]
 	path = kvm
 	url = git@github.com:Wenzel/kvm.git
+[submodule "nitro"]
+	path = nitro
+	url = git@github.com:Wenzel/nitro.git
+	branch = master
