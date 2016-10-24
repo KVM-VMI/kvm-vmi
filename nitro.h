@@ -7,14 +7,26 @@
 
 #define NITRO_MAX_VCPUS 64
 
+enum syscall_direction {
+    ENTER,
+    EXIT
+};
+
+enum syscall_type {
+    SYSENTER,
+    SYSCALL
+};
+
+struct event {
+    bool present;
+   enum syscall_direction direction;
+   enum syscall_type type;
+};
+
 struct nitro_vcpus{
   int num_vcpus;
   int ids[NITRO_MAX_VCPUS];
   int fds[NITRO_MAX_VCPUS];
-};
-
-union event_data{
-  ulong syscall;
 };
 
 //events
@@ -31,7 +43,7 @@ union event_data{
 #define KVM_NITRO_SET_SYSCALL_TRAP _IOW(KVMIO, 0xE3, bool)
 
 //VCPU functions
-#define KVM_NITRO_GET_EVENT	_IOR(KVMIO, 0xE5, union event_data)
+#define KVM_NITRO_GET_EVENT	_IOR(KVMIO, 0xE5, struct event)
 #define KVM_NITRO_CONTINUE	_IO(KVMIO, 0xE6)
 
 #define KVM_NITRO_GET_REGS              _IOR(KVMIO,  0xE7, struct kvm_regs)
