@@ -17,6 +17,12 @@ This project is divided into 2 components:
 Unfortunately, it is not possible to compile the KVM modules as an `out-of-tree`
 build. You will have to compile and install a new kernel along with the new modules.
 
+- Start by compiling a new kernel in `kvm`
+- Reboot
+- Make sure you loaded the modified kernel module (`make reload`)
+- Go to `nitro` to setup the userland component and intercept syscalls
+
+
 # References
 
 Based on the work of `Jonas Pfoh`:
