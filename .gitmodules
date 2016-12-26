@@ -6,3 +6,6 @@
 	path = nitro
 	url = git@github.com:Wenzel/nitro.git
 	branch = master
+[submodule "qemu"]
+	path = qemu
+	url = https://github.com/Wenzel/qemu
