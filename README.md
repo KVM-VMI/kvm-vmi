@@ -11,6 +11,7 @@ It allows you to trap and receive all syscalls generated during the execution.
 This project is divided into 2 components:
 - a modified version of the KVM source code.
 - a userland component which receive and displays events.
+- you need to compile `QEMU` only if you intend to use `libvmi` (see `nitro/`)
 
 # Setup
 
