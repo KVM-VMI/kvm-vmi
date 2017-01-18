@@ -1,11 +1,12 @@
 [submodule "kvm"]
 	path = kvm
-	url = git@github.com:Wenzel/kvm.git
+	url = https://github.com/KVM-VMI/kvm
     branch = master
 [submodule "nitro"]
 	path = nitro
-	url = git@github.com:Wenzel/nitro.git
+	url = https://github.com/KVM-VMI/nitro
 	branch = master
 [submodule "qemu"]
 	path = qemu
-	url = https://github.com/Wenzel/qemu
+	url = https://github.com/KVM-VMI/qemu
+	branch = master
