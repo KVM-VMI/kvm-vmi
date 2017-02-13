@@ -1,0 +1,25 @@
+---
+- name: install QEMU dependencies
+  package:
+    name: "{{ item }}"
+  with_items:
+    - pkg-config
+    - zlib1g-dev
+    - libglib2.0-dev
+    - dh-autoreconf
+    - libspice-server-dev
+
+- name: clone pixman submodule
+  shell: cd /vagrant/qemu && git submodule update --init pixman
+  become: false
+
+- name: configure QEMU
+  shell: cd /vagrant/qemu && ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr
+  become: false
+
+- name: build QEMU
+  shell: cd /vagrant/qemu && make -j4
+  become: false
+
+- name: install QEMU
+  shell: cd /vagrant/qemu && make install

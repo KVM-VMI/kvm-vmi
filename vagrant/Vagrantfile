@@ -1,0 +1,35 @@
+Vagrant.configure(2) do |config|
+    config.vm.box = "debian/jessie64"
+
+    # enable NFS here
+    use_nfs = false
+
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+
+    if use_nfs == true
+        config.vm.synced_folder "..", "/vagrant",
+            :nfs => true,
+            :nfs_version => 4,
+            :nfs_udp => false,
+            :linux__nfs_options => ['rw','no_subtree_check','no_root_squash','async']
+
+    end
+
+    config.vm.provider :libvirt do |libvirt|
+        libvirt.cpus = 2
+        libvirt.memory = 4096
+        libvirt.driver = "kvm"
+        libvirt.nested = true
+        if use_nfs == false
+            libvirt.machine_virtual_size = 40
+        end
+    end
+
+    config.vm.provision "ansible" do |ansible|
+        if use_nfs == true
+            ansible.playbook = "provision_nfs/playbook.yml"
+        else
+            ansible.playbook = "provision/playbook.yml"
+        end
+    end
+end

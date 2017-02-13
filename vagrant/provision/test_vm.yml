@@ -1,0 +1,12 @@
+---
+- name: add user to libvirt group
+  shell: usermod -a -G libvirt vagrant
+
+- name: enable default network as autostart
+  shell: virsh -c qemu:///system net-autostart default
+
+- name: build test vm
+  shell: cd /data/kvm-vmi/nitro/tests/packer-windows/ && ./packer build windows_7_x64.json
+
+- name: import in libvirt
+  shell: cd /data/kvm-vmi/nitro/tests/ && ./import_libvirt.py packer-windows/output-qemu/win7x64

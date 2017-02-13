@@ -1,0 +1,65 @@
+---
+- name: add backports
+  lineinfile:
+    dest: /etc/apt/sources.list
+    line: 'deb http://ftp.debian.org/debian jessie-backports main'
+    insertafter: EOF
+
+- name: update cache
+  apt:
+    update_cache: yes
+
+- name: install linux source and build deps
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - linux-source-4.9
+    - libssl-dev
+    - fakeroot
+    - dpkg-dev
+
+- name: clean sources
+  shell: cd /vagrant/kvm && make mrproper
+  become: false
+
+- name: extract kernel config amd64
+  shell: xz -dc /usr/src/linux-config-4.9/config.amd64_none_amd64.xz > /vagrant/kvm/.config
+  become: false
+
+- name: enable KVM
+  shell: cd /vagrant/kvm && ./scripts/config --module KVM
+  become: false
+
+- name: enable KVM_INTEL
+  shell: cd /vagrant/kvm && ./scripts/config --module KVM_INTEL
+  become: false
+
+- name: enable KVM_AMD
+  shell: cd /vagrant/kvm && ./scripts/config --module KVM_AMD
+  become: false
+
+- name: enable CONFIG_MEMCG
+  shell: cd /vagrant/kvm && ./scripts/config --enable CONFIG_MEMCG
+  become: false
+
+- name: enable iptables NAT
+  shell: cd /vagrant/kvm && ./scripts/config --module IP_NF_NAT
+  become: false
+
+- name: make olddefconfig for silent config
+  shell: cd /vagrant/kvm && make olddefconfig
+  become: false
+
+- name: append -nitro to kernel version string
+  lineinfile: 
+    dest: /vagrant/kvm/Makefile
+    regexp: '^EXTRAVERSION ='
+    line: 'EXTRAVERSION = -nitro'
+  become: false
+
+- name: build kernel debian packages
+  shell: cd /vagrant/kvm && make -j4 deb-pkg
+  become: false
+
+- name: install kernel packages
+  shell: dpkg -i /vagrant/*.deb

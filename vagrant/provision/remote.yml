@@ -1,0 +1,27 @@
+---
+- name: enable password authentification in SSH
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^ChallengeResponseAuthentication'
+    line: 'ChallengeResponseAuthentication yes'
+
+- name: enable root login in SSH
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin yes'
+
+- name: restart SSH server
+  shell: systemctl restart ssh
+
+# python -c 'import crypt; print crypt.crypt("vagrant", "vagrant-salt$$")'
+- name: set password for vagrant account
+  user:
+    name: vagrant
+    password: vaqRzE48Dulhs
+
+
+- name: set password for root account
+  user:
+    name: root
+    password: vaqRzE48Dulhs

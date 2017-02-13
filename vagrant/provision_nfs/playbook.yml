@@ -1,0 +1,20 @@
+---
+- hosts: default
+  become: true
+  tasks:
+    - name: install useful tools
+      package:
+        name: "{{ item }}"
+      with_items:
+        - git
+        - htop
+        - vim
+
+    - name: clean previous debian packages
+      shell: rm -f /vagrant/*.deb ; rm -f /vagrant/*.dsc ; rm -f /vagrant/*.changes ; rm -f /vagrant/*.tar.gz
+
+    - include: remote.yml
+    - include: kvm.yml
+    - include: nitro.yml
+    - include: qemu.yml
+    - include: test_vm.yml
