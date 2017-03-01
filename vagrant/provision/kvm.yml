@@ -1,0 +1,91 @@
+---
+- name: add backports
+  lineinfile:
+    dest: /etc/apt/sources.list
+    line: 'deb http://ftp.debian.org/debian jessie-backports main'
+    insertafter: EOF
+
+- name: update cache
+  apt:
+    update_cache: yes
+
+- name: install linux source and build deps
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - linux-source-4.9
+    - libssl-dev
+    - fakeroot
+    - dpkg-dev
+
+- name: create /data/src dir
+  file:
+    path: /data/src
+    state: directory
+    owner: vagrant
+    group: vagrant
+
+- name: extract linux kernel
+  shell: tar xf /usr/src/linux-source-4.9.tar.xz -C /data/src
+  become: false
+
+- name: extract kernel config amd64
+  shell: xz -dc /usr/src/linux-config-4.9/config.amd64_none_amd64.xz > /data/src/linux-source-4.9/.config
+  become: false
+
+- name: enable KVM
+  shell: cd /data/src/linux-source-4.9 && ./scripts/config --module KVM
+  become: false
+
+- name: enable KVM_INTEL
+  shell: cd /data/src/linux-source-4.9 && ./scripts/config --module KVM_INTEL
+  become: false
+
+- name: enable KVM_AMD
+  shell: cd /data/src/linux-source-4.9 && ./scripts/config --module KVM_AMD
+  become: false
+
+- name: enable CONFIG_MEMCG
+  shell: cd /data/src/linux-source-4.9 && ./scripts/config --enable CONFIG_MEMCG
+  become: false
+
+- name: enable iptables NAT
+  shell: cd /data/src/linux-source-4.9 && ./scripts/config --module IP_NF_NAT
+  become: false
+
+- name: fetch all branches
+  shell: cd /data/kvm-vmi/kvm && git fetch --all
+  become: false
+
+- name: checkout linux-vmi
+  shell: cd /data/kvm-vmi/kvm && git checkout linux-vmi
+  become: false
+
+- name: checkout linux-v4.9
+  shell: cd /data/kvm-vmi/kvm && git checkout linux-v4.9
+  become: false
+
+- name: git diff and apply nitro patch
+  shell: cd /data/kvm-vmi/kvm && git diff linux-v4.9 linux-vmi | git -C /data/src/linux-source-4.9 apply
+  become: false
+
+- name: make olddefconfig for silent config
+  shell: cd /data/src/linux-source-4.9 && make olddefconfig
+  become: false
+
+- name: append -nitro to kernel version string
+  lineinfile: 
+    dest: /data/src/linux-source-4.9/Makefile
+    regexp: '^EXTRAVERSION ='
+    line: 'EXTRAVERSION = -nitro'
+  become: false
+
+- name: build kernel debian packages
+  shell: cd /data/src/linux-source-4.9 && make -j4 deb-pkg
+  become: false
+
+- name: install kernel packages
+  shell: dpkg -i /data/src/*.deb
+
+- name: clean kernel sources to get free space
+  shell: cd /data/src/linux-source-4.9 && make mrproper

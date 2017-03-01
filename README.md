@@ -15,6 +15,12 @@ This project is divided into 2 components:
 
 # Setup
 
+## Using Vagrant (recommended)
+
+Go to the `vagrant/` sub-directory to install a development environement for `kvm-vmi`
+
+## Manually
+
 Unfortunately, it is not possible to compile the KVM modules as an `out-of-tree`
 build. You will have to compile and install a new kernel along with the new modules.
 
@@ -22,6 +28,7 @@ build. You will have to compile and install a new kernel along with the new modu
 - Reboot
 - Make sure you loaded the modified kernel module (`make reload`)
 - Go to `nitro` to setup the userland component and intercept syscalls
+- Compile the modified version of `qemu` if you intend to analyze syscall events with `libvmi`
 
 
 # References

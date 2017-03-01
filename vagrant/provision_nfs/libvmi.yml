@@ -1,0 +1,50 @@
+---
+- name: install build tools
+  package:
+    name: "{{ item }}"
+  with_items:
+    - git
+    - build-essential
+    - gcc
+    - libtool
+    - automake
+    - pkg-config
+    - check
+    - libglib2.0-dev
+    - libvirt-dev
+    - bison
+    - flex
+    - python-dev
+
+- name: clone libvmi
+  git:
+    repo: https://github.com/libvmi/libvmi
+    version: master
+    dest: libvmi
+    force: yes
+  become: false
+
+- name: enable max debug for libvmi
+  lineinfile:
+    dest: "/home/{{ ansible_user }}/libvmi/libvmi/debug.h"
+    regexp: '.*#define VMI_DEBUG.*'
+    line: '#define VMI_DEBUG __VMI_DEBUG_ALL'
+  become: false
+
+- name: configure libvmi
+  shell: cd libvmi && ./autogen.sh && ./configure --prefix=/usr --disable-xen --enable-kvm
+  become: false
+
+- name: build libvmi
+  shell: cd libvmi && make
+  become: false
+
+- name: install libvmi
+  shell: cd "/home/{{ ansible_user }}/libvmi" && make install
+
+  #- name: build pyvmi
+  #  shell: cd libvmi/tools/pyvmi && python setup.py build
+  #  become: false
+  #
+  #- name: install pyvmi
+  #  shell: cd "/home/{{ ansible_user }}/libvmi/tools/pyvmi" && python setup.py install
