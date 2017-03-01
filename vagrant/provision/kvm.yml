@@ -45,6 +45,10 @@
   shell: cd /data/src/linux-source-4.9 && ./scripts/config --module KVM_AMD
   become: false
 
+- name: disable CONFIG_KVM_DEBUG_FS
+  shell: cd /data/src/linux-source-4.9 && ./scripts/config --disable CONFIG_KVM_DEBUG_FS
+  become: false
+
 - name: enable CONFIG_MEMCG
   shell: cd /data/src/linux-source-4.9 && ./scripts/config --enable CONFIG_MEMCG
   become: false

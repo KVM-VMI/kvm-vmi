@@ -38,6 +38,10 @@
   shell: cd /vagrant/kvm && ./scripts/config --module KVM_AMD
   become: false
 
+- name: disable CONFIG_KVM_DEBUG_FS
+  shell: cd /vagrant/kvm && ./scripts/config --disable CONFIG_KVM_DEBUG_FS
+  become: false
+
 - name: enable CONFIG_MEMCG
   shell: cd /vagrant/kvm && ./scripts/config --enable CONFIG_MEMCG
   become: false
