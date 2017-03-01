@@ -10,6 +10,7 @@
     - python3-zmq
     - python-docopt
     - python-zmq
+    - genisoimage
 
 - name: install Pebble
   shell: pip3 install pebble
