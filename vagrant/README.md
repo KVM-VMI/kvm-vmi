@@ -22,8 +22,8 @@ $ vagrant plugin update vagrant-libvirt
 ~~~
 
 - Run `vagrant up --provider=libvirt`
-- Once vagrant is done creating and provisioning the box, **reboot the box** (from libvirt) to
-run the new kernel with the modified KVM modules, and run `vagrant ssh` to get a shell in the VM.
+- Once vagrant is done provisioning the vm, run `vagrant reload` to restart the box (to use the modified kernel)
+- ssh into the box with `vagrant ssh`
 - Start the test vm with `virsh start nitro_win7x64` (or use `virt-manager` connection)
 - go to `/data/kvm-vmi/nitro` and you can play with **Nitro** !
 
