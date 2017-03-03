@@ -1,0 +1,40 @@
+---
+- name: install Nitro dependencies
+  package:
+    name: "{{ item }}"
+  with_items:
+    - python3
+    - python3-pip
+    - python3-libvirt
+    - python3-docopt
+    - python3-zmq
+    - python-docopt
+    - python-zmq
+    - genisoimage
+
+- name: install Pebble
+  shell: pip3 install pebble
+
+- name: install ioctl-opt
+  shell: pip3 install ioctl_opt
+
+# rekall
+- name: install dependencies for rekall
+  package:
+    name: "{{ item }}"
+  with_items:
+    - python-pip
+    - python-dev
+    - ncurses-dev
+
+- name: updating pip for rekall
+  shell: pip install --upgrade setuptools pip wheel
+
+- name: install rekall
+  shell: pip install rekall
+
+# libvmi
+- include: libvmi.yml
+
+- name: add user to kvm group to access /dev/kvm
+  shell: usermod -a -G kvm vagrant

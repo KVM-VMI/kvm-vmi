@@ -2,7 +2,9 @@ Vagrant.configure(2) do |config|
     config.vm.box = "debian/jessie64"
 
     # enable NFS here
-    use_nfs = false
+    use_nfs = true
+    # generate Debian packages
+    gen_deb = false
 
     config.vm.synced_folder ".", "/vagrant", disabled: true
 
@@ -12,12 +14,12 @@ Vagrant.configure(2) do |config|
             :nfs_version => 4,
             :nfs_udp => false,
             :linux__nfs_options => ['rw','no_subtree_check','no_root_squash','async']
-
     end
 
     config.vm.provider :libvirt do |libvirt|
-        libvirt.cpus = 2
+        libvirt.cpus = 6
         libvirt.memory = 4096
+        libvirt.nic_model_type = "virtio"
         libvirt.driver = "kvm"
         libvirt.nested = true
         if use_nfs == false
@@ -28,6 +30,9 @@ Vagrant.configure(2) do |config|
     config.vm.provision "ansible" do |ansible|
         if use_nfs == true
             ansible.playbook = "provision_nfs/playbook.yml"
+            if gen_deb == true
+                ansible.playbook = "provision_nfs_deb/playbook.yml"
+            end
         else
             ansible.playbook = "provision/playbook.yml"
         end

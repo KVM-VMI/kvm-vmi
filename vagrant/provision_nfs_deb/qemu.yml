@@ -1,0 +1,73 @@
+---
+- name: install QEMU dependencies
+  package:
+    name: "{{ item }}"
+  with_items:
+    - pkg-config
+    - zlib1g-dev
+    - libglib2.0-dev
+    - dh-autoreconf
+    - libspice-server-dev
+
+- name: install QEMU build dependencies for debian packaging
+  package:
+    name: "{{ item }}"
+  with_items:
+    - device-tree-compiler
+    - acpica-tools 
+    - libaio-dev
+    - libasound2-dev
+    - libattr1-dev
+    - libbluetooth-dev
+    - libbrlapi-dev
+    - libcap-dev
+    - libcap-ng-dev
+    - libcurl4-gnutls-dev
+    - libfdt-dev
+    - gnutls-dev
+    - libiscsi-dev
+    - libncursesw5-dev
+    - libnfs-dev
+    - libnuma-dev
+    - libcacard-dev
+    - libpulse-dev
+    - librados-dev
+    - librbd-dev
+    - glusterfs-common
+    - libsasl2-dev
+    - libsdl1.2-dev
+    - libseccomp-dev
+    - libusb-1.0-0-dev
+    - libusbredirparser-dev
+    - libssh2-1-dev
+    - libvdeplug-dev
+    - libxen-dev
+    - uuid-dev
+    - xfslibs-dev
+    - libjpeg-dev
+    - libpng-dev
+
+- name: install QEMU dependencies from backports
+  shell: apt-get install -t jessie-backports {{ item }}
+  with_items:
+    - seabios
+    - ipxe-qemu
+
+- name: install qemu source package
+  shell: cd /vagrant && apt-get source qemu && chown -R vagrant:vagrant qemu-2.8+dfsg
+
+- name: apply memory access patch
+  shell: cd /vagrant/qemu && git diff remotes/origin/qemu-v2.8 remotes/origin/qemu-v2.8-pmemaccess | git -C /vagrant/qemu-2.8+dfsg apply
+  become: false
+
+- name: build debian package
+  shell: cd /vagrant/qemu-2.8+dfsg && debuild -us -uc -b -j4
+  become: false
+
+- name: install qemu x86
+  shell: cd /vagrant && dpkg -i qemu-kvm*.deb qemu-system-x86*.deb qemu-system-common*.deb
+
+- name: remove qemu source
+  file:
+    path: /vagrant/qemu-2.8+dfsg
+    state: absent

@@ -60,9 +60,9 @@
     line: 'EXTRAVERSION = -nitro'
   become: false
 
-- name: compile kernel and modules
-  shell: cd /vagrant/kvm && make -j4 bzImage && make -j4 modules
+- name: build kernel debian packages
+  shell: cd /vagrant/kvm && make -j4 deb-pkg
   become: false
 
-- name: install kernel and modules
-  shell: cd /vagrant/kvm && make modules_install && make install
+- name: install kernel packages
+  shell: dpkg -i /vagrant/*.deb

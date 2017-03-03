@@ -84,12 +84,9 @@
     line: 'EXTRAVERSION = -nitro'
   become: false
 
-- name: build kernel debian packages
-  shell: cd /data/src/linux-source-4.9 && make -j4 deb-pkg
+- name: compile kernel and modules
+  shell: cd /data/src/linux-source-4.9 && make -j4 bzImage && make -j4 modules
   become: false
 
-- name: install kernel packages
-  shell: dpkg -i /data/src/*.deb
-
-- name: clean kernel sources to get free space
-  shell: cd /data/src/linux-source-4.9 && make mrproper
+- name: install kernel and modules
+  shell: cd /data/src/linux-source-4.9 && make modules_install && make install

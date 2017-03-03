@@ -57,3 +57,9 @@ To enable it, replace the value of `use_nfs` by `true` in the `Vagrantfile`:
 ~~~
 use_nfs = true
 ~~~
+
+# Produce Debian packages
+
+You can produce debian packages for the modified linux kernel as well as
+the modified `QEMU` by setting `gen_deb` to `true` in the `Vagrantfile`.
+You have to use `NFS`.
