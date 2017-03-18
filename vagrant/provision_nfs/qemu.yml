@@ -13,8 +13,12 @@
   shell: cd /vagrant/qemu && git submodule update --init pixman
   become: false
 
+- name: clean previous build
+  shell: cd /vagrant/qemu && make distclean
+  become: false
+
 - name: configure QEMU
-  shell: cd /vagrant && ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr
+  shell: cd /vagrant/qemu && ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr
   become: false
 
 - name: build QEMU
