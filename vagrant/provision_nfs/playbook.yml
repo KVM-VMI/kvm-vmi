@@ -29,4 +29,8 @@
     - name: cleanup old builds
       shell: rm -rf /home/vagrant/*
 
+    - include: remote.yml
+    - include: kvm.yml
+    - include: nitro.yml
     - include: qemu.yml
+    - include: test_vm.yml
