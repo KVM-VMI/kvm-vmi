@@ -35,5 +35,11 @@
 # libvmi
 - include: libvmi.yml
 
+- name: install libvmi config file
+  shell: cp /vagrant/nitro/libvmi.conf /etc
+
 - name: add user to kvm group to access /dev/kvm
   shell: usermod -a -G kvm vagrant
+
+- name: add user to libvirt-qemu group to access QEMU memory access socket
+  shell: usermod -a -G libvirt-qemu vagrant
