@@ -11,9 +11,6 @@
     - python-docopt
     - genisoimage
 
-- name: install Pebble
-  shell: pip3 install pebble
-
 - name: install ioctl-opt
   shell: pip3 install ioctl_opt
 
