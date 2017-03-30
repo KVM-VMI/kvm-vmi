@@ -24,13 +24,6 @@
     force: yes
   become: false
 
-- name: enable max debug for libvmi
-  lineinfile:
-    dest: "/home/{{ ansible_user }}/libvmi/libvmi/debug.h"
-    regexp: '.*#define VMI_DEBUG.*'
-    line: '#define VMI_DEBUG __VMI_DEBUG_ALL'
-  become: false
-
 - name: configure libvmi
   shell: cd libvmi && ./autogen.sh && ./configure --prefix=/usr --disable-xen --enable-kvm
   become: false
