@@ -18,8 +18,8 @@
 
 - name: clone libvmi
   git:
-    repo: https://github.com/libvmi/libvmi
-    version: 1a85386a3d995609e1e3bd331e908eeb72370d42
+    repo: https://github.com/Wenzel/libvmi
+    version: page_cache_flush
     dest: libvmi
     force: yes
   become: false
