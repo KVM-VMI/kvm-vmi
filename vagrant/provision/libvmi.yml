@@ -19,7 +19,7 @@
 - name: clone libvmi
   git:
     repo: https://github.com/Wenzel/libvmi
-    version: page_cache_flush
+    version: nitro
     dest: libvmi
     force: yes
   become: false
