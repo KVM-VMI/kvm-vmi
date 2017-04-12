@@ -9,6 +9,13 @@
     - dh-autoreconf
     - libspice-server-dev
 
+- name: set pixman URL to HTTPS to bypass firewalls
+  lineinfile:
+    dest: /data/kvm-vmi/qemu/.gitmodules
+    regexp: '^\turl = git.*pixman'
+    line: '        url = https://anongit.freedesktop.org/git/pixman.git'
+  become: false
+
 - name: clone pixman submodule
   command: git submodule update --init pixman
   args:
