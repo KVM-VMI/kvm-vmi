@@ -10,16 +10,24 @@
     - libspice-server-dev
 
 - name: clone pixman submodule
-  shell: cd /data/kvm-vmi/qemu && git submodule update --init pixman
+  command: git submodule update --init pixman
+  args:
+    chdir: /data/kvm-vmi/qemu
   become: false
 
 - name: configure QEMU
-  shell: cd /data/kvm-vmi/qemu && ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr
+  command: ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr
+  args:
+    chdir: /data/kvm-vmi/qemu
   become: false
 
 - name: build QEMU
-  shell: cd /data/kvm-vmi/qemu && make -j4
+  command: make -j4
+  args:
+    chdir: /data/kvm-vmi/qemu
   become: false
 
 - name: install QEMU
-  shell: cd /data/kvm-vmi/qemu && make install
+  command: make install
+  args:
+    chdir: /data/kvm-vmi/qemu

@@ -24,14 +24,26 @@
     force: yes
   become: false
 
+- name: generate configure
+  command: ./autogen.sh
+  args:
+    chdir: libvmi
+  become: false
+
 - name: configure libvmi
-  shell: cd libvmi && ./autogen.sh && ./configure --prefix=/usr --disable-xen --enable-kvm
+  command: ./configure --prefix=/usr --disable-xen --enable-kvm
+  args:
+    chdir: libvmi
   become: false
 
 - name: build libvmi
-  shell: cd libvmi && make
+  command: make
+  args:
+    chdir: libvmi
   become: false
 
 - name: install libvmi
-  shell: cd "/home/{{ ansible_user }}/libvmi" && make install
+  command: make install
+  args:
+    chdir: "/home/{{ ansible_user }}/libvmi"
 

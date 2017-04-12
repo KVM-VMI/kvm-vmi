@@ -18,7 +18,9 @@
     - fakeroot
 
 - name: clean sources
-  shell: cd /vagrant/kvm && make mrproper
+  command: make mrproper
+  args:
+    chdir: /vagrant/kvm
   become: false
 
 - name: extract kernel config amd64
@@ -26,31 +28,45 @@
   become: false
 
 - name: enable KVM
-  shell: cd /vagrant/kvm && ./scripts/config --module KVM
+  command: ./scripts/config --module KVM
+  args:
+    chdir: /vagrant/kvm
   become: false
 
 - name: enable KVM_INTEL
-  shell: cd /vagrant/kvm && ./scripts/config --module KVM_INTEL
+  command: ./scripts/config --module KVM_INTEL
+  args:
+    chdir: /vagrant/kvm
   become: false
 
 - name: enable KVM_AMD
-  shell: cd /vagrant/kvm && ./scripts/config --module KVM_AMD
+  command: ./scripts/config --module KVM_AMD
+  args:
+    chdir: /vagrant/kvm
   become: false
 
 - name: disable CONFIG_KVM_DEBUG_FS
-  shell: cd /vagrant/kvm && ./scripts/config --disable CONFIG_KVM_DEBUG_FS
+  command: ./scripts/config --disable CONFIG_KVM_DEBUG_FS
+  args:
+    chdir: /vagrant/kvm
   become: false
 
 - name: enable CONFIG_MEMCG
-  shell: cd /vagrant/kvm && ./scripts/config --enable CONFIG_MEMCG
+  command: ./scripts/config --enable CONFIG_MEMCG
+  args:
+    chdir: /vagrant/kvm
   become: false
 
 - name: enable iptables NAT
-  shell: cd /vagrant/kvm && ./scripts/config --module IP_NF_NAT
+  command: ./scripts/config --module IP_NF_NAT
+  args:
+    chdir: /vagrant/kvm
   become: false
 
 - name: make olddefconfig for silent config
-  shell: cd /vagrant/kvm && make olddefconfig
+  command: make olddefconfig
+  args:
+    chdir: /vagrant/kvm
   become: false
 
 - name: append -nitro to kernel version string
@@ -61,8 +77,10 @@
   become: false
 
 - name: build kernel debian packages
-  shell: cd /vagrant/kvm && make -j4 deb-pkg
+  command: make -j4 deb-pkg
+  args:
+    chdir: /vagrant/kvm
   become: false
 
 - name: install kernel packages
-  shell: dpkg -i /vagrant/*.deb
+  command: dpkg -i /vagrant/*.deb

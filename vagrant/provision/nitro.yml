@@ -12,7 +12,7 @@
     - genisoimage
 
 - name: install ioctl-opt
-  shell: pip3 install ioctl_opt
+  command: pip3 install ioctl_opt
 
 # rekall
 - name: install dependencies for rekall
@@ -24,19 +24,21 @@
     - ncurses-dev
 
 - name: updating pip for rekall
-  shell: pip install --upgrade setuptools pip wheel
+  command: pip install --upgrade setuptools pip wheel
 
 - name: install rekall
-  shell: pip install rekall
+  command: pip install rekall
 
 # libvmi
 - include: libvmi.yml
 
 - name: install libvmi config file
-  shell: cp /vagrant/nitro/libvmi.conf /etc
+  command: cp /vagrant/nitro/libvmi.conf /etc
 
-- name: add user to kvm group to access /dev/kvm
-  shell: usermod -a -G kvm vagrant
+# kvm group to access /dev/kvm, libvirt-qemu for rw on memory access socket
+- name: add user to kvm and libvirt-qemu groups
+  user:
+    name: vagrant
+    groups: kvm,libvirt-qemu
+    append: yes
 
-- name: add user to libvirt-qemu group to access QEMU memory access socket
-  shell: usermod -a -G libvirt-qemu vagrant

@@ -12,7 +12,9 @@
     line: 'PermitRootLogin yes'
 
 - name: restart SSH server
-  shell: systemctl restart ssh
+  systemd:
+    name: ssh
+    state: restarted
 
 # python -c 'import crypt; print crypt.crypt("vagrant", "vagrant-salt$$")'
 - name: set password for vagrant account

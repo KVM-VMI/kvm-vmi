@@ -10,20 +10,30 @@
     - libspice-server-dev
 
 - name: clone pixman submodule
-  shell: cd /vagrant/qemu && git submodule update --init pixman
+  command: git submodule update --init pixman
+  args:
+    chdir: /vagrant/qemu
   become: false
 
 - name: clean previous build
-  shell: cd /vagrant/qemu && make distclean
+  command: make distclean
+  args:
+    chdir: /vagrant/qemu
   become: false
 
 - name: configure QEMU
-  shell: cd /vagrant/qemu && ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr
+  command: ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr
+  args:
+    chdir: /vagrant/qemu
   become: false
 
 - name: build QEMU
-  shell: cd /vagrant/qemu && make -j4
+  command: make -j4
+  args:
+    chdir: /vagrant/qemu
   become: false
 
 - name: install QEMU
-  shell: cd /vagrant/qemu && make install
+  command: make install
+  args:
+    chdir: /vagrant/qemu

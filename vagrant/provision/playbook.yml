@@ -14,11 +14,15 @@
     - include: remote.yml
 
     - name: clone kvm-vmi repo
-      shell: cd /data && git clone https://github.com/KVM-VMI/kvm-vmi
+      command: git clone https://github.com/KVM-VMI/kvm-vmi
+      args:
+        chdir: /data
       become: false
 
     - name: clone submodules
-      shell: cd /data/kvm-vmi/kvm && git submodule update --init
+      command: git submodule update --init
+      args:
+        chdir: /data/kvm-vmi/kvm
       become: false
 
     - include: kvm.yml

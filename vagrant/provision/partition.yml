@@ -9,10 +9,10 @@
   shell: (echo n ; echo p; echo 2; echo ; echo ; echo w) | fdisk /dev/vda || true
 
 - name: reread partition table
-  shell: partprobe
+  command: partprobe
 
 - name: create ext4 filesystem
-  shell: mkfs.ext4 /dev/vda2
+  command: mkfs.ext4 /dev/vda2
 
 - name: create /data
   file:

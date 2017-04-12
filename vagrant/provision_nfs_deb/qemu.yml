@@ -54,18 +54,32 @@
     - ipxe-qemu
 
 - name: install qemu source package
-  shell: cd /vagrant && apt-get source qemu && chown -R vagrant:vagrant qemu-2.8+dfsg
+  command: apt-get source qemu
+  args:
+    chdir: /vagrant
+
+- name: set permissions on qemu source dir
+  file:
+    dest: /vagrant/qemu-2.8+dfsg
+    owner: vagrant
+    group: vagrant
 
 - name: apply memory access patch
-  shell: cd /vagrant/qemu && git diff remotes/origin/qemu-v2.8 remotes/origin/qemu-v2.8-pmemaccess | git -C /vagrant/qemu-2.8+dfsg apply
+  shell: git diff remotes/origin/qemu-v2.8 remotes/origin/qemu-v2.8-pmemaccess | git -C /vagrant/qemu-2.8+dfsg apply
+  args:
+    chdir: /vagrant/qemu
   become: false
 
 - name: build debian package
-  shell: cd /vagrant/qemu-2.8+dfsg && debuild -us -uc -b -j4
+  command: debuild -us -uc -b -j4
+  args:
+    chdir: /vagrant/qemu-2.8+dfsg
   become: false
 
 - name: install qemu x86
-  shell: cd /vagrant && dpkg -i qemu-kvm*.deb qemu-system-x86*.deb qemu-system-common*.deb
+  shell: dpkg -i qemu-kvm*.deb qemu-system-x86*.deb qemu-system-common*.deb
+  args:
+    chdir: /vagrant
 
 - name: remove qemu source
   file:
