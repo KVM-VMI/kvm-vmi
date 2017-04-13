@@ -16,6 +16,12 @@
     line: '        url = https://anongit.freedesktop.org/git/pixman.git'
   become: false
 
+- name: synchronize submodules remote URL configurations
+  command: git submodule sync
+  args:
+    chdir: /vagrant/qemu
+  become: false
+
 - name: clone pixman submodule
   command: git submodule update --init pixman
   args:
