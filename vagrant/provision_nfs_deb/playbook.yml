@@ -34,13 +34,22 @@
         - dpkg-dev
 
     - name: clean previous debian packages
-      shell: rm -f /vagrant/*.deb ; rm -f /vagrant/*.dsc ; rm -f /vagrant/*.changes ; rm -f /vagrant/*.tar.gz
+      command: rm -rf *.{deb,dsc,changes,gz,xz}
+      args:
+        chdir: /vagrant
 
     - name: cleanup old builds
-      shell: rm -rf /home/vagrant/*
+      command: rm -f *
+      args:
+        chdir: /home/vagrant
 
-    - include: remote.yml
     - include: kvm.yml
     - include: nitro.yml
+
+    - name: generate debian package for nitro
+      command: debuild -us -uc -b
+      args:
+        chdir: /vagrant/nitro
+      become: false
+
     - include: qemu.yml
-    - include: test_vm.yml

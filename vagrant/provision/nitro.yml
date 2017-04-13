@@ -3,7 +3,7 @@
   package:
     name: "{{ item }}"
   with_items:
-    - python3
+    - python3-all
     - python3-pip
     - python3-libvirt
     - python3-docopt

@@ -12,8 +12,10 @@
 - name: set pixman URL to HTTPS to bypass firewalls
   lineinfile:
     dest: /vagrant/qemu/.gitmodules
-    regexp: '^\turl = git.*pixman'
-    line: '        url = https://anongit.freedesktop.org/git/pixman.git'
+    regexp: "^\turl = .*?(anongit.freedesktop.org)"
+    line: '\turl = https://\1/git/pixman.git'
+    state: present
+    backrefs: yes
   become: false
 
 - name: synchronize submodules remote URL configurations
@@ -29,7 +31,7 @@
   become: false
 
 - name: clean previous build
-  command: make distclean
+  command: git clean -fdx
   args:
     chdir: /vagrant/qemu
   become: false

@@ -83,4 +83,5 @@
   become: false
 
 - name: install kernel packages
-  command: dpkg -i /vagrant/*.deb
+  command: dpkg -i /vagrant/{{ item }}
+  with_fileglob: /vagrant/linux-*.deb
