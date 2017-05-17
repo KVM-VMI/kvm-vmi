@@ -20,60 +20,60 @@
 - name: clean sources
   command: make mrproper
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: extract kernel config amd64
-  shell: xz -dc /usr/src/linux-config-4.9/config.amd64_none_amd64.xz > /vagrant/kvm/.config
+  shell: xz -dc /usr/src/linux-config-4.9/config.amd64_none_amd64.xz > "{{ root_dir }}/kvm"/.config
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable KVM
   command: ./scripts/config --module KVM
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable KVM_INTEL
   command: ./scripts/config --module KVM_INTEL
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable KVM_AMD
   command: ./scripts/config --module KVM_AMD
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: disable CONFIG_KVM_DEBUG_FS
   command: ./scripts/config --disable CONFIG_KVM_DEBUG_FS
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable CONFIG_MEMCG
   command: ./scripts/config --enable CONFIG_MEMCG
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable iptables NAT
   command: ./scripts/config --module IP_NF_NAT
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: make olddefconfig for silent config
   command: make olddefconfig
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: append -nitro to kernel version string
   lineinfile: 
-    dest: /vagrant/kvm/Makefile
+    dest: "{{ root_dir }}/kvm/Makefile"
     regexp: '^EXTRAVERSION ='
     line: 'EXTRAVERSION = -nitro'
   become: false
@@ -81,21 +81,21 @@
 - name: compile kernel
   command: make -j4 bzImage
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: compile modules
   command: make -j4 modules
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: install modules
   command: make modules_install
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"
 
 - name: install kernel
   command: make install
   args:
-    chdir: /vagrant/kvm
+    chdir: "{{ root_dir }}/kvm"

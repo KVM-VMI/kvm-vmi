@@ -36,7 +36,7 @@
     - name: clean previous debian packages
       command: rm -rf *.{deb,dsc,changes,gz,xz}
       args:
-        chdir: /vagrant
+        chdir: {{ root_dir }}
 
     - name: cleanup old builds
       command: rm -f *
@@ -49,7 +49,7 @@
     - name: generate debian package for nitro
       command: debuild -us -uc -b
       args:
-        chdir: /vagrant/nitro
+        chdir: {{ root_dir }}/nitro
       become: false
 
     - include: qemu.yml

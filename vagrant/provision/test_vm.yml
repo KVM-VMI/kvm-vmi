@@ -11,9 +11,9 @@
 - name: build test vm
   command: ./packer build windows_7_x64.json
   args:
-    chdir: /data/kvm-vmi/nitro/tests/packer-windows
+    chdir: "{{ root_dir }}/nitro/tests/packer-windows"
 
 - name: import in libvirt
   command: ./import_libvirt.py packer-windows/output-qemu/win7x64
   args:
-    chdir: /data/kvm-vmi/nitro/tests
+    chdir: "{{ root_dir }}/nitro/tests"

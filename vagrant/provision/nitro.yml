@@ -33,7 +33,7 @@
 - include: libvmi.yml
 
 - name: install libvmi config file
-  command: cp /vagrant/nitro/libvmi.conf /etc
+  command: cp "{{ root_dir }}/nitro/libvmi.conf" /etc
 
 # kvm group to access /dev/kvm, libvirt-qemu for rw on memory access socket
 - name: add user to kvm and libvirt-qemu groups

@@ -11,7 +11,7 @@
 
 - name: set pixman URL to HTTPS to bypass firewalls
   lineinfile:
-    dest: /vagrant/qemu/.gitmodules
+    dest: "{{ root_dir }}/qemu/.gitmodules"
     regexp: "^\turl = .*?(anongit.freedesktop.org)"
     line: '\turl = https://\1/git/pixman.git'
     state: present
@@ -21,34 +21,34 @@
 - name: synchronize submodules remote URL configurations
   command: git submodule sync
   args:
-    chdir: /vagrant/qemu
+    chdir: "{{ root_dir }}/qemu"
   become: false
 
 - name: clone pixman submodule
   command: git submodule update --init pixman
   args:
-    chdir: /vagrant/qemu
+    chdir: "{{ root_dir }}/qemu"
   become: false
 
 - name: clean previous build
   command: git clean -fdx
   args:
-    chdir: /vagrant/qemu
+    chdir: "{{ root_dir }}/qemu"
   become: false
 
 - name: configure QEMU
   command: ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr
   args:
-    chdir: /vagrant/qemu
+    chdir: "{{ root_dir }}/qemu"
   become: false
 
 - name: build QEMU
   command: make -j4
   args:
-    chdir: /vagrant/qemu
+    chdir: "{{ root_dir }}/qemu"
   become: false
 
 - name: install QEMU
   command: make install
   args:
-    chdir: /vagrant/qemu
+    chdir: "{{ root_dir }}/qemu"

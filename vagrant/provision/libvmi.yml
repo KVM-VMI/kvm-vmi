@@ -16,34 +16,26 @@
     - flex
     - python-dev
 
-- name: clone libvmi
-  git:
-    repo: https://github.com/Wenzel/libvmi
-    version: nitro
-    dest: libvmi
-    force: yes
-  become: false
-
 - name: generate configure
   command: ./autogen.sh
   args:
-    chdir: libvmi
+    chdir: "{{ root_dir }}/libvmi"
   become: false
 
 - name: configure libvmi
   command: ./configure --prefix=/usr --disable-xen --enable-kvm
   args:
-    chdir: libvmi
+    chdir: "{{ root_dir }}/libvmi"
   become: false
 
 - name: build libvmi
   command: make
   args:
-    chdir: libvmi
+    chdir: "{{ root_dir }}/libvmi"
   become: false
 
 - name: install libvmi
   command: make install
   args:
-    chdir: "/home/{{ ansible_user }}/libvmi"
+    chdir: "{{ root_dir }}/libvmi"
 

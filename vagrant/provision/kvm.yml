@@ -72,26 +72,26 @@
 - name: fetch all branches
   command: gitt fetch --all
   args:
-    chdir: /data/kvm-vmi/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: checkout linux-vmi
   command: git checkout linux-vmi
   args:
-    chdir: /data/kvm-vmi/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: checkout linux-v4.9
   command: git checkout linux-v4.9
   args:
-    chdir: /data/kvm-vmi/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: git diff and apply nitro patch
   shell: git diff linux-v4.9 linux-vmi | git -C /data/src/linux-source-4.9 apply
   args:
     chdir: /data/src/linux-source-4.9
-    chdir: /data/kvm-vmi/kvm
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: make olddefconfig for silent config
