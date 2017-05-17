@@ -1,5 +1,7 @@
 # kvm-vmi
 
+[![Slack](https://maxcdn.icons8.com/Color/PNG/48/Mobile/slack-48.png)](https://kvm-vmi.slack.com)
+
 KVM-based Virtual Machine Instrospection.
 
 # Description
