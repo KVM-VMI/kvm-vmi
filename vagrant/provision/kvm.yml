@@ -75,7 +75,7 @@
     chdir: "{{ root_dir }}/kvm"
   become: false
 
-- name: checkout linux-vmi
+- name: checkout vmi
   command: git checkout linux-vmi
   args:
     chdir: "{{ root_dir }}/kvm"
@@ -88,7 +88,7 @@
   become: false
 
 - name: git diff and apply nitro patch
-  shell: git diff linux-v4.9 linux-vmi | git -C /data/src/linux-source-4.9 apply
+  shell: git diff linux-v4.9 vmi | git -C /data/src/linux-source-4.9 apply
   args:
     chdir: /data/src/linux-source-4.9
     chdir: "{{ root_dir }}/kvm"

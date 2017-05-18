@@ -70,7 +70,7 @@
   become: false
 
 - name: apply memory access patch
-  shell: git diff remotes/origin/qemu-v2.8 remotes/origin/qemu-v2.8-pmemaccess | git -C /home{{ root_dir }}/qemu-2.8+dfsg apply
+  shell: git diff remotes/origin/qemu-v2.8 remotes/origin/vmi | git -C /home{{ root_dir }}/qemu-2.8+dfsg apply
   args:
     chdir: {{ root_dir }}/qemu
   become: false
