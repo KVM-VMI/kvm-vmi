@@ -69,28 +69,9 @@
     chdir: /data/src/linux-source-4.9
   become: false
 
-- name: fetch all branches
-  command: gitt fetch --all
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-- name: checkout vmi
-  command: git checkout linux-vmi
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-- name: checkout linux-v4.9
-  command: git checkout linux-v4.9
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
 - name: git diff and apply nitro patch
-  shell: git diff linux-v4.9 vmi | git -C /data/src/linux-source-4.9 apply
+  shell: git diff remotes/origin/linux-v4.9 remotes/origin/vmi | git -C /data/src/linux-source-4.9 apply
   args:
-    chdir: /data/src/linux-source-4.9
     chdir: "{{ root_dir }}/kvm"
   become: false
 
