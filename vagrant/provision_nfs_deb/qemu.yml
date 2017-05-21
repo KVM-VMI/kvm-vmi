@@ -66,19 +66,19 @@
 - name: fetch all branches
   command: git fetch --all
   args:
-    chdir: {{ root_dir }}/qemu
+    chdir: "{{ root_dir }}/qemu"
   become: false
 
 - name: apply memory access patch
   shell: git diff remotes/origin/qemu-v2.8 remotes/origin/vmi | git -C /home{{ root_dir }}/qemu-2.8+dfsg apply
   args:
-    chdir: {{ root_dir }}/qemu
+    chdir: "{{ root_dir }}/qemu"
   become: false
 
 - name: build debian package
   command: debuild -us -uc -b -j4
   args:
-    chdir: /home{{ root_dir }}/qemu-2.8+dfsg
+    chdir: "/home{{ root_dir }}/qemu-2.8+dfsg"
   become: false
 
 - name: move generated packages to NFS root
@@ -90,7 +90,7 @@
 - name: install qemu x86
   shell: dpkg -i qemu-kvm*.deb qemu-system-x86*.deb qemu-system-common*.deb
   args:
-    chdir: {{ root_dir }}
+    chdir: "{{ root_dir }}"
 
 - name: clean sources
   command: rm -rf *

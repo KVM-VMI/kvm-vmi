@@ -1,1 +1,23 @@
-../provision/libvmi.yml
+---
+- name: install build tools
+  package:
+    name: "{{ item }}"
+  with_items:
+    - git
+    - build-essential
+    - gcc
+    - libtool
+    - automake
+    - pkg-config
+    - check
+    - libglib2.0-dev
+    - libvirt-dev
+    - bison
+    - flex
+    - python-dev
+
+- name: generate debian package
+  command: debuild -us -uc -j4
+  args:
+    chdir: "{{ root_dir }}/libvmi"
+  become: false

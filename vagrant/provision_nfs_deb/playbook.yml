@@ -36,7 +36,7 @@
     - name: clean previous debian packages
       command: rm -rf *.{deb,dsc,changes,gz,xz}
       args:
-        chdir: {{ root_dir }}
+        chdir: "{{ root_dir }}"
 
     - name: cleanup old builds
       command: rm -f *
@@ -44,12 +44,5 @@
         chdir: /home/vagrant
 
     - include: kvm.yml
-    - include: nitro.yml
-
-    - name: generate debian package for nitro
-      command: debuild -us -uc -b
-      args:
-        chdir: {{ root_dir }}/nitro
-      become: false
-
     - include: qemu.yml
+    - include: libvmi.yml
