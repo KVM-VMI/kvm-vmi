@@ -2,6 +2,7 @@
 - hosts: default
   become: true
   tasks:
+    - include: remote.yml
     - name: install useful tools
       package:
         name: "{{ item }}"
@@ -11,21 +12,23 @@
         - vim
 
     - include: partition.yml
-    - include: remote.yml
+      when: nfs == false
 
     - name: clone kvm-vmi repo
       command: git clone https://github.com/KVM-VMI/kvm-vmi
       args:
         chdir: /data
       become: false
+      when: nfs == false
 
     - name: clone submodules
       command: git submodule update --init
       args:
         chdir: "{{ root_dir }}/kvm"
       become: false
+      when: nfs == false
 
     - include: kvm.yml
-    - include: nitro.yml
     - include: qemu.yml
+    - include: nitro.yml
     - include: test_vm.yml

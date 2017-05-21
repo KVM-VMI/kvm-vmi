@@ -1,89 +1,61 @@
 ---
-- name: add backports
-  lineinfile:
-    dest: /etc/apt/sources.list
-    line: 'deb http://ftp.debian.org/debian jessie-backports main'
-    insertafter: EOF
-
 - name: update cache
   apt:
     update_cache: yes
 
-- name: install linux source and build deps
+- name: build deps
   apt:
     name: "{{ item }}"
   with_items:
-    - linux-source-4.9
     - libssl-dev
     - fakeroot
     - dpkg-dev
 
-- name: create /data/src dir
-  file:
-    path: /data/src
-    state: directory
-    owner: vagrant
-    group: vagrant
-
-- name: extract linux kernel
-  command: tar xf /usr/src/linux-source-4.9.tar.xz -C /data/src
-  become: false
-
-- name: extract kernel config amd64
-  shell: xz -dc /usr/src/linux-config-4.9/config.amd64_none_amd64.xz > /data/src/linux-source-4.9/.config
+- name: get default config
+  command: make olddefconfig
+  args:
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable KVM
   command: ./scripts/config --module KVM
   args:
-    chdir: /data/src/linux-source-4.9
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable KVM_INTEL
   command: ./scripts/config --module KVM_INTEL
   args:
-    chdir: /data/src/linux-source-4.9
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable KVM_AMD
   command: ./scripts/config --module KVM_AMD
   args:
-    chdir: /data/src/linux-source-4.9
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: disable CONFIG_KVM_DEBUG_FS
   command: ./scripts/config --disable CONFIG_KVM_DEBUG_FS
   args:
-    chdir: /data/src/linux-source-4.9
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable CONFIG_MEMCG
   command: ./scripts/config --enable CONFIG_MEMCG
   args:
-    chdir: /data/src/linux-source-4.9
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable iptables NAT
   command: ./scripts/config --module IP_NF_NAT
   args:
-    chdir: /data/src/linux-source-4.9
-  become: false
-
-- name: git diff and apply nitro patch
-  shell: git diff remotes/origin/linux-v4.9 remotes/origin/vmi | git -C /data/src/linux-source-4.9 apply
-  args:
     chdir: "{{ root_dir }}/kvm"
-  become: false
-
-- name: make olddefconfig for silent config
-  command: make olddefconfig
-  args:
-    chdir: /data/src/linux-source-4.9
   become: false
 
 - name: append -nitro to kernel version string
   lineinfile: 
-    dest: /data/src/linux-source-4.9/Makefile
+    dest: "{{ root_dir }}/kvm/Makefile"
     regexp: '^EXTRAVERSION ='
     line: 'EXTRAVERSION = -nitro'
   become: false
@@ -91,22 +63,22 @@
 - name: compile kernel
   command: make -j4 bzImage
   args:
+    chdir: "{{ root_dir }}/kvm"
     chdir: /data/src/linux-source-4.9
   become: false
 
 - name: compile modules
   command: make -j4 modules
   args:
-    chdir: /data/src/linux-source-4.9
+    chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: install modules
   command: make modules_install
   args:
-    chdir: /data/src/linux-source-4.9
+    chdir: "{{ root_dir }}/kvm"
 
 - name: install kernel
   command: make install
   args:
-    chdir: /data/src/linux-source-4.9
-
+    chdir: "{{ root_dir }}/kvm"

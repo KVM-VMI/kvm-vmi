@@ -30,18 +30,21 @@ Vagrant.configure(2) do |config|
         # debug
         # ansible.verbose =  '-vvv'
         # ansible.start_at_task =  ''
-        root_dir = '/vagrant'
+        # set root_dir
         if use_nfs == true
-            ansible.playbook = "provision_nfs/playbook.yml"
-            if gen_deb == true
-                ansible.playbook = "provision_nfs_deb/playbook.yml"
-            end
+            root_dir = '/vagrant'
         else
             root_dir = '/data/kvm-vmi'
+        end
+        # choose playbook
+        if use_nfs == true and gen_deb == true
+            ansible.playbook = "provision_nfs_deb/playbook.yml"
+        else
             ansible.playbook = "provision/playbook.yml"
         end
         ansible.extra_vars = {
-            'root_dir': root_dir
+            'root_dir': root_dir,
+            'nfs': use_nfs
         }
     end
 end

@@ -12,8 +12,10 @@
 - name: set pixman URL to HTTPS to bypass firewalls
   lineinfile:
     dest: "{{ root_dir }}/qemu/.gitmodules"
-    regexp: '^\turl = git.*pixman'
-    line: '        url = https://anongit.freedesktop.org/git/pixman.git'
+    regexp: "^\turl = .*?(anongit.freedesktop.org)"
+    line: '\turl = https://\1/git/pixman.git'
+    state: present
+    backrefs: yes
   become: false
 
 - name: synchronize submodules remote URL configurations
@@ -24,6 +26,12 @@
 
 - name: clone pixman submodule
   command: git submodule update --init pixman
+  args:
+    chdir: "{{ root_dir }}/qemu"
+  become: false
+
+- name: clean previous build
+  command: git clean -fdx
   args:
     chdir: "{{ root_dir }}/qemu"
   become: false
