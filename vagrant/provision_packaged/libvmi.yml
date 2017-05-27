@@ -1,0 +1,16 @@
+---
+- name: download libvmi packages
+  get_url:
+    url: "{{ item.url }}"
+    dest: "/home/vagrant/{{ item.name}}.deb"
+  with_items:
+    - { name: 'libvmi0',            url: 'https://www.dropbox.com/s/sto3qde14uhfnby/libvmi0_0.11_amd64.deb?dl=1' }
+    - { name: 'libvmi0-dev',         url: 'https://www.dropbox.com/s/krxsba3a4bd8je3/libvmi-dev_0.11_amd64.deb?dl=1' }
+  become: false
+
+- name: install libvmi packages
+  apt:
+    deb: "/home/vagrant/{{ item }}.deb"
+  with_items:
+    - 'libvmi0'
+    - 'libvmi0-dev'
