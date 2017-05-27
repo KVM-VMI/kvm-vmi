@@ -1,3 +1,5 @@
+<img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAdYAAAAJGMyOGY0NTA1LWFiOTAtNDE3Yi1iYWRkLTM0MjczNGQ3MzdhNA.png" align="right" width="30%" height="30%"/>
+
 # Vagrant
 
 Here you will find a `Vagrantfile` to build a development environment for `kvm-vmi`.
