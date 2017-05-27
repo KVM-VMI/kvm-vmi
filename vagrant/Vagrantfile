@@ -38,9 +38,9 @@ Vagrant.configure(2) do |config|
         end
         # choose playbook
         if use_nfs == true and gen_deb == true
-            ansible.playbook = "provision_nfs_deb/playbook.yml"
+            ansible.playbook = "generate_deb/playbook.yml"
         else
-            ansible.playbook = "provision/playbook.yml"
+            ansible.playbook = "provision_full/playbook.yml"
         end
         ansible.extra_vars = {
             'root_dir': root_dir,
