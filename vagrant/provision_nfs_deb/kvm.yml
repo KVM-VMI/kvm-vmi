@@ -81,7 +81,3 @@
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
-
-- name: install kernel packages
-  command: dpkg -i /vagrant/{{ item }}
-  with_fileglob: "{{ root_dir }}/linux-*.deb"
