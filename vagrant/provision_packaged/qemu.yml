@@ -6,6 +6,7 @@
   with_items:
     - { name: 'qemu-system-common',      url: 'https://www.dropbox.com/s/n8apuofbo9wwyav/qemu-system-common_2.8%2Bdfsg-3~bpo8%2B1_amd64.deb?dl=1' }
     - { name: 'qemu-system-x86',         url: 'https://www.dropbox.com/s/m7van19laman5rv/qemu-system-x86_2.8%2Bdfsg-3~bpo8%2B1_amd64.deb?dl=1' }
+    - { name: 'qemu-utils',              url: 'https://www.dropbox.com/s/uv6l4zw6hrmjxa1/qemu-utils_2.8%2Bdfsg-3~bpo8%2B1_amd64.deb?dl=1' }
   become: false
 
 - name: install QEMU dependencies
