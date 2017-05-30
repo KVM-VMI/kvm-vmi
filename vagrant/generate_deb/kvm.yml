@@ -70,7 +70,7 @@
   become: false
 
 - name: append -nitro to kernel version string
-  lineinfile: 
+  lineinfile:
     dest: "{{ root_dir }}/kvm/Makefile"
     regexp: '^EXTRAVERSION ='
     line: 'EXTRAVERSION = -nitro'
