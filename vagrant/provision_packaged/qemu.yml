@@ -45,3 +45,4 @@
   with_items:
     - 'qemu-system-common'
     - 'qemu-system-x86'
+    - 'qemu-utils'
