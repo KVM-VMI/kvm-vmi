@@ -64,7 +64,6 @@
   command: make -j4 bzImage
   args:
     chdir: "{{ root_dir }}/kvm"
-    chdir: /data/src/linux-source-4.9
   become: false
 
 - name: compile modules
