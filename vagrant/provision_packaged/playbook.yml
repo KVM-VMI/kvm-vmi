@@ -1,0 +1,44 @@
+---
+- hosts: default
+  become: true
+  tasks:
+    - include: remote.yml
+    - name: install useful tools
+      package:
+        name: "{{ item }}"
+      with_items:
+        - git
+        - htop
+        - vim
+
+    - include: partition.yml
+      when: nfs == false
+
+    - name: clone kvm-vmi repo
+      command: git clone https://github.com/KVM-VMI/kvm-vmi
+      args:
+        chdir: /data
+      become: false
+      when: nfs == false
+
+    - name: clone Nitro submodule
+      command: git submodule update --init nitro
+      args:
+        chdir: "{{ root_dir }}"
+      become: false
+      when: nfs == false
+
+    - name: add backports
+      lineinfile:
+        dest: /etc/apt/sources.list
+        line: 'deb http://ftp.debian.org/debian jessie-backports main'
+        insertafter: EOF
+
+    - name: update cache
+      apt:
+        update_cache: yes
+
+    - include: kvm.yml
+    - include: qemu.yml
+    - include: nitro.yml
+    - include: test_vm.yml

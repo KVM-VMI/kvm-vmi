@@ -5,6 +5,8 @@ Vagrant.configure(2) do |config|
     use_nfs = true
     # generate Debian packages
     gen_deb = false
+    # install Nitro components from pre built packages
+    packaged = false
 
     config.vm.synced_folder ".", "/vagrant", disabled: true
 
@@ -37,10 +39,12 @@ Vagrant.configure(2) do |config|
             root_dir = '/data/kvm-vmi'
         end
         # choose playbook
-        if use_nfs == true and gen_deb == true
-            ansible.playbook = "provision_nfs_deb/playbook.yml"
+        if gen_deb
+            ansible.playbook = "generate_deb/playbook.yml"
+        elsif packaged
+            ansible.playbook = "provision_packaged/playbook.yml"
         else
-            ansible.playbook = "provision/playbook.yml"
+            ansible.playbook = "provision_full/playbook.yml"
         end
         ansible.extra_vars = {
             'root_dir': root_dir,

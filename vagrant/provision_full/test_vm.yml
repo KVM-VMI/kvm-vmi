@@ -8,6 +8,11 @@
 - name: enable default network as autostart
   command: virsh -c qemu:///system net-autostart default
 
+- name: remove output-qemu
+  file:
+    path: "{{ root_dir }}/nitro/tests/packer-windows/output-qemu"
+    state: absent
+
 - name: build test vm
   command: ./packer build windows_7_x64.json
   args:

@@ -14,7 +14,7 @@
     name: "{{ item }}"
   with_items:
     - device-tree-compiler
-    - acpica-tools 
+    - acpica-tools
     - libaio-dev
     - libasound2-dev
     - libattr1-dev
