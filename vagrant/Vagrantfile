@@ -6,7 +6,7 @@ Vagrant.configure(2) do |config|
     # generate Debian packages
     gen_deb = false
     # install Nitro components from pre built packages
-    packaged = true
+    packaged = false
 
     config.vm.synced_folder ".", "/vagrant", disabled: true
 
