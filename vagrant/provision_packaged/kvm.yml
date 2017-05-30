@@ -4,7 +4,8 @@
     url: "{{ item.url }}"
     dest: "/home/vagrant/{{ item.name}}.deb"
   with_items:
-    - { name: 'linux-image',            url: 'https://www.dropbox.com/s/q68yhh4z7x3tjw3/linux-image-4.9.0-nitro%2B-dbg_4.9.0-nitro%2B-1_amd64.deb?dl=1' }
+    - { name: 'linux-image',            url: 'https://www.dropbox.com/s/33bkoq81ql9qbmu/linux-image-4.9.0-nitro%2B_4.9.0-nitro%2B-1_amd64.deb?dl=1' }
+    - { name: 'linux-image-dbg',        url: 'https://www.dropbox.com/s/q68yhh4z7x3tjw3/linux-image-4.9.0-nitro%2B-dbg_4.9.0-nitro%2B-1_amd64.deb?dl=1' }
     - { name: 'linux-libc-dev',         url: 'https://www.dropbox.com/s/tm12jh6aosv9lqp/linux-libc-dev_4.9.0-nitro%2B-1_amd64.deb?dl=1' }
     - { name: 'linux-headers',          url: 'https://www.dropbox.com/s/0xkpdl7cnbqh7ke/linux-headers-4.9.0-nitro%2B_4.9.0-nitro%2B-1_amd64.deb?dl=1' }
     - { name: 'linux-firmware-image',   url: 'https://www.dropbox.com/s/78jpfefuqtvoojk/linux-firmware-image-4.9.0-nitro%2B_4.9.0-nitro%2B-1_amd64.deb?dl=1' }
@@ -15,6 +16,7 @@
     deb: "/home/vagrant/{{ item }}.deb"
   with_items:
     - 'linux-image'
+    - 'linux-image-dbg'
     - 'linux-headers'
     - 'linux-libc-dev'
     - 'linux-firmware-image'
