@@ -8,6 +8,12 @@
     - { name: 'libvmi0-dev',         url: 'https://www.dropbox.com/s/ti6sqhbtf82wmpu/libvmi-dev_0.11_amd64.deb?dl=1' }
   become: false
 
+- name: install Libvmi dependencies
+  package:
+    name: "{{ item }}"
+  with_items:
+    - libvirt-dev
+
 - name: install libvmi packages
   apt:
     deb: "/home/vagrant/{{ item }}.deb"
