@@ -8,6 +8,7 @@
     - gcc
     - libtool
     - automake
+    - dh-autoreconf
     - pkg-config
     - check
     - libglib2.0-dev
