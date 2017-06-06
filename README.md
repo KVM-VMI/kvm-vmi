@@ -25,9 +25,11 @@ for `Windows` only).
 
 A hooking API allows you to define `callbacks` on top of the system calls you intercept:
 
+[NtCreateFile](https://msdn.microsoft.com/en-us/library/bb432380.aspx)
 ~~~Python
 def enter_NtCreateFile(syscall):
-    KeyHandle, DesiredAccess, object_attributes = syscall.collect_args(3)
+    DesiredAccess = syscall.args[1]
+    object_attributes = syscall.args[2]
     obj = ObjectAttributes(object_attributes, syscall.process)
     buffer = obj.ObjectName.Buffer
     access = FileAccessMask(DesiredAccess)
@@ -67,10 +69,13 @@ Resulting in this output:
 ~~~
 
 
-This project is divided into 2 components:
-- a modified version of the KVM source code.
-- a userland component which receive and displays events.
-- a modified `QEMU`, needed for the memory access
+This project is divided into 4 components:
+- `kvm`: linux kernel with _vmi_ patches for KVM
+- `qemu`: patched for a fast memory access
+- `nitro`: userland library which receives events, introspects the virtual
+  machine state, and fills the semantic gap
+- `libvmi`: virtual machine instrospection library with unified memory access
+  accross `Xen` and `KVM`
 
 # Setup
 
