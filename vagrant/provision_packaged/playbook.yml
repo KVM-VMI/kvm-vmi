@@ -3,6 +3,11 @@
   become: true
   tasks:
     - include: remote.yml
+
+    - name: update cache
+      apt:
+        update_cache: yes
+
     - name: install useful tools
       package:
         name: "{{ item }}"
