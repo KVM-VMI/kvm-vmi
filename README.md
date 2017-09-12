@@ -1,6 +1,6 @@
 # kvm-vmi
 
-[![Slack](https://maxcdn.icons8.com/Color/PNG/48/Mobile/slack-48.png)](https://kvm-vmi.slack.com)
+[![Slack](https://maxcdn.icons8.com/Color/PNG/48/Mobile/slack-48.png)](https://kvm-vmi.slack.com) [Join us on our Slack !](https://kvm-vmi.slack.com)
 
 KVM-based Virtual Machine Instrospection.
 
