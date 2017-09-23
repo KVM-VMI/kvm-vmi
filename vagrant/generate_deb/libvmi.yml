@@ -16,6 +16,7 @@
     - bison
     - flex
     - python-dev
+    - libjson-c-dev
 
 - name: generate debian package
   command: debuild -us -uc -j4

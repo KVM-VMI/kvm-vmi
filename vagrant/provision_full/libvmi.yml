@@ -15,6 +15,7 @@
     - bison
     - flex
     - python-dev
+    - libjson-c-dev
 
 - name: generate configure
   command: ./autogen.sh
