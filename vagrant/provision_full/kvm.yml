@@ -10,6 +10,7 @@
     - libssl-dev
     - fakeroot
     - dpkg-dev
+    - bc
 
 - name: get default config
   command: make olddefconfig
