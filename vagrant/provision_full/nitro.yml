@@ -8,6 +8,7 @@
     - python3-libvirt
     - python3-docopt
     - python3-nose2
+    - python3-cffi
     - python-docopt
     - genisoimage
 
@@ -34,6 +35,12 @@
 
 - name: install libvmi config file
   command: cp "{{ root_dir }}/nitro/libvmi.conf" /etc
+
+- name: compile libvmi cffi python wrapper
+  command: python3 nitro/build_libvmi.py
+  args:
+    chdir: "{{ root_dir }}/nitro"
+  become: false
 
 # kvm group to access /dev/kvm, libvirt-qemu for rw on memory access socket
 - name: add user to kvm and libvirt-qemu groups
