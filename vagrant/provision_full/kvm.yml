@@ -60,6 +60,12 @@
     line: 'EXTRAVERSION = -nitro'
   become: false
 
+- name: set default config to new options
+  command: make olddefconfig
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+
 - name: compile kernel
   command: make -j4 bzImage
   args:
