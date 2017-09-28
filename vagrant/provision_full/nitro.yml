@@ -42,6 +42,12 @@
     chdir: "{{ root_dir }}/nitro"
   become: false
 
+- name: install libvirt
+  package:
+    name: "{{ item }}"
+  with_items:
+    - libvirt-daemon-system
+
 # kvm group to access /dev/kvm, libvirt-qemu for rw on memory access socket
 - name: add user to kvm and libvirt-qemu groups
   user:
