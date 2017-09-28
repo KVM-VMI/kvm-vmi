@@ -21,4 +21,4 @@
 - name: import in libvirt
   command: ./import_libvirt.py vm_templates/output-qemu/win7x64
   args:
-    chdir: "{{ root_dir }}/nitro/tests"
+    chdir: "{{ root_dir }}/nitro/tests/vm_templates"
