@@ -10,15 +10,15 @@
 
 - name: remove output-qemu
   file:
-    path: "{{ root_dir }}/nitro/tests/packer-windows/output-qemu"
+    path: "{{ root_dir }}/nitro/tests/vm_templates/output-qemu"
     state: absent
 
 - name: build test vm
-  command: ./packer build windows_7_x64.json
+  command: ./packer build --var-file=windows_7_x64.json windows.json
   args:
-    chdir: "{{ root_dir }}/nitro/tests/packer-windows"
+    chdir: "{{ root_dir }}/nitro/tests/vm_templates"
 
 - name: import in libvirt
-  command: ./import_libvirt.py packer-windows/output-qemu/win7x64
+  command: ./import_libvirt.py vm_templates/output-qemu/win7x64
   args:
     chdir: "{{ root_dir }}/nitro/tests"
