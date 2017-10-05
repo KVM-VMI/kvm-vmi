@@ -21,6 +21,45 @@
   become: no
 
 - name: import in libvirt
-  command: ./import_libvirt.py output-qemu/win7x64
+  command: ./import_libvirt.py --open-vnc output-qemu/win7x64
   args:
     chdir: "{{ root_dir }}/nitro/tests/vm_templates"
+
+- name: install python libvirt for virt module
+  package:
+    name: python-libvirt
+
+- name: start test VM
+  virt:
+    name: nitro_win7x64
+    state: running
+
+- name: wait to install windows drivers
+  pause:
+    minutes: 5
+
+- name: shutdown test VM
+  virt:
+    name: nitro_win7x64
+    state: shutdown
+
+- name: test for vm status
+  virt:
+    name: nitro_win7x64
+    command: status
+  register: result
+  until: result.status == 'shutdown'
+  delay: 5
+  retries: 60
+
+- name: remove old snapshot
+  command: virsh snapshot-delete --current nitro_win7x64
+
+- name: write domain snapshot XML
+  copy:
+    src: snapshot.xml
+    dest: /tmp/snapshot.xml
+
+- name: take new snapshot
+  command: virsh snapshot-create nitro_win7x64 --xmlfile /tmp/snapshot.xml
+
