@@ -12,13 +12,11 @@
   file:
     path: "{{ root_dir }}/nitro/tests/vm_templates/output-qemu"
     state: absent
-  become: no
 
 - name: build test vm
   command: ./packer build --var-file=windows_7_x64.json windows.json
   args:
     chdir: "{{ root_dir }}/nitro/tests/vm_templates"
-  become: no
 
 - name: import in libvirt
   command: ./import_libvirt.py --open-vnc output-qemu/win7x64
@@ -28,6 +26,9 @@
 - name: install python libvirt for virt module
   package:
     name: python-libvirt
+
+- name: ensure default libvirt network is started
+  command: virsh net-start default
 
 - name: start test VM
   virt:
