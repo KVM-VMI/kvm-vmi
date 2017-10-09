@@ -23,6 +23,11 @@
   args:
     chdir: "{{ root_dir }}/nitro/tests/vm_templates"
 
+- name: remove output-qemu after import
+  file:
+    path: "{{ root_dir }}/nitro/tests/vm_templates/output-qemu"
+    state: absent
+
 - name: install python libvirt for virt module
   package:
     name: python-libvirt
