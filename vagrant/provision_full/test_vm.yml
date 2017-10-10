@@ -19,7 +19,7 @@
     chdir: "{{ root_dir }}/nitro/tests/vm_templates"
 
 - name: import in libvirt
-  command: ./import_libvirt.py --open-vnc output-qemu/win7x64
+  command: ./import_libvirt.py --open-vnc --qemu /usr/local/bin/qemu-system-x86_64 output-qemu/win7x64
   args:
     chdir: "{{ root_dir }}/nitro/tests/vm_templates"
 
