@@ -88,3 +88,13 @@
   command: make install
   args:
     chdir: "{{ root_dir }}/kvm"
+
+- name: set nitro kernel as default
+  lineinfile:
+    dest: /etc/default/grub
+    regexp: '^GRUB_DEFAULT'
+    line: 'GRUB_DEFAULT="Advanced options for Debian GNU/Linux>Debian GNU/Linux, with Linux 4.9.0-nitro+"'
+
+- name: update GRUB configuration
+  command: update-grub
+
