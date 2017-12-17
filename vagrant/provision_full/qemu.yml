@@ -37,7 +37,7 @@
   become: false
 
 - name: configure QEMU
-  command: ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr
+  command: ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr/local
   args:
     chdir: "{{ root_dir }}/qemu"
   become: false
