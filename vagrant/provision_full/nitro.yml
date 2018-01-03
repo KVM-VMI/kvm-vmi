@@ -9,6 +9,7 @@
     - python3-docopt
     - python3-nose2
     - python3-cffi
+    - python3-psutil
     - python-docopt
     - genisoimage
 
