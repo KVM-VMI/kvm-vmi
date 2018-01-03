@@ -7,6 +7,7 @@
   apt:
     name: "{{ item }}"
   with_items:
+    - libelf-dev
     - libssl-dev
     - fakeroot
     - dpkg-dev
@@ -19,46 +20,34 @@
   become: false
 
 - name: enable KVM
-  command: ./scripts/config --module KVM
+  command: ./scripts/config --enable KVM
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable KVM_INTEL
-  command: ./scripts/config --module KVM_INTEL
+  command: ./scripts/config --enable KVM_INTEL
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: enable KVM_AMD
-  command: ./scripts/config --module KVM_AMD
+  command: ./scripts/config --enable KVM_AMD
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
 
-- name: disable CONFIG_KVM_DEBUG_FS
-  command: ./scripts/config --disable CONFIG_KVM_DEBUG_FS
+- name: enable KVMI
+  command: ./scripts/config --enable KVMI_MEM_GUEST
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
 
-- name: enable CONFIG_MEMCG
-  command: ./scripts/config --enable CONFIG_MEMCG
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-- name: enable iptables NAT
-  command: ./scripts/config --module IP_NF_NAT
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-- name: append -nitro to kernel version string
+- name: append -kvmi to kernel version string
   lineinfile: 
     dest: "{{ root_dir }}/kvm/Makefile"
     regexp: '^EXTRAVERSION ='
-    line: 'EXTRAVERSION = -nitro'
+    line: 'EXTRAVERSION = -kvmi'
   become: false
 
 - name: set default config to new options
@@ -89,11 +78,11 @@
   args:
     chdir: "{{ root_dir }}/kvm"
 
-- name: set nitro kernel as default
+- name: set kvmi kernel as default
   lineinfile:
     dest: /etc/default/grub
     regexp: '^GRUB_DEFAULT'
-    line: 'GRUB_DEFAULT="Advanced options for Debian GNU/Linux>Debian GNU/Linux, with Linux 4.9.0-nitro+"'
+    line: 'GRUB_DEFAULT="Advanced options for Debian GNU/Linux>Debian GNU/Linux, with Linux 4.15.0-kvmi+"'
 
 - name: update GRUB configuration
   command: update-grub
