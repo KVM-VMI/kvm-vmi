@@ -34,6 +34,3 @@
       when: nfs == false
 
     - include: kvm.yml
-    - include: qemu.yml
-    - include: nitro.yml
-    - include: test_vm.yml
