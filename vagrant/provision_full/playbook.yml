@@ -35,4 +35,4 @@
 
     - include: kvm.yml
     - include: qemu.yml
-
+    - include: libkvmi.yml
