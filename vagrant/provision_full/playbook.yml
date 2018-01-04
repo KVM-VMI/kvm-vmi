@@ -34,3 +34,5 @@
       when: nfs == false
 
     - include: kvm.yml
+    - include: qemu.yml
+
