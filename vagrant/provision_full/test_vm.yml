@@ -1,4 +1,12 @@
 ---
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - libvirt-daemon-system
+    - python3-libvirt
+    - python3-docopt
+
 - name: add user to libvirt group
   user:
     name: vagrant

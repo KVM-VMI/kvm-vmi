@@ -36,3 +36,5 @@
     - include: kvm.yml
     - include: qemu.yml
     - include: libkvmi.yml
+    - include: test_vm.yml
+
