@@ -12,7 +12,7 @@
   become: false
 
 - name: install libkvmi
-  command: cp host/libkvmi.so /usr/local/lib
+  command: cp libkvmi.so /usr/local/lib
   args:
     chdir: "{{ root_dir }}/kvm/tools/kvm/kvmi"
 
