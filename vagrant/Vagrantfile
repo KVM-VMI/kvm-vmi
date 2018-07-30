@@ -5,8 +5,6 @@ Vagrant.configure(2) do |config|
     use_nfs = true
     # generate Debian packages
     gen_deb = false
-    # install Nitro components from pre built packages
-    packaged = false
 
     config.vm.synced_folder ".", "/vagrant", disabled: true
 
@@ -42,8 +40,6 @@ Vagrant.configure(2) do |config|
         # choose playbook
         if gen_deb
             ansible.playbook = "generate_deb/playbook.yml"
-        elsif packaged
-            ansible.playbook = "provision_packaged/playbook.yml"
         else
             ansible.playbook = "provision_full/playbook.yml"
         end

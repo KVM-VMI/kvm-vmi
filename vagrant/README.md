@@ -55,21 +55,6 @@ firewall-cmd --reload
 ~~~
 
 
-## Optional: pre-built packages
-
-If compiling all the components is too long for you, you can use pre-built
-Debian packages.
-
-To enable it, replace the value of `packaged` by `true` in the `Vagrantfile`:
-~~~
-packaged = true
-~~~
-
-Packaged Nitro components available:
-- `KVM`
-- `QEMU`
-- `libvmi`
-
 # Produce Debian packages
 
 You can produce debian packages for some components of Nitro by setting `gen_deb` to `true` in the `Vagrantfile`.
