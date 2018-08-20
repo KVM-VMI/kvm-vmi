@@ -16,18 +16,19 @@
 - name: enable default network as autostart
   command: virsh -c qemu:///system net-autostart default
 
-- name: remove output-qemu
+- name: create output-qemu
   file:
     path: "{{ root_dir }}/nitro/tests/vm_templates/output-qemu"
-    state: absent
+    state: directory
 
-- name: build test vm
-  command: ./packer build --var-file=windows_7_x64.json windows.json
-  args:
-    chdir: "{{ root_dir }}/nitro/tests/vm_templates"
+- name: download win7x64 image
+  get_url:
+    url: "https://www.dropbox.com/s/2affsti933237v3/win7x64.qcow2?dl=1"
+    dest: "{{ root_dir }}/nitro/tests/vm_templates/output-qemu/win7x64"
+    checksum: "sha1:0c8d422053ef34109a53d067d71fd2c43435cb2f"
 
 - name: import in libvirt
-  command: ./import_libvirt.py --open-vnc --qemu /usr/local/bin/qemu-system-x86_64 output-qemu/win7x64
+  command: ./import_libvirt.py --open-vnc --qemu /usr/local/bin/qemu-system-x86_64 output-qemu/win7x64 --kvmi
   args:
     chdir: "{{ root_dir }}/nitro/tests/vm_templates"
 

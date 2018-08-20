@@ -39,4 +39,3 @@
   command: make install
   args:
     chdir: "{{ root_dir }}/libvmi"
-

@@ -2,8 +2,6 @@
 - hosts: default
   become: true
   tasks:
-    - include: remote.yml
-
     - name: update cache
       apt:
         update_cache: yes
@@ -34,8 +32,3 @@
       when: nfs == false
 
     - include: kvm.yml
-    - include: qemu.yml
-    - include: libkvmi.yml
-    - include: libvmi.yml
-    - include: test_vm.yml
-

@@ -7,7 +7,8 @@ Here you will find a `Vagrantfile` to build a development environment for `kvm-v
 # Requirements
 
 - `vagrant`
-- `vagrant-libvirt` plugin
+- [`vagrant-libvirt`](https://github.com/vagrant-libvirt/vagrant-libvirt) plugin
+- [`vagrant-reload`](https://github.com/aidanns/vagrant-reload) plugin
 - `ansible >= 2.2.1.0`
 
 # Setup
@@ -24,7 +25,6 @@ Other options:
 ## Build the environment
 
 - Run `vagrant up --provider=libvirt`
-- Once vagrant is done provisioning the vm, run `vagrant reload` to reboot the box (to use the modified kernel)
 - ssh into the box with `vagrant ssh`
 - Start the test vm with `virsh start nitro_win7x64` (or use `virt-manager` connection)
 - go to `/(data|vagrant)/kvm-vmi/nitro` and you can play with **Nitro** !
@@ -63,6 +63,8 @@ You have to use `NFS`.
 ~~~
 gen_deb = true
 ~~~
+
+*Note: this option is not maintained anymore*
 
 # Virt-manager
 
