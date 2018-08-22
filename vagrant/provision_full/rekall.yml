@@ -1,0 +1,31 @@
+---
+- name: install dependencies for rekall
+  package:
+    name: "{{ item }}"
+  with_items:
+    - python3-pip
+    - python3-dev
+    - ncurses-dev
+    - virtualenv
+
+- name: create venv for rekall
+  command: virtualenv -p python3 venv-rekall
+  args:
+    chdir: "/home/vagrant"
+  become: false
+
+- name: download rekall_offset_finder script
+  get_url:
+    url: 'https://raw.githubusercontent.com/libvmi/libvmi/3efb0e87c5977721c778e662aec10eb579296bfb/tools/windows-offset-finder/rekall_offset_finder.py'
+    dest: /home/vagrant/rekall_offset_finder.py
+    mode: 'u=rwx,g=rx,o=rx'
+
+- name: install rekall_offset_finder script dependencies
+  command: "./venv-rekall/bin/pip3 install {{ item }}"
+  args:
+    chdir: "/home/vagrant"
+  with_items:
+    - docopt
+    - libvirt-python
+    - rekall
+  become: false

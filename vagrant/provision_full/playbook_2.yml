@@ -6,4 +6,5 @@
     - include: qemu.yml
     - include: libkvmi.yml
     - include: libvmi.yml
+    - include: rekall.yml
     - include: test_vm.yml
