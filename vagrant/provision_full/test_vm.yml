@@ -51,7 +51,20 @@
 
 - name: wait to install windows drivers
   pause:
-    minutes: 5
+    minutes: 2
+
+- name: extract offsets with rekall
+  command: "/home/vagrant/venv-rekall/bin/python3 /home/vagrant/rekall_offset_finder.py nitro_win7x64"
+
+- name: write libvmi.conf
+  blockinfile:
+    path: /etc/libvmi.conf
+    block: |
+      nitro_win7x64 {
+        ostype = "Windows";
+        rekall_profile = "/home/vagrant/nitro_win7x64-profile.json";
+      }
+    create: yes
 
 - name: shutdown test VM
   virt:
@@ -77,4 +90,3 @@
 
 - name: take new snapshot
   command: virsh snapshot-create nitro_win7x64 --xmlfile /tmp/snapshot.xml
-
