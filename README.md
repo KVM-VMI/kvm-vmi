@@ -1,14 +1,26 @@
 # kvm-vmi
 
 [![Join the chat at https://gitter.im/kvm-vmi/Lobby](https://badges.gitter.im/trailofbits/algo.svg)](https://gitter.im/kvm-vmi/Lobby)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 [![Slack](https://maxcdn.icons8.com/Color/PNG/48/Mobile/slack-48.png)](https://kvm-vmi.slack.com)
 
-KVM-based Virtual Machine Instrospection.
+> KVM-based Virtual Machine Instrospection.
 
-# Description
+## Table of Contents
 
-This project add virtual machine introspection to the KVM hypervisor
+- [Overview](#overview)
+- [Install](#install)
+    - [Vagrant](#vagrant-recommended)
+    - [Manually](#manually)
+- [References](#references)
+- [Maintainers](#maintainers)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+
+This project adds virtual machine introspection to the KVM hypervisor
 to monitor a running virtual machine without a guest agent.
 
 Once the traps are set, the VM will be in a "_paused_" state and go back to the
@@ -79,13 +91,13 @@ This project is divided into 4 components:
 - `libvmi`: virtual machine instrospection library with unified memory access
   accross `Xen` and `KVM`
 
-# Setup
+## Install
 
-## Using Vagrant (recommended)
+### Vagrant (recommended)
 
-Go to the `vagrant/` sub-directory to install a development environement for `kvm-vmi`
+Go to the `vagrant/` sub-directory to install a development environment for `kvm-vmi`
 
-## Manually
+### Manually
 
 Unfortunately, it is not possible to compile the KVM modules as an `out-of-tree`
 build. You will have to compile and install a new kernel along with the new modules.
@@ -97,8 +109,22 @@ build. You will have to compile and install a new kernel along with the new modu
 - Compile the modified version of `qemu` if you intend to analyze syscall events
 
 
-# References
+## References
 
-Based on the work of `Jonas Pfoh`:
+Based on `Jonas Pfoh`'s work:
 - [Nitro: Hardware-based System Call Tracing for Virtual Machines](https://www.sec.in.tum.de/assets/staff/pfoh/PfohSchneider2011a.pdf)
 - [Nitro - VMI Extensions for Linux/KVM](http://nitro.pfoh.net/)
+
+## Maintainers
+
+[@Wenzel](https://github.com/Wenzel)
+
+## Contributing
+
+PRs accepted.
+
+Small note: If editing the Readme, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+
+## License
+
+[GNU General Public License v3.0](https://github.com/KVM-VMI/kvm-vmi/blob/master/LICENSE)
