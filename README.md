@@ -1,15 +1,56 @@
 # kvm-vmi
 
 [![Join the chat at https://gitter.im/kvm-vmi/Lobby](https://badges.gitter.im/trailofbits/algo.svg)](https://gitter.im/kvm-vmi/Lobby)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 [![Slack](https://maxcdn.icons8.com/Color/PNG/48/Mobile/slack-48.png)](https://kvm-vmi.slack.com)
 
-KVM-based Virtual Machine Instrospection.
+> KVM-based Virtual Machine Instrospection.
 
-# Description
+## Table of Contents
 
-This project add virtual machine introspection to the KVM hypervisor
+- [Overview](#overview)
+- [Install](#install)
+    - [Vagrant](#vagrant-recommended)
+    - [Manually](#manually)
+- [References](#references)
+- [Maintainers](#maintainers)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+
+This project adds virtual machine introspection to the KVM hypervisor
 to monitor a running virtual machine without a guest agent.
+
+This project is divided into 4 components:
+- `kvm`: linux kernel with _vmi_ patches for KVM
+- `qemu`: patched to allow introspection
+- `nitro`: userland library which receives events, introspects the virtual
+  machine state, and fills the semantic gap
+- `libvmi`: virtual machine instrospection library with unified API
+  across `Xen` and `KVM`
+
+At the moment, 2 versions of VMI patches are available for `QEMU/KVM`
+in this repository:
+
+### 1 - Nitro (_legacy_)
+
+`KVM-VMI` started as an improved fork of [Nitro](http://nitro.pfoh.net/), a set of VMI patches
+for `QEMU/KVM` to intercept system calls and rebuild the execution context.
+
+`Nitro` is the name of the userland component that will receive and interpret the syscalls,
+as well as the name of the set of patches for `QEMU/KVM`.
+
+Corresponding submodule branches:
+- `kvm`: `vmi`
+- `qemu`: `vmi`
+- `nitro`: `master`
+- `libvmi`: `nitro`
+
+(Sorry for the confusing branches naming...)
+
+Details:
 
 Once the traps are set, the VM will be in a "_paused_" state and go back to the
 hypervisor on every system call.
@@ -21,7 +62,7 @@ When the VM is "_paused_", some introspection can be done by reading or writing
 into the memory. Therefore it is possible to reconstruct VM state and understand
 the system call `context` (process name, system call name).
 
-Futhermore, we are able to decode the system call
+Furthermore, we are able to decode the system call
 parameters and display what file is being created (in the case of `NtCreateFile`,
 for `Windows` only).
 
@@ -71,24 +112,30 @@ Resulting in this output:
 ~~~
 
 
-This project is divided into 4 components:
-- `kvm`: linux kernel with _vmi_ patches for KVM
-- `qemu`: patched for a fast memory access
-- `nitro`: userland library which receives events, introspects the virtual
-  machine state, and fills the semantic gap
-- `libvmi`: virtual machine instrospection library with unified memory access
-  accross `Xen` and `KVM`
+### 2 - KVMI
 
-# Setup
+A complete set of VMI APIs proposed by [BitDefender](https://www.google.com/search?num=30&ei=fgH_W7mlKM39kwWpm7bQDQ&q=%22Guest+introspection%22+kvm+mailing+list&oq=%22Guest+introspection%22+kvm+mailing+list&gs_l=psy-ab.3...7670.8338..8580...0.0..0.187.187.0j1......0....1..gws-wiz.JoHSDKkCu_0)
 
-## Using Vagrant (recommended)
+This is where the current effort is focused on.
 
-Go to the `vagrant/` sub-directory to install a development environement for `kvm-vmi`
+Corresponding submodule branches:
+- `kvm`: `kvmi`
+- `qemu`: `kvmi`
+- `nitro`: `kvmi`
+- `libvmi`: `kvmi`
 
-## Manually
+## Install
+
+### Vagrant (recommended)
+
+Go to the `vagrant/` sub-directory to install a development environment for `kvm-vmi`
+
+### Manually
 
 Unfortunately, it is not possible to compile the KVM modules as an `out-of-tree`
 build. You will have to compile and install a new kernel along with the new modules.
+
+This is only valid for the `Nitro` set of patches:
 
 - Start by compiling a new kernel in `kvm`
 - Reboot
@@ -97,8 +144,22 @@ build. You will have to compile and install a new kernel along with the new modu
 - Compile the modified version of `qemu` if you intend to analyze syscall events
 
 
-# References
+## References
 
-Based on the work of `Jonas Pfoh`:
+Based on `Jonas Pfoh`'s work:
 - [Nitro: Hardware-based System Call Tracing for Virtual Machines](https://www.sec.in.tum.de/assets/staff/pfoh/PfohSchneider2011a.pdf)
 - [Nitro - VMI Extensions for Linux/KVM](http://nitro.pfoh.net/)
+
+## Maintainers
+
+[@Wenzel](https://github.com/Wenzel)
+
+## Contributing
+
+PRs accepted.
+
+Small note: If editing the Readme, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+
+## License
+
+[GNU General Public License v3.0](https://github.com/KVM-VMI/kvm-vmi/blob/master/LICENSE)
