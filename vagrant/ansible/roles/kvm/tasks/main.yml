@@ -4,14 +4,16 @@
     update_cache: yes
 
 - name: install build dependencies
-  apt:
+  package:
     name: "{{ item }}"
   with_items:
-    - libelf-dev
-    - libssl-dev
+    - bc
     - fakeroot
     - dpkg-dev
-    - bc
+    - flex
+    - bison
+    - libelf-dev
+    - libssl-dev
 
 - name: configure kernel using distro's config
   command: make olddefconfig
