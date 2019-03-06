@@ -30,7 +30,7 @@
   become: false
 
 - name: build libvmi
-  command: make
+  command: "make -j{{ ansible_processor_vcpus }}"
   args:
     chdir: "{{ root_dir }}/libvmi"
   become: false

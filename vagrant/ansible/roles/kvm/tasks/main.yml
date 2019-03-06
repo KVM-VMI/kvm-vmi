@@ -57,13 +57,13 @@
   become: false
 
 - name: compile kernel
-  command: make -j4 bzImage
+  command: "make -j{{ ansible_processor_vcpus }} bzImage"
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: compile modules
-  command: make -j4 modules
+  command: "make -j{{ ansible_processor_vcpus }} modules"
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
