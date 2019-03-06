@@ -86,3 +86,6 @@
 
 - name: update GRUB configuration
   command: update-grub
+
+- name: setup libkvmi
+  include: libkvmi.yml
