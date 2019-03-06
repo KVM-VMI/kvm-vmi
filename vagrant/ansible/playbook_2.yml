@@ -1,10 +1,14 @@
 ---
 - hosts: all
   become: true
-  tasks:
-    - include: remote.yml
-    - include: qemu.yml
-    - include: libkvmi.yml
-    - include: libvmi.yml
-    - include: rekall.yml
-    - include: test_vm.yml
+  pre_tasks:
+    - name: get kernel version
+      command: uname -r
+      register: uname
+
+    - name: display kernel version
+      debug:
+        var: uname.stdout
+  roles:
+    - remote
+    - qemu
