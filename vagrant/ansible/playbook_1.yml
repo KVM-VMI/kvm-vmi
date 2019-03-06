@@ -1,5 +1,5 @@
 ---
-- hosts: default
+- hosts: all
   become: true
   tasks:
     - name: update cache
