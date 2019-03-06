@@ -2,9 +2,10 @@
 - hosts: all
   become: true
   pre_tasks:
-    - name: update cache
+    - name: system upgrade
       apt:
         update_cache: yes
+        upgrade: dist
 
     - name: install useful tools
       package:
