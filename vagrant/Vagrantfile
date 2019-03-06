@@ -35,7 +35,7 @@ Vagrant.configure(2) do |config|
         else
             root_dir = '/data/kvm-vmi'
         end
-        ansible.playbook = "provision_full/playbook_1.yml"
+        ansible.playbook = "ansible/playbook_1.yml"
         ansible.extra_vars = {
             'root_dir': root_dir,
             'nfs': use_nfs
@@ -55,7 +55,7 @@ Vagrant.configure(2) do |config|
         else
             root_dir = '/data/kvm-vmi'
         end
-        ansible.playbook = "provision_full/playbook_2.yml"
+        ansible.playbook = "ansible/playbook_2.yml"
         ansible.extra_vars = {
             'root_dir': root_dir,
             'nfs': use_nfs
