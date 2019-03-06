@@ -12,3 +12,4 @@
   roles:
     - remote
     - qemu
+    - libvmi
