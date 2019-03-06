@@ -37,11 +37,8 @@
 - name: install libvmi config file
   command: cp "{{ root_dir }}/nitro/libvmi.conf" /etc
 
-- name: compile libvmi cffi python wrapper
-  command: python3 nitro/build_libvmi.py
-  args:
-    chdir: "{{ root_dir }}/nitro"
-  become: false
+- name: install libvmi python bindings
+  command: pip install libvmi
 
 - name: install libvirt
   package:
@@ -55,4 +52,3 @@
     name: vagrant
     groups: kvm,libvirt-qemu
     append: yes
-
