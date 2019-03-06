@@ -1,7 +1,7 @@
 ---
 - hosts: all
   become: true
-  tasks:
+  pre_tasks:
     - name: update cache
       apt:
         update_cache: yes
@@ -14,21 +14,6 @@
         - htop
         - vim
 
-    - include: partition.yml
-      when: nfs == false
-
-    - name: clone kvm-vmi repo
-      command: git clone https://github.com/KVM-VMI/kvm-vmi
-      args:
-        chdir: /data
-      become: false
-      when: nfs == false
-
-    - name: clone submodules
-      command: git submodule update --init
-      args:
-        chdir: "{{ root_dir }}/kvm"
-      become: false
-      when: nfs == false
-
-    - include: kvm.yml
+  roles:
+    - partition
+    - kvm
