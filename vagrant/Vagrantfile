@@ -3,8 +3,6 @@ Vagrant.configure(2) do |config|
 
     # enable NFS here
     use_nfs = true
-    # generate Debian packages
-    gen_deb = false
 
     config.vm.synced_folder ".", "/vagrant", disabled: true
 
@@ -16,8 +14,8 @@ Vagrant.configure(2) do |config|
     end
 
     config.vm.provider :libvirt do |libvirt|
-        libvirt.cpus = 2
-        libvirt.memory = 3000
+        libvirt.cpus = 4
+        libvirt.memory = 2048
         libvirt.nic_model_type = "virtio"
         libvirt.driver = "kvm"
         libvirt.nested = true
@@ -37,12 +35,7 @@ Vagrant.configure(2) do |config|
         else
             root_dir = '/data/kvm-vmi'
         end
-        # choose playbook
-        if gen_deb
-            ansible.playbook = "generate_deb/playbook.yml"
-        else
-            ansible.playbook = "provision_full/playbook_1.yml"
-        end
+        ansible.playbook = "provision_full/playbook_1.yml"
         ansible.extra_vars = {
             'root_dir': root_dir,
             'nfs': use_nfs
@@ -62,12 +55,7 @@ Vagrant.configure(2) do |config|
         else
             root_dir = '/data/kvm-vmi'
         end
-        # choose playbook
-        if gen_deb
-            ansible.playbook = "generate_deb/playbook.yml"
-        else
-            ansible.playbook = "provision_full/playbook_2.yml"
-        end
+        ansible.playbook = "provision_full/playbook_2.yml"
         ansible.extra_vars = {
             'root_dir': root_dir,
             'nfs': use_nfs
