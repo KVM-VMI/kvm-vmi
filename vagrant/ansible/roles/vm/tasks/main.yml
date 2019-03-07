@@ -1,4 +1,7 @@
 ---
+- name: setup libvirt
+  include: libvirt.yml
+
 - name: add Buster repositories
   apt_repository:
     repo: 'deb http://deb.debian.org/debian buster main contrib non-free'
