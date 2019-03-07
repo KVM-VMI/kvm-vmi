@@ -13,3 +13,4 @@
     - remote
     - qemu
     - libvmi
+    - vm
