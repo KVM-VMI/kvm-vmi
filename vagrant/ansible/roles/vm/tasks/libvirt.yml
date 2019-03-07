@@ -18,17 +18,17 @@
     state: started
 
 - name: set default network as autostart
-  command: virsh -c system:/// net-autostart default
+  command: virsh -c qemu:///system net-autostart default
 
 - name: ensure default libvirt network is started
-  command: virsh -c system:/// net-start default
+  command: virsh -c qemu:///system net-start default
   ignore_errors: yes
 
 - name: define libvirt pool
-  command: virsh -c system:/// pool-define-as default --type dir --target /data/vms
+  command: virsh -c qemu:///system pool-define-as default --type dir --target /data/vms
 
 - name: build libvirt pool
-  command: virsh -c system:/// pool-build default
+  command: virsh -c qemu:///system pool-build default
 
 - name: fix permissions on pool directory
   file:
@@ -38,8 +38,8 @@
     group: vagrant
 
 - name: set libvirt pool as autostart
-  command: virsh -c system:/// pool-autostart default
+  command: virsh -c qemu:///system pool-autostart default
 
 - name: ensure libvirt pool is started
-  command: virsh -c system:/// pool-start default
+  command: virsh -c qemu:///system pool-start default
   ignore_errors: yes
