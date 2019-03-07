@@ -14,7 +14,7 @@
             "headless": true,
             "http_directory": "scripts",
             "cpus": 1,
-            "memory": "1500",
+            "memory": 1500,
             "communicator": "winrm",
             "winrm_username": "vagrant",
             "winrm_password": "vagrant",
