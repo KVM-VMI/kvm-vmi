@@ -1,0 +1,34 @@
+---
+- name: add Buster repositories
+  apt_repository:
+    repo: 'deb http://deb.debian.org/debian buster main contrib non-free'
+    filename: buster
+    state: present
+    update_cache: yes
+
+# Packer is too old on Debian Stretch (0.10.x)
+- name: install Packer from Buster
+  apt:
+    name: packer
+    state: present
+    default_release: buster
+    install_recommends: no
+
+- name: upload templates
+  copy:
+    src: files/templates
+    dest: /data/
+  become: false
+
+- name: fix permissions on kvm node
+  file:
+    path: /dev/kvm
+    owner: root
+    group: kvm
+    mode: 0666
+
+- name: build windows10
+  command: packer build windows_10.json
+  args:
+    chdir: /data/templates
+  become: false
