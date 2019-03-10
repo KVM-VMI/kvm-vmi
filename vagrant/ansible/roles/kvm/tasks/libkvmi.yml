@@ -1,6 +1,6 @@
 ---
 - name: install libkvmi build deps
-  apt:
+  package:
     name: "{{ item }}"
   with_items:
     - uuid-dev
