@@ -1,0 +1,13 @@
+{
+    "_comment": "Build with `packer build -var-file=ubuntu1604.json ubuntu.json`",
+    "vm_name": "ubuntu-16.04-server-i386.qcow2",
+    "headless": "true",
+    "cpus": "1",
+    "disk_size": "65536",
+    "iso_checksum_url": "http://old-releases.ubuntu.com/releases/xenial/SHA256SUMS",
+    "iso_checksum_type": "sha256",
+    "iso_url": "http://old-releases.ubuntu.com/releases/xenial/ubuntu-16.04-server-i386.iso",
+    "memory": "512",
+    "preseed" : "ubuntu/preseed.cfg",
+    "version" : "1"
+}
