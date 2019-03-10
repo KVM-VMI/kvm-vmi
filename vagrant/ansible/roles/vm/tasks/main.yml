@@ -30,8 +30,8 @@
     group: kvm
     mode: 0666
 
-- name: build windows10
-  command: packer build windows_10.json
+- name: build vm
+  command: packer build -var-file ubuntu-16.04-server-i386.json ubuntu.json
   args:
     chdir: /data/templates
   become: false
