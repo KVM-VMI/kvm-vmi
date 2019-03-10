@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: get kernel version
+      command: uname -r
+      register: uname
+
+    - name: display kernel version
+      debug:
+        var: uname.stdout
+  roles:
+    - remote
+    - qemu
+    - libvmi
+    - vm

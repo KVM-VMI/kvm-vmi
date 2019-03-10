@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: check for virtualization extensions in cpuinfo
+      shell: egrep '(vmx|svm)' /proc/cpuinfo
+
+    - name: system upgrade
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: install useful tools
+      package:
+        name: "{{ item }}"
+      with_items:
+        - git
+        - htop
+        - vim
+
+  roles:
+    - partition
+    - kvm

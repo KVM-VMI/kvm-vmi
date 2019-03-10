@@ -1,0 +1,45 @@
+---
+- name: install libvirt
+  package:
+    name: "{{ item }}"
+  with_items:
+    - libvirt-daemon-system
+
+# kvm group to access /dev/kvm, libvirt-qemu for rw on memory access socket
+- name: add user to kvm and libvirt-qemu groups
+  user:
+    name: vagrant
+    groups: kvm,libvirt-qemu
+    append: yes
+
+- name: ensure libvirt daemon is started
+  systemd:
+    name: libvirtd
+    state: started
+
+- name: set default network as autostart
+  command: virsh -c qemu:///system net-autostart default
+
+- name: ensure default libvirt network is started
+  command: virsh -c qemu:///system net-start default
+  ignore_errors: yes
+
+- name: define libvirt pool
+  command: virsh -c qemu:///system pool-define-as default --type dir --target /data/vms
+
+- name: build libvirt pool
+  command: virsh -c qemu:///system pool-build default
+
+- name: fix permissions on pool directory
+  file:
+    path: /data/vms
+    state: directory
+    owner: vagrant
+    group: vagrant
+
+- name: set libvirt pool as autostart
+  command: virsh -c qemu:///system pool-autostart default
+
+- name: ensure libvirt pool is started
+  command: virsh -c qemu:///system pool-start default
+  ignore_errors: yes

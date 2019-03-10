@@ -1,0 +1,63 @@
+{
+    "_comment": "Build with `packer build ubuntu.json`",
+    "builders": [
+        {
+            "type": "qemu",
+            "boot_command": [
+                "<enter><wait>",
+                "<f6><esc>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs>",
+                "/install/vmlinuz ",
+                "initrd=/install/initrd.gz ",
+                "net.ifnames=0 ",
+                "auto-install/enable=true ",
+                "debconf/priority=critical ",
+                "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{ user `preseed` }} ",
+                "<enter>"
+            ],
+            "boot_wait": "{{ user `boot_wait` }}",
+            "disk_size": "{{ user `disk_size` }}",
+            "disk_compression": "true",
+            "skip_compaction": "false",
+            "headless": "{{ user `headless` }}",
+            "http_directory": "http",
+            "iso_checksum_url": "{{ user `iso_checksum_url` }}",
+            "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+            "iso_urls": [
+                "{{ user `iso_url` }}"
+            ],
+            "output_directory": "output-qemu",
+            "shutdown_command": "echo '{{ user `ssh_password` }}'| sudo -S shutdown -P now",
+            "ssh_password": "{{ user `ssh_password` }}",
+            "ssh_username": "{{ user `ssh_username` }}",
+            "ssh_wait_timeout": "10000s",
+            "vnc_bind_address": "0.0.0.0",
+            "vm_name": "{{ user `vm_name` }}",
+            "qemuargs": [
+                [ "-m", "{{ user `memory` }}" ],
+                [ "-smp", "cpus={{ user `cpus`}}"]
+            ]
+        }
+    ],
+    "variables": {
+        "cpus": "1",
+        "desktop": "false",
+        "disk_size": "65536",
+        "headless": "true",
+        "memory": "512",
+        "boot_wait": "10s",
+        "preseed" : "preseed.cfg",
+        "hostname": "vagrant",
+        "ssh_fullname": "vagrant",
+        "ssh_password": "vagrant",
+        "ssh_username": "vagrant"
+    }
+}

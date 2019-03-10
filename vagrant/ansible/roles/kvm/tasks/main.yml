@@ -3,17 +3,19 @@
   apt:
     update_cache: yes
 
-- name: build deps
-  apt:
+- name: install build dependencies
+  package:
     name: "{{ item }}"
   with_items:
-    - libelf-dev
-    - libssl-dev
+    - bc
     - fakeroot
     - dpkg-dev
-    - bc
+    - flex
+    - bison
+    - libelf-dev
+    - libssl-dev
 
-- name: get default config
+- name: configure kernel using distro's config
   command: make olddefconfig
   args:
     chdir: "{{ root_dir }}/kvm"
@@ -57,13 +59,13 @@
   become: false
 
 - name: compile kernel
-  command: make -j4 bzImage
+  command: "make -j{{ ansible_processor_vcpus }} bzImage"
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: compile modules
-  command: make -j4 modules
+  command: "make -j{{ ansible_processor_vcpus }} modules"
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
@@ -82,8 +84,10 @@
   lineinfile:
     dest: /etc/default/grub
     regexp: '^GRUB_DEFAULT'
-    line: 'GRUB_DEFAULT="Advanced options for Debian GNU/Linux>Debian GNU/Linux, with Linux 4.15.0-kvmi+"'
+    line: 'GRUB_DEFAULT="1>0"'
 
 - name: update GRUB configuration
   command: update-grub
 
+- name: setup libkvmi
+  include: libkvmi.yml

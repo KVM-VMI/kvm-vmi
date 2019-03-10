@@ -1,0 +1,41 @@
+---
+- name: install build tools
+  package:
+    name: "{{ item }}"
+  with_items:
+    - git
+    - build-essential
+    - gcc
+    - libtool
+    - cmake
+    - pkg-config
+    - check
+    - libglib2.0-dev
+    - libvirt-dev
+    - bison
+    - flex
+    - python-dev
+    - libjson-c-dev
+
+- name: create build directory
+  file:
+    path: "{{ root_dir }}/libvmi/build"
+    state: directory
+  become: false
+
+- name: configure build
+  command: cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_KVM=ON -DENABLE_XEN=OFF -DENABLE_BAREFLANK=OFF ..
+  args:
+    chdir: "{{ root_dir }}/libvmi/build"
+  become: false
+
+- name: build libvmi
+  command: "make -j{{ ansible_processor_vcpus }}"
+  args:
+    chdir: "{{ root_dir }}/libvmi/build"
+  become: false
+
+- name: install libvmi
+  command: make install
+  args:
+    chdir: "{{ root_dir }}/libvmi/build"
