@@ -2,23 +2,11 @@
 - name: setup libvirt
   include: libvirt.yml
 
-- name: add Buster repositories
-  apt_repository:
-    repo: 'deb http://deb.debian.org/debian buster main contrib non-free'
-    filename: buster
-    state: present
-    update_cache: yes
-
-# Packer is too old on Debian Stretch (0.10.x)
-- name: install Packer from Buster
-  apt:
-    name: packer
-    state: present
-    default_release: buster
-    install_recommends: no
+- name: setup packer
+  include: packer.yml
 
 - name: upload templates
-  copy:
+  synchronize:
     src: files/templates
     dest: /data/
   become: false
@@ -30,8 +18,10 @@
     group: kvm
     mode: 0666
 
-- name: build vm
-  command: packer build -var-file ubuntu-16.04-server-i386.json ubuntu.json
-  args:
-    chdir: /data/templates
-  become: false
+- name: build vms
+  include: build.yml
+  with_items:
+    - { name: 'winxp', ram: '512', packer_template: 'windows.json', packer_varfile: 'winxp.json' }
+
+- name: refresh libvirt pool
+  command: virsh -c qemu:///system pool-refresh default

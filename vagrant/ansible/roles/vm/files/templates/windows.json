@@ -1,0 +1,46 @@
+{
+    "builders": [
+        {
+            "type": "qemu",
+            "accelerator": "kvm",
+            "vm_name": "{{ user `vm_name` }}",
+            "cpus": "{{ user `cpus` }}",
+            "memory": "{{ user `memory` }}",
+            "iso_url": "{{user `iso_url`}}",
+            "iso_checksum_type": "{{user `iso_checksum_type`}}",
+            "iso_checksum": "{{user `iso_checksum`}}",
+            "headless": true,
+            "disk_compression": "true",
+            "skip_compaction": "false",
+            "boot_wait": "2m",
+            "communicator": "winrm",
+            "winrm_username": "Administrator",
+            "winrm_password": "vagrant",
+            "winrm_timeout": "8h",
+            "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+            "disk_size": 20000,
+            "disk_interface": "ide",
+            "net_device": "rtl8139",
+            "http_directory": "http",
+            "http_port_min": 8500,
+            "http_port_max": 8500,
+            "vnc_bind_address": "0.0.0.0",
+            "floppy_files": [
+                "{{user `autounattend`}}",
+                "scripts/wget-win32-static.zip",
+                "scripts/extract_wget_zip.vbs",
+                "scripts/setup_winrm.bat"
+            ]
+        }
+    ],
+    "variables": {
+        "cpus": "2",
+        "memory_size": "2048",
+        "disk_size": "65535",
+        "headless": "true",
+        "iso_url": "",
+        "iso_checksum_type": "sha256",
+        "iso_checksum": "",
+        "autounattend": "answer_files/xp/WINNT.SIF"
+    }
+}
