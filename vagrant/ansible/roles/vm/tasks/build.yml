@@ -1,9 +1,9 @@
 ---
-# - name: build vm with Packer
-#   command: "packer build -var-file {{ item.packer_varfile }} {{ item.packer_template }}"
-#   args:
-#     chdir: "/data/templates"
-#   become: false
+- name: build vm with Packer
+  command: "packer build -var-file {{ item.packer_varfile }} {{ item.packer_template }}"
+  args:
+    chdir: "/data/templates"
+  become: false
 
 - name: get qcow name
   find:
