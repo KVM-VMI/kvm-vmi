@@ -39,14 +39,28 @@
     chdir: "{{ root_dir }}/kvm"
   become: false
 
-- name: enable KVMI
-  command: ./scripts/config --enable KVMI_MEM_GUEST
+# KVM_INTROSPECTION depends on REMOTE_MAPPING,
+# which depends on KSM being disabled
+- name: disable KSM
+  command: ./scripts/config --disable KSM
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+
+- name: enable REMOTE_MAPPING
+  command: ./scripts/config --enable REMOTE_MAPPING
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+
+- name: enable KVM_INTROSPECTION
+  command: ./scripts/config --enable KVM_INTROSPECTION
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
 
 - name: append -kvmi to kernel version string
-  lineinfile: 
+  lineinfile:
     dest: "{{ root_dir }}/kvm/Makefile"
     regexp: '^EXTRAVERSION ='
     line: 'EXTRAVERSION = -kvmi'
