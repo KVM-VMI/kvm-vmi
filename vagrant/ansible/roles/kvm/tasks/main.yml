@@ -21,6 +21,22 @@
     chdir: "{{ root_dir }}/kvm"
   become: false
 
+# disable trusted keys debian/certs/debian-uefi-certs.pem
+# as they are only available in the kernel sources, and we don't
+# care about SecureBoot
+- name: disable SYSTEM_TRUSTED_KEYS
+  command: ./scripts/config --disable SYSTEM_TRUSTED_KEYS
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+
+- name: disable MODULE_SIG_KEY
+  command: ./scripts/config --disable MODULE_SIG_KEY
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+
+# configure KVM
 - name: enable KVM
   command: ./scripts/config --enable KVM
   args:
