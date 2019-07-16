@@ -18,7 +18,6 @@ Vagrant.configure(2) do |config|
         libvirt.nic_model_type = "virtio"
         libvirt.driver = "kvm"
         libvirt.nested = true
-        libvirt.machine_virtual_size = 40
     end
 
     config.vm.provision "ansible" do |ansible|

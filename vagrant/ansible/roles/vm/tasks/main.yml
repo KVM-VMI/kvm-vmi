@@ -1,4 +1,16 @@
 ---
+- name: create /data
+  file:
+    path: /data
+    state: directory
+
+- name: force ownership of /data to vagrant
+  file:
+    path: /data
+    state: directory
+    owner: vagrant
+    group: vagrant
+
 - name: setup libvirt
   include: libvirt.yml
 

@@ -19,5 +19,4 @@
         - vim
 
   roles:
-    - partition
     - kvm
