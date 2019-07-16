@@ -10,7 +10,9 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Install](#install)
+    - [1 - KVMI](#1---kvmi)
+    - [2 - Nitro (Legacy)](#2---nitro-legacy)
+- [Setup](#setup)
     - [Vagrant](#vagrant-recommended)
     - [Manually](#manually)
 - [References](#references)
@@ -26,7 +28,7 @@ to monitor a running virtual machine without a guest agent.
 This project is divided into 4 components:
 - `kvm`: linux kernel with _vmi_ patches for KVM
 - `qemu`: patched to allow introspection
-- `nitro`: userland library which receives events, introspects the virtual
+- `nitro` (legacy): userland library which receives events, introspects the virtual
   machine state, and fills the semantic gap
 - `libvmi`: virtual machine instrospection library with unified API
   across `Xen` and `KVM`
@@ -34,7 +36,27 @@ This project is divided into 4 components:
 At the moment, 2 versions of VMI patches are available for `QEMU/KVM`
 in this repository:
 
-### 1 - Nitro (_legacy_)
+### 1 - KVMI
+
+A complete set of VMI APIs proposed by [BitDefender](https://www.google.com/search?num=30&ei=fgH_W7mlKM39kwWpm7bQDQ&q=%22Guest+introspection%22+kvm+mailing+list&oq=%22Guest+introspection%22+kvm+mailing+list&gs_l=psy-ab.3...7670.8338..8580...0.0..0.187.187.0j1......0....1..gws-wiz.JoHSDKkCu_0)
+
+This is where the current effort is focused on today.
+
+[API overview](https://github.com/KVM-VMI/kvm/blob/528c2680bec46e9603126eec6506bc5da71d297b/tools/kvm/kvmi/include/kvmi/libkvmi.h)
+
+Corresponding submodule branches:
+- `kvm`: `kvmi`
+- `qemu`: `kvmi`
+- `nitro`: `kvmi`
+- `libvmi`: `kvmi`
+
+~~~
+git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive --branch kvmi
+~~~
+
+Note: the `nitro` is a legacy component and not part of `kvmi`.
+
+### 2 - Nitro (_legacy_)
 
 `KVM-VMI` started as an improved fork of [Nitro](http://nitro.pfoh.net/), a set of VMI patches
 for `QEMU/KVM` to intercept system calls and rebuild the execution context.
@@ -49,6 +71,10 @@ Corresponding submodule branches:
 - `libvmi`: `nitro`
 
 (Sorry for the confusing branches naming...)
+
+~~~
+git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive
+~~~
 
 Details:
 
@@ -112,19 +138,7 @@ Resulting in this output:
 ~~~
 
 
-### 2 - KVMI
-
-A complete set of VMI APIs proposed by [BitDefender](https://www.google.com/search?num=30&ei=fgH_W7mlKM39kwWpm7bQDQ&q=%22Guest+introspection%22+kvm+mailing+list&oq=%22Guest+introspection%22+kvm+mailing+list&gs_l=psy-ab.3...7670.8338..8580...0.0..0.187.187.0j1......0....1..gws-wiz.JoHSDKkCu_0)
-
-This is where the current effort is focused on.
-
-Corresponding submodule branches:
-- `kvm`: `kvmi`
-- `qemu`: `kvmi`
-- `nitro`: `kvmi`
-- `libvmi`: `kvmi`
-
-## Install
+## Setup
 
 ### Vagrant (recommended)
 
@@ -132,17 +146,12 @@ Go to the `vagrant/` sub-directory to install a development environment for `kvm
 
 ### Manually
 
-Unfortunately, it is not possible to compile the KVM modules as an `out-of-tree`
-build. You will have to compile and install a new kernel along with the new modules.
-
-This is only valid for the `Nitro` set of patches:
-
-- Start by compiling a new kernel in `kvm`
-- Reboot
-- Make sure you loaded the modified kernel module (`make reload`)
-- Go to `nitro` to setup the userland component and intercept syscalls
-- Compile the modified version of `qemu` if you intend to analyze syscall events
-
+1. Compile and install a new kernel in `kvm`
+2. Reboot
+3. Build the modified QEMU in `qemu`
+4. Build `libvmi`
+5. If using the Nitro patches, go to `nitro` directory and follow the
+   instructions
 
 ## References
 
