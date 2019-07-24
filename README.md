@@ -13,8 +13,6 @@
     - [1 - KVMI](#1---kvmi)
     - [2 - Nitro (Legacy)](#2---nitro-legacy)
 - [Setup](#setup)
-    - [Vagrant](#vagrant-recommended)
-    - [Manually](#manually)
 - [References](#references)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
@@ -44,114 +42,29 @@ This is where the current effort is focused on today.
 
 [API overview](https://github.com/KVM-VMI/kvm/blob/528c2680bec46e9603126eec6506bc5da71d297b/tools/kvm/kvmi/include/kvmi/libkvmi.h)
 
+~~~
+git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive --branch kvmi
+~~~
+
 Corresponding submodule branches:
 - `kvm`: `kvmi`
 - `qemu`: `kvmi`
 - `nitro`: `kvmi`
 - `libvmi`: `kvmi`
 
-~~~
-git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive --branch kvmi
-~~~
-
 Note: the `nitro` is a legacy component and not part of `kvmi`.
 
 ### 2 - Nitro (_legacy_)
 
-`KVM-VMI` started as an improved fork of [Nitro](http://nitro.pfoh.net/), a set of VMI patches
-for `QEMU/KVM` to intercept system calls and rebuild the execution context.
+This version of KVM-VMI has been deprecated.
 
-`Nitro` is the name of the userland component that will receive and interpret the syscalls,
-as well as the name of the set of patches for `QEMU/KVM`.
-
-Corresponding submodule branches:
-- `kvm`: `vmi`
-- `qemu`: `vmi`
-- `nitro`: `master`
-- `libvmi`: `nitro`
-
-(Sorry for the confusing branches naming...)
-
-~~~
-git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive
-~~~
-
-Details:
-
-Once the traps are set, the VM will be in a "_paused_" state and go back to the
-hypervisor on every system call.
-In details, the traps are working directly at the instruction level, on `syscall`
-and `sysret`, which means that you can also stop the VM when the system call
-returns from the kernel.
-
-When the VM is "_paused_", some introspection can be done by reading or writing
-into the memory. Therefore it is possible to reconstruct VM state and understand
-the system call `context` (process name, system call name).
-
-Furthermore, we are able to decode the system call
-parameters and display what file is being created (in the case of `NtCreateFile`,
-for `Windows` only).
-
-A hooking API allows you to define `callbacks` on top of the system calls you intercept:
-
-[NtCreateFile](https://msdn.microsoft.com/en-us/library/bb432380.aspx)
-~~~Python
-def enter_NtCreateFile(syscall):
-    DesiredAccess = syscall.args[1]
-    object_attributes = syscall.args[2]
-    obj = ObjectAttributes(object_attributes, syscall.process)
-    buffer = obj.ObjectName.Buffer
-    access = FileAccessMask(DesiredAccess)
-    syscall.hook = {
-        'object_name': buffer,
-        'access': access.rights
-    }
-~~~
-
-Resulting in this output:
-
-~~~JSON
-[
-    {
-        "event": {
-            "cr3": "0x76f9e000",
-            "vcpu": 0,
-            "rax": "0x52",
-            "direction": "enter",
-            "type": "syscall"
-        },
-        "name": "NtCreateFile",
-        "process": {
-            "pid": 2344,
-            "name": "powershell.exe"
-        },
-        "hook": {
-            "object_name": "\\??\\C:\\Program Files\\Windows Sidebar\\Gadgets\\PicturePuzzle.Gadget\\en-US\\gadget.xml",
-            "access": [
-                "SYNCHRONIZE",
-                "GENERIC_READ",
-                "FILE_READ_ATTRIBUTES"
-            ]
-        }
-    },
-]
-~~~
-
+For details regarding how it works, see the [Wiki page](https://github.com/KVM-VMI/kvm-vmi/wiki/Nitro-details-(legacy))
 
 ## Setup
 
-### Vagrant (recommended)
+Configuration and install instructions are detailed on the following Wiki page:
 
-Go to the `vagrant/` sub-directory to install a development environment for `kvm-vmi`
-
-### Manually
-
-1. Compile and install a new kernel in `kvm`
-2. Reboot
-3. Build the modified QEMU in `qemu`
-4. Build `libvmi`
-5. If using the Nitro patches, go to `nitro` directory and follow the
-   instructions
+[KVM-VMI setup](https://github.com/KVM-VMI/kvm-vmi/wiki/KVM-VMI-setup)
 
 ## References
 
