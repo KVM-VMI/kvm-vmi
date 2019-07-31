@@ -1,26 +1,40 @@
 Vagrant.configure(2) do |config|
-    config.vm.box = "debian/stretch64"
+    config.vm.box = "generic/debian10"
     config.vm.define "kvmi"
 
     config.vm.synced_folder ".", "/vagrant", disabled: true
 
     root_dir = '/vagrant'
-    config.vm.synced_folder "..", root_dir,
-        :nfs => true,
-        :nfs_version => 4,
-        :nfs_udp => false
+    # NFS only works with libvirt
+    config.vm.synced_folder "..", root_dir
 
-    config.vm.provider :libvirt do |libvirt|
+    config.vm.provider "libvirt" do |libvirt, override|
         libvirt.cpus = 4
         libvirt.memory = 2048
         libvirt.nic_model_type = "virtio"
         libvirt.driver = "kvm"
         libvirt.nested = true
-        libvirt.machine_virtual_size = 40
+
+        # use NFS
+        override.vm.synced_folder "..", root_dir,
+            :nfs => true,
+            :nfs_version => 4,
+            :nfs_udp => false,
+            # speedup NFS with custom options
+            :linux__nfs_options => ["rw", "no_subtree_check", "all_squash", "async"]
+    end
+
+    config.vm.provider "virtualbox" do |vbox, override|
+        vbox.cpus = 4
+        vbox.memory = 2048
+        vbox.linked_clone = true
+
+        # virtualbox needs specific config for NFS, use vboxsf instead
+        override.vm.synced_folder "..", root_dir,
+            :type => "virtualbox"
     end
 
     config.vm.provision "ansible" do |ansible|
-        ansible.compatibility_mode = '2.0'
         # debug
         # ansible.verbose =  '-vvv'
         # ansible.start_at_task =  ''
@@ -30,10 +44,9 @@ Vagrant.configure(2) do |config|
         }
     end
 
-    config.vm.provision :reload
+    config.vm.provision "reload"
 
     config.vm.provision "ansible" do |ansible|
-        ansible.compatibility_mode = '2.0'
         # debug
         # ansible.verbose =  '-vvv'
         # ansible.start_at_task =  ''

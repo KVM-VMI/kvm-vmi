@@ -8,41 +8,45 @@ Here you will find a `Vagrantfile` to build a development environment for `kvm-v
 
 - `vagrant`
 - [`vagrant-libvirt`](https://github.com/vagrant-libvirt/vagrant-libvirt) plugin
+  (Optional: required to use `KVM`)
+- [`vagrant-vbguest`](https://github.com/dotless-de/vagrant-vbguest) plugin
+  (Optional: required to use `VirtualBox`
 - [`vagrant-reload`](https://github.com/aidanns/vagrant-reload) plugin
 - `ansible >= 2.2.1.0`
 
 # Setup
 
-## Vagrantfile
-Tune the Vagrantfile configuration to your needs.
+Example setup on Debian Buster
+~~~
+$ sudo apt-get install -y vagrant ruby-dev
+$ vagrant plugin install vagrant-reload
+~~~
 
-Default hardware config:
-- `libvirt.memory = 3G` (at least `2G` is required to run a nested VM)
-- `libvirt.cpus = 2`
-Other options:
-- use `NFS` to mount `kvm-vmi` as a network shared folder (see below)
+## libvirt provider
+
+~~~
+$ vagrant plugin install vagrant-libvirt
+~~~
+
+## virtualbox provider
+
+~~~
+$ vagrant plugin install vagrant-vbguest
+~~~
+
+## Vagrantfile
+
+Tune the Vagrantfile configuration to your needs.
 
 ## Build the environment
 
-- Run `vagrant up --provider=libvirt`
-- ssh into the box with `vagrant ssh`
-- Start the test vm with `virsh start nitro_win7x64` (or use `virt-manager` connection)
-- go to `/(data|vagrant)/kvm-vmi/nitro` and you can play with **Nitro** !
+- Run `vagrant up --provider=libvirt` or `vagrant up --provider=virtualbox`
+- Once the provisioning via `Ansible` is done, ssh into the box with `vagrant ssh`
 
 
-## Optional: NFS
+# Troubleshooting
 
-_This is option is enabled by default in the `Vagrantfile`._
-
-You can make use of Vagrant's `NFS` to mount the root of the repo in the vagrant box.
-This gives you several advantages:
-- the second partition where the kernel was cloned and compiled is not needed (30G)
-- you can edit your files directly on your host, with your favorite IDE
-
-To enable it, replace the value of `use_nfs` by `true` in the `Vagrantfile`:
-~~~
-use_nfs = true
-~~~
+## NFS
 
 You need to open your firewall for `NFS`. The following commands should make it work for a `Vagrant` box
 to access your host `NFS` server:
@@ -54,19 +58,7 @@ firewall-cmd --permanent --add-service=mountd
 firewall-cmd --reload
 ~~~
 
-
-# Produce Debian packages
-
-You can produce debian packages for some components of Nitro by setting `gen_deb` to `true` in the `Vagrantfile`.
-You have to use `NFS`.
-
-~~~
-gen_deb = true
-~~~
-
-*Note: this option is not maintained anymore*
-
-# Virt-manager
+# Note: Virt-manager
 
 You can use `virt-manager` to view and manage VMs in the vagrant box.
 

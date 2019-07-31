@@ -1,9 +1,23 @@
 ---
+- name: create /data
+  file:
+    path: /data
+    state: directory
+
+- name: force ownership of /data to vagrant
+  file:
+    path: /data
+    state: directory
+    owner: vagrant
+    group: vagrant
+
 - name: setup libvirt
   include: libvirt.yml
 
-- name: setup packer
-  include: packer.yml
+- name: install Packer
+  apt:
+    name: packer
+    state: present
 
 - name: upload templates
   synchronize:
