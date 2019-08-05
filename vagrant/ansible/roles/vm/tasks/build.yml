@@ -20,7 +20,6 @@
 
 - name: define vm in libvirt
   virt:
-    name: "{{ item.name }}"
     command: define
     xml: "{{ lookup('template', 'domain-template.xml.j2')}}"
     uri: 'qemu:///system'

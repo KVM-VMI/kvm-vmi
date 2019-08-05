@@ -11,9 +11,10 @@
     - libglib2.0-dev
     - dh-autoreconf
     - libspice-server-dev
+    - libseccomp-dev
 
 - name: configure QEMU
-  command: ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr/local
+  command: ./configure --target-list=x86_64-softmmu --enable-spice --enable-seccomp --prefix=/usr/local
   args:
     chdir: "{{ root_dir }}/qemu"
   become: false
