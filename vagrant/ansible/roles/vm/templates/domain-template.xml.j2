@@ -37,7 +37,7 @@
     <suspend-to-disk enabled='no'/>
   </pm>
   <devices>
-    <emulator>/usr/bin/kvm</emulator>
+    <emulator>/usr/local/bin/qemu-system-x86_64</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2'/>
             <source file='/data/vms/{{ qemu_output.files[0].path | basename }}'/>
@@ -63,10 +63,6 @@
     <controller type='ide' index='0'>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x1'/>
     </controller>
-    <interface type='network'>
-      <source network='default'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
-    </interface>
     <serial type='pty'>
       <target port='0'/>
     </serial>
