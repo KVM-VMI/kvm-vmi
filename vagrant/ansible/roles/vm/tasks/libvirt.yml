@@ -8,10 +8,10 @@
     - python3-libvirt
 
 # kvm group to access /dev/kvm, libvirt-qemu for rw on memory access socket
-- name: add user to kvm and libvirt-qemu groups
+- name: add user to kvm, libvirt-qemu, and libvirt groups
   user:
     name: vagrant
-    groups: kvm,libvirt-qemu
+    groups: kvm,libvirt-qemu,libvirt
     append: yes
 
 - name: include local config for libvirt-qemu apparmor profile
