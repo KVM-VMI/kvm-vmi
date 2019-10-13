@@ -4,7 +4,7 @@
   <vcpu placement='static'>2</vcpu>
   <qemu:commandline>
       <qemu:arg value='-chardev'/>
-      <qemu:arg value='socket,path=/tmp/introspector,id=chardev0,reconnect=10'/>
+      <qemu:arg value='socket,path=/tmp/introspector,id=chardev0,reconnect=3'/>
       <qemu:arg value='-object'/>
       <qemu:arg value='secret,id=key0,data=some'/>
       <qemu:arg value='-object'/>
