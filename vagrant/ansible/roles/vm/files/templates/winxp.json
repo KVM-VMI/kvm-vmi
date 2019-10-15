@@ -7,5 +7,7 @@
     "disk_size": "65536",
     "iso_url": "https://www.dropbox.com/s/5qoxbibk29z6bv9/en_windows_xp_professional_sp3_Nov_2013_Incl_SATA_Drivers.iso?dl=1",
     "iso_checksum": "3855a4049663edb2c7b7b11b448a86e01274a4d1a9bb49392420bdb61f830a0e",
-    "iso_checksum_type": "sha256"
+    "iso_checksum_type": "sha256",
+    "winrm_username": "Administrator",
+    "winrm_password": "vagrant"
 }

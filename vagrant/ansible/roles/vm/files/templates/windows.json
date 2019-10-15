@@ -14,11 +14,11 @@
             "skip_compaction": "false",
             "boot_wait": "2m",
             "communicator": "winrm",
-            "winrm_username": "Administrator",
-            "winrm_password": "vagrant",
+            "winrm_username": "{{user `winrm_username`}}",
+            "winrm_password": "{{user `winrm_password`}}",
             "winrm_timeout": "8h",
             "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-            "disk_size": 20000,
+            "disk_size": 50000,
             "disk_interface": "ide",
             "net_device": "rtl8139",
             "http_directory": "http",
@@ -29,7 +29,9 @@
                 "{{user `autounattend`}}",
                 "scripts/wget-win32-static.zip",
                 "scripts/extract_wget_zip.vbs",
-                "scripts/setup_winrm.bat"
+                "scripts/setup_winrm.bat",
+                "scripts/fixnetwork.ps1",
+                "scripts/setup_winrm_public.bat"
             ]
         }
     ],
@@ -41,6 +43,8 @@
         "iso_url": "",
         "iso_checksum_type": "sha256",
         "iso_checksum": "",
-        "autounattend": "answer_files/xp/WINNT.SIF"
+        "autounattend": "answer_files/xp/WINNT.SIF",
+        "winrm_username": "vagrant",
+        "winrm_password": "vagrant"
     }
 }
