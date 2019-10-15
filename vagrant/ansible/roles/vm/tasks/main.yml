@@ -37,7 +37,7 @@
   with_items:
     - { name: 'winxp', ram: '512', packer_template: 'windows.json', packer_varfile: 'winxp.json' }
     - { name: 'win7', ram: '1024', packer_template: 'windows.json', packer_varfile: 'win7.json' }
-    - { name: 'ubuntu', ram: '1024', packer_template: 'ubuntu.json', packer_varfile: 'ubuntu-16.04-server-i386.json' }
+      # - { name: 'ubuntu', ram: '1024', packer_template: 'ubuntu.json', packer_varfile: 'ubuntu-16.04-server-i386.json' }
 
 - name: refresh libvirt pool
   command: virsh -c qemu:///system pool-refresh default
