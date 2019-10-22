@@ -18,6 +18,13 @@
     path: /data/templates/output-qemu
     state: absent
 
+# we don't need to keep the cache for another build
+# and we need to be savy on disk space here
+- name: remove packer cache
+  file:
+    path: /data/templates/packer_cache
+    state: absent
+
 - name: define vm in libvirt
   virt:
     name: "{{ item.name }}"
