@@ -13,6 +13,7 @@
     - [1 - KVMI](#1---kvmi)
     - [2 - Nitro (Legacy)](#2---nitro-legacy)
 - [Setup](#setup)
+- [Presentations](#presentations)
 - [References](#references)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
@@ -20,8 +21,18 @@
 
 ## Overview
 
-This project adds virtual machine introspection to the KVM hypervisor
-to monitor a running virtual machine without a guest agent.
+This project adds virtual machine introspection to the KVM hypervisor.
+
+_Virtual Machine Introspection_ is a technology that aims to understand the guest's execution context, solely based on the VM's hardware state, for various purposes:
+
+- Debugging
+- Malware Analysis
+- Live-Memory Analysis
+- OS Hardening
+- Monitoring
+- Fuzzing
+
+See the [presentations](#presentations) section for more information.
 
 This project is divided into 4 components:
 - `kvm`: linux kernel with _vmi_ patches for KVM
@@ -65,6 +76,11 @@ For details regarding how it works, see the [Wiki page](https://github.com/KVM-V
 Configuration and install instructions are detailed on the following Wiki page:
 
 [KVM-VMI setup](https://github.com/KVM-VMI/kvm-vmi/wiki/KVM-VMI-setup)
+
+## Presentations
+
+- [KVM Forum 2019: Advanced VMI on KVM - A Progress Report](https://static.sched.com/hosted_files/kvmforum2019/f6/Advanced%20VMI%20on%20KVM%3A%20A%20progress%20Report.pdf)
+- [Hack.lu 2019: Leveraging KVM as a Debugging Platform](https://drive.google.com/file/d/1nFoCM62BWKSz2TKhNkrOjVwD8gP51VGK/view?usp=sharing)
 
 ## References
 
