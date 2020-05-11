@@ -1,0 +1,49 @@
+---
+dist: bionic
+language: minimal
+git:
+  depth: 1
+addons:
+  apt:
+    packages:
+      - bridge-utils
+      - dnsmasq-base
+      - ebtables
+      - libvirt-bin
+      - libvirt-dev
+      - qemu-kvm
+      - qemu-utils
+      - ruby-dev
+      - ansible
+      - nfs-kernel-server
+      - firewalld
+
+# Cache the big Vagrant boxes
+cache:
+  directories:
+  - /home/travis/.vagrant.d/boxes
+
+install:
+  - wget -nv https://releases.hashicorp.com/vagrant/2.2.9/vagrant_2.2.9_x86_64.deb -O vagrant.deb
+  - sudo dpkg -i vagrant.deb
+
+  - vagrant --version
+
+  - vagrant plugin install vagrant-libvirt
+  - vagrant plugin install vagrant-reload
+
+  - sudo firewall-cmd --permanent --add-service=nfs
+  - sudo firewall-cmd --permanent --add-service=rpc-bind
+  - sudo firewall-cmd --permanent --add-service=mountd
+  - sudo firewall-cmd --reload
+  - sudo firewall-cmd --list-all
+
+script:
+  - pushd vagrant
+  # we are not in libvirt group, so use sudo
+  # also editing NFS exports require root
+  - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+  - VAGRANT_LOG=debug sudo -E vagrant up --provider=libvirt
+  - sudo cat /etc/exports
+  - sudo iptables -L
+  - kill %1
