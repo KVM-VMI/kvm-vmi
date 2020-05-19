@@ -45,7 +45,7 @@ script:
   # we are not in libvirt group, so use sudo
   # also editing NFS exports require root
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-  - VAGRANT_LOG=debug sudo -E vagrant up --provider=libvirt
+  - sudo -E vagrant up --provider=libvirt
   - sudo cat /etc/exports
   - sudo iptables -L
   - kill %1
