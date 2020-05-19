@@ -40,6 +40,8 @@ install:
 
 script:
   - pushd vagrant
+  # use rsync since NFS doesn't work
+  - sed -i -E "s:^(\s*)linux_rsync_type =.*:\1linux_rsync_type = 'rsync':" Vagrantfile
   # we are not in libvirt group, so use sudo
   # also editing NFS exports require root
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
