@@ -15,8 +15,6 @@ addons:
       - qemu-utils
       - ruby-dev
       - ansible
-      - nfs-kernel-server
-      - firewalld
 
 # Cache the big Vagrant boxes
 cache:
@@ -32,12 +30,6 @@ install:
   - vagrant plugin install vagrant-libvirt
   - vagrant plugin install vagrant-reload
 
-  - sudo firewall-cmd --permanent --add-service=nfs
-  - sudo firewall-cmd --permanent --add-service=rpc-bind
-  - sudo firewall-cmd --permanent --add-service=mountd
-  - sudo firewall-cmd --reload
-  - sudo firewall-cmd --list-all
-
 script:
   - pushd vagrant
   # use rsync since NFS doesn't work
@@ -46,6 +38,4 @@ script:
   # also editing NFS exports require root
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
   - sudo -E vagrant up --provider=libvirt
-  - sudo cat /etc/exports
-  - sudo iptables -L
   - kill %1
