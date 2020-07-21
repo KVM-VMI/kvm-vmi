@@ -1,9 +1,8 @@
 # kvm-vmi
 
-[![Join the chat at https://gitter.im/kvm-vmi/Lobby](https://badges.gitter.im/trailofbits/algo.svg)](https://gitter.im/kvm-vmi/Lobby)
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-
-[![Slack](https://maxcdn.icons8.com/Color/PNG/48/Mobile/slack-48.png)](https://kvm-vmi.slack.com)
+[![Slack](https://img.shields.io/badge/Slack-KVM--VMI-important)](https://kvm-vmi.slack.com)
+![Slack_users](https://kvm-vmi.herokuapp.com/badge.svg)
+[![Join](https://img.shields.io/badge/Slack-Join%20KVM--VMI-blue)](https://kvm-vmi.herokuapp.com)
 
 > KVM-based Virtual Machine Instrospection.
 
