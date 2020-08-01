@@ -60,7 +60,7 @@ Corresponding submodule branches:
 - `kvm`: `kvmi`
 - `qemu`: `kvmi`
 - `nitro`: `kvmi`
-- `libvmi`: `kvmi`
+- `libvmi`: `master`
 
 Note: the `nitro` is a legacy component and not part of `kvmi`.
 
