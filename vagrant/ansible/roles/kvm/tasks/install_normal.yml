@@ -1,0 +1,26 @@
+---
+- name: build kernel
+  command: "make -j{{ ansible_processor_vcpus }} bzImage"
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+
+- name: build modules
+  command: "make -j{{ ansible_processor_vcpus }} modules"
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+
+- name: install modules
+  command: "make modules_install"
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  environment:
+    # strip modules to reduces initramfs size by x10
+    # otherwise /boot will be full
+    INSTALL_MOD_STRIP: "1"
+
+- name: install kernel
+  command: "make install"
+  args:
+    chdir: "{{ root_dir }}/kvm"

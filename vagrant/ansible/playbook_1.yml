@@ -1,6 +1,9 @@
 ---
 - hosts: all
   become: true
+  vars:
+    # install KVM using make deb-pkg
+    kvm_install_package: false
   pre_tasks:
     - name: check for virtualization extensions in cpuinfo
       shell: egrep '(vmx|svm)' /proc/cpuinfo
