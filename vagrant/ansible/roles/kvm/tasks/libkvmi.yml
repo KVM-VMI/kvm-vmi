@@ -1,22 +1,37 @@
 ---
+- name: clone libkvmi repo
+  git:
+    repo: 'https://github.com/bitdefender/libkvmi'
+    dest: /home/vagrant/libkvmi
+    version: kvmi-v6
+  become: false
+
 - name: install libkvmi build deps
   package:
     name: "{{ item }}"
   with_items:
     - uuid-dev
 
-- name: build libkvmi
+- name: bootstrap libkvmi
+  command: ./bootstrap
+  args:
+    chdir: /home/vagrant/libkvmi
+  become: false
+
+- name: configure libkvmi
+  command: ./configure
+  args:
+    chdir: /home/vagrant/libkvmi
+  become: false
+
+- name: make libkvmi
   command: make
   args:
-    chdir: "{{ root_dir }}/kvm/tools/kvm/kvmi"
+    chdir: /home/vagrant/libkvmi
   become: false
 
 - name: install libkvmi
   command: make install
   args:
-    chdir: "{{ root_dir }}/kvm/tools/kvm/kvmi"
+    chdir: /home/vagrant/libkvmi
 
-- name: install kvmi-test
-  command: cp kvmi-test /usr/local/bin
-  args:
-    chdir: "{{ root_dir }}/kvm/tools/kvm/kvmi"
