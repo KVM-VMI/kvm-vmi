@@ -1,0 +1,28 @@
+---
+- name: build kernel and make debian package
+  command: "make -j{{ ansible_processor_vcpus }} deb-pkg"
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+  environment:
+    # strip modules to reduces initramfs size by x10
+    # otherwise /boot will be full
+    INSTALL_MOD_STRIP: "1"
+
+- name: find generated debian packages
+  find:
+    paths: "{{ root_dir }}"
+    patterns: "*.deb"
+  register: deb_list
+  become: false
+
+- name: install kernel debian packages
+  apt:
+    deb: "{{ item.path }}"
+    state: present
+  with_items:
+    "{{ deb_list.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+  become: true
+
