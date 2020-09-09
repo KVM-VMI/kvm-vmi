@@ -8,3 +8,6 @@
 
 # python
 /venv
+
+# docs build
+/docs/_build
