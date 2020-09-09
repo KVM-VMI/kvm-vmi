@@ -5,3 +5,6 @@
 /*.changes
 /*.orig.tar.gz
 /*.deb
+
+# python
+/venv
