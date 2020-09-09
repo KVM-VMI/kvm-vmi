@@ -24,11 +24,16 @@ jobs:
         with:
           python-version: 3.6
 
-      - name: Install dependencies
+      - name: Install dependencies 📦
         run: pip install -r requirements.txt
 
       - name: Build documentation 🔨
         run: make html
+
+      # add .nojekyll to the root so that github won't 404 on content added to dirs
+      # that start with an underscore (_), such as our "_content" dir..
+      - name: Add nojekyll for Github Pages
+        run: touch _build/html/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
