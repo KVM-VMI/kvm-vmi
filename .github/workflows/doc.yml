@@ -13,7 +13,7 @@ defaults:
     working-directory: docs
 
 jobs:
-  doc:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +29,12 @@ jobs:
 
       - name: Build documentation 🔨
         run: make html
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          # note: FOLDER doesn't care about the job's working directory
+          FOLDER: docs/_build/html
+          SINGLE_COMMIT: true
