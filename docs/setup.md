@@ -1,22 +1,6 @@
-This Wiki page will help you setup KVM-VMI.
+# Setup
 
-# Overview
-
-To remove any ambiguity with the naming, you are going setup the `KVMi` (KVM introspection subsystem) version of KVM-VMI.
-
-This repository contains 2 different/incompatible VMI patches for KVM:
-- `Nitro`
-- `KVMi`
-
-KVM-VMI started with VMI patches from a project called [`Nitro`](https://www.sec.in.tum.de/assets/staff/pfoh/PfohSchneider2011a.pdf).
-
-`Nitro` is not maintained anymore, and a new set of patches (with a completely different API) has been developed by BitDefender and proposed on the official KVM mailing list.
-This new version is named `KVMi`.
-The review and integration of the patches is still ongoing at this point.
-
-Note: A submodule named `nitro` is still versioned in [KVM-VMI](https://github.com/KVM-VMI/kvm-vmi/tree/kvmi), but it is not used.
-
-# Cloning the sources
+## Cloning the sources
 
 First let's make sure that we have the repository, on the right branches.
 
@@ -38,9 +22,15 @@ This setup will help you configure 3 components:
 - `QEMU`
 - `LibVMI`
 
-# Setup Option 1: Vagrant - Virtual Machine based setup
+## Option 1: Vagrant - Virtual Machine based setup
 
-[Vagrant](https://www.vagrantup.com/) is tool that helps create reproductible dev environment.
+This guide will help you setup a `KVM-VMI` development environment,
+contained in a virtual machine, on KVM.
+
+![vagrant_setup](images/vagrant-kvm-vmi.png)
+
+
+[Vagrant](https://www.vagrantup.com/) is a tool that helps create reproductible dev environment.
 A Vagrant setup is available for KVM-VMI, and it will configure and install all the components
 as well as a test virtual machine for you.
 
@@ -48,9 +38,13 @@ Go to `kvm-vmi/vagrant` and follow the instructions there.
 
 Otherwise, keep reading
 
-# Setup Option 2: Bare-metal setup
+## Option 2: Bare-metal setup
 
-## KVM
+This guide will help you setup `KVM-VMI` directly on your system.
+
+![bare_setup](images/bare-metal.png)
+
+### KVM
 
 You will have to compile and install an entire kernel.
 It is not possible to compile the KVM modules using an "out-of-tree" build.
@@ -90,7 +84,7 @@ Run `uname -a`
 You should be on kernel `5.0.0-rc7` (`kvmi v6`)
 
 
-## QEMU
+### QEMU
 
 Dependencies
 ~~~
@@ -107,11 +101,12 @@ $ sudo make install
 
 Your modified QEMU has been installed at `/usr/local/bin/qemu-system-x86_64`
 
-Remember this path.
+Note: You might need to modify your **Apparmor** configuration to allow its execution.
 
-## Preparing a domain
+### Preparing a domain
 
-Choose a Virtual Machine to be inspected, import it in `libvirt`, and modify the XML configuration as the following.
+The Virtual Machine should be available in `libvirt`. 
+Modify the XML configuration as the following.
 
 ~~~XML
 <domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
@@ -134,10 +129,12 @@ Note that you need to **add** `xmlns:qemu='http://libvirt.org/schemas/domain/qem
 
 Validate the new configuration and start the domain.
 
-## libkvmi
+### libkvmi
 
 [`libkvmi`](https://github.com/bitdefender/libkvmi) is a wrapper over the low-level KVMi API (ioctls)
 You should use this library to build your applications.
+
+![libkvmi](images/libkvmi.png)
 
 ~~~
 $ git clone https://github.com/bitdefender/libkvmi --branch kvmi-v6
@@ -147,7 +144,7 @@ $ make
 $ sudo make install
 ~~~
 
-## Libkvmi examples
+#### Libkvmi examples
 
 Run the example provided by libkvmi: `hookguest-libkvmi`
 ~~~
@@ -157,7 +154,9 @@ $ ./hookguest-libkvmi /tmp/introspector
 
 Give it at least `10` seconds (waiting on QEMU to connect to the socket `/tmp/introspector`) and you should see some output ! :tada: 
 
-## LibVMI
+### LibVMI
+
+[LibVMI](https://github.com/libvmi/libvmi) is a VMI library providing a unified access on `Xen` and `KVM`, as well as a semantic layer.
 
 Dependencies
 ~~~
@@ -169,9 +168,47 @@ Build and install
 $ cd kvm-vmi/libvmi
 $ mkdir build
 $ cd build
-$ cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DENABLE_KVM=ON -DENABLE_XEN=OFF -DENABLE_BAREFLANK=OFF -DVMI_DEBUG='(VMI_DEBUG_KVM | VMI_DEBUG_DRIVER)'
+$ cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DENABLE_KVM=ON -DENABLE_XEN=OFF -DENABLE_BAREFLANK=OFF
 $ make -j2
 $ sudo make install
 ~~~
+
+#### JSON profiles
+
+TO use all the features of LibVMI, you need a Rekall/Volatility profile.
+
+You can generate one like this:
+
+1. Run `./examples/vmi-win-guid` and note the `Kernel filename` and `PDB GUID` fields.
+2. Use Volatility3 to extract the JSON profile
+
+~~~
+$ git clone https://github.com/volatilityfoundation/volatility3
+$ cd volatility3
+$ virtualenv -p python3 venv
+$ source venv/bin/activate
+(venv) $ pip install -e .
+(venv) $ python volatility/framework/symbols/windows/pdbconv.py -o profile.json -p <Kernel filename> -g <PDB GUID>
+~~~
+
+#### Debug output
+
+The debug output can be configured via `CMake`.
+The constants should be used from `libvmi/debug.h`
+
+~~~
+cd build 
+cmake .. -DVMI_DEBUG='(VMI_DEBUG_KVM | VMI_DEBUG_DRIVER)'
+make
+sudo make install
+~~~
+
+Toggling the debug output is controlled by an environment variable: `LIBVMI_DEBUG`
+
+~~~
+$ LIBVMI_DEBUG=1 ./build/examples/vmi-process-list -n winxp -j /etc/libvmi/winxp-profile.json
+~~~
+
+
 
 Go to [LibVMI](https://github.com/libvmi/libvmi) for the rest of the documentation.
