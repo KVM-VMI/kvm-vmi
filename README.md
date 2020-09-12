@@ -67,7 +67,7 @@ Follow the [Setup guide](https://kvm-vmi.github.io/kvm-vmi/setup.html)
 
 ## References
 
-Based on `Jonas Pfoh`'s work:
+The legacy VMI system contained in this repo (_Nitro_) is based on `Jonas Pfoh`'s work:
 - [Nitro: Hardware-based System Call Tracing for Virtual Machines](https://www.sec.in.tum.de/assets/staff/pfoh/PfohSchneider2011a.pdf)
 - [Nitro - VMI Extensions for Linux/KVM](http://nitro.pfoh.net/)
 
