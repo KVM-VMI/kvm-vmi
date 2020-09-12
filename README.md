@@ -3,20 +3,23 @@
 [![Slack](https://img.shields.io/badge/Slack-KVM--VMI-important)](https://kvm-vmi.slack.com)
 ![Slack_users](https://kvm-vmi.herokuapp.com/badge.svg)
 [![Join](https://img.shields.io/badge/Slack-Join%20KVM--VMI-blue)](https://kvm-vmi.herokuapp.com)
+[![badge_doc](https://img.shields.io/badge/-Documentation-green)](https://kvm-vmi.github.io/kvm-vmi/)
 
 > KVM-based Virtual Machine Instrospection.
 
 ## Table of Contents
 
-- [Overview](#overview)
+- [kvm-vmi](#kvm-vmi)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
     - [1 - KVMI](#1---kvmi)
-    - [2 - Nitro (Legacy)](#2---nitro-legacy)
-- [Setup](#setup)
-- [Presentations](#presentations)
-- [References](#references)
-- [Maintainers](#maintainers)
-- [Contributing](#contributing)
-- [License](#license)
+    - [2 - Nitro (_legacy_)](#2---nitro-legacy)
+  - [Installation](#installation)
+  - [Presentations](#presentations)
+  - [References](#references)
+  - [Maintainers](#maintainers)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Overview
 
@@ -70,11 +73,9 @@ This version of KVM-VMI has been deprecated.
 
 For details regarding how it works, see the [Wiki page](https://github.com/KVM-VMI/kvm-vmi/wiki/Nitro-details-(legacy))
 
-## Setup
+## Installation
 
-Configuration and install instructions are detailed on the following Wiki page:
-
-[KVM-VMI setup](https://github.com/KVM-VMI/kvm-vmi/wiki/KVM-VMI-setup)
+Follow the [Setup guide](https://kvm-vmi.github.io/kvm-vmi/setup.html)
 
 ## Presentations
 

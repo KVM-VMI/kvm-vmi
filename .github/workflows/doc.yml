@@ -1,0 +1,42 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - kvmi
+
+defaults:
+  run:
+    working-directory: docs
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+
+      - name: Install dependencies 📦
+        run: pip install -r requirements.txt
+
+      - name: Build documentation 🔨
+        run: make html
+
+      # add .nojekyll to the root so that github won't 404 on content added to dirs
+      # that start with an underscore (_), such as our "_content" dir..
+      - name: Add nojekyll for Github Pages
+        run: touch _build/html/.nojekyll
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          # note: FOLDER doesn't care about the job's working directory
+          FOLDER: docs/_build/html
+          SINGLE_COMMIT: true
