@@ -1,3 +1,6 @@
+# IDE
+/.vscode
+
 # ignore make deb-pkg generated packages
 /*.diff.gz
 /*.dsc
