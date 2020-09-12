@@ -21,10 +21,7 @@ KVM-based Virtual Machine Instrospection.
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [Overview](#overview)
-  - [1 - KVMI](#1---kvmi)
-  - [2 - Nitro (_legacy_)](#2---nitro-legacy)
 - [Installation](#installation)
 - [Presentations](#presentations)
 - [References](#references)
@@ -56,32 +53,6 @@ This project is divided into 4 components:
 
 At the moment, 2 versions of VMI patches are available for `QEMU/KVM`
 in this repository:
-
-### 1 - KVMI
-
-A complete set of VMI APIs proposed by [BitDefender](https://www.google.com/search?num=30&ei=fgH_W7mlKM39kwWpm7bQDQ&q=%22Guest+introspection%22+kvm+mailing+list&oq=%22Guest+introspection%22+kvm+mailing+list&gs_l=psy-ab.3...7670.8338..8580...0.0..0.187.187.0j1......0....1..gws-wiz.JoHSDKkCu_0)
-
-This is where the current effort is focused on today.
-
-[API overview](https://github.com/KVM-VMI/kvm/blob/528c2680bec46e9603126eec6506bc5da71d297b/tools/kvm/kvmi/include/kvmi/libkvmi.h)
-
-~~~
-git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive --branch kvmi
-~~~
-
-Corresponding submodule branches:
-- `kvm`: `kvmi`
-- `qemu`: `kvmi`
-- `nitro`: `kvmi`
-- `libvmi`: `master`
-
-Note: the `nitro` is a legacy component and not part of `kvmi`.
-
-### 2 - Nitro (_legacy_)
-
-This version of KVM-VMI has been deprecated.
-
-For details regarding how it works, see the [Wiki page](https://github.com/KVM-VMI/kvm-vmi/wiki/Nitro-details-(legacy))
 
 ## Installation
 
