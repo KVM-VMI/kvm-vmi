@@ -60,8 +60,10 @@ Follow the [Setup guide](https://kvm-vmi.github.io/kvm-vmi/setup.html)
 
 ## Presentations
 
+- [Bringing Commercial Grade Virtual Machine Introspection to KVM](https://www.linux-kvm.org/images/7/72/KVMForum2017_Introspection.pdf)
 - [KVM Forum 2019: Advanced VMI on KVM - A Progress Report](https://static.sched.com/hosted_files/kvmforum2019/f6/Advanced%20VMI%20on%20KVM%3A%20A%20progress%20Report.pdf)
 - [Hack.lu 2019: Leveraging KVM as a Debugging Platform](https://drive.google.com/file/d/1nFoCM62BWKSz2TKhNkrOjVwD8gP51VGK/view?usp=sharing)
+- [Advanced VMI on KVM: A Progress Report](https://static.sched.com/hosted_files/kvmforum2019/f6/Advanced%20VMI%20on%20KVM%3A%20A%20progress%20Report.pdf)
 
 ## References
 
