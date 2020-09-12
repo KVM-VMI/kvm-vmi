@@ -1,25 +1,35 @@
-# kvm-vmi
+<h1 align="center">
+  <br>KVM-VMI</br>
+</h1>
 
-[![Slack](https://img.shields.io/badge/Slack-KVM--VMI-important)](https://kvm-vmi.slack.com)
-![Slack_users](https://kvm-vmi.herokuapp.com/badge.svg)
-[![Join](https://img.shields.io/badge/Slack-Join%20KVM--VMI-blue)](https://kvm-vmi.herokuapp.com)
-[![badge_doc](https://img.shields.io/badge/-Documentation-green)](https://kvm-vmi.github.io/kvm-vmi/)
+<h3 align="center">
+KVM-based Virtual Machine Instrospection.
+</h3>
 
-> KVM-based Virtual Machine Instrospection.
+<p align="center">
+  <a href="https://kvm-vmi.slack.com">
+    <img src="https://img.shields.io/badge/Slack-KVM--VMI-important" alt="Slack">
+  </a>
+  <img src="https://kvm-vmi.herokuapp.com/badge.svg" alt="Slack_Users">
+  <a href="https://kvm-vmi.herokuapp.com">
+    <img src="https://img.shields.io/badge/Slack-Join%20KVM--VMI-blue">
+  <a>
+  <a href="https://kvm-vmi.github.io/kvm-vmi/">
+    <img src="https://img.shields.io/badge/-Documentation-green">
+  <a>
+</p> 
 
 ## Table of Contents
 
-- [kvm-vmi](#kvm-vmi)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-    - [1 - KVMI](#1---kvmi)
-    - [2 - Nitro (_legacy_)](#2---nitro-legacy)
-  - [Installation](#installation)
-  - [Presentations](#presentations)
-  - [References](#references)
-  - [Maintainers](#maintainers)
-  - [Contributing](#contributing)
-  - [License](#license)
+- [Table of Contents](#table-of-contents)
+- [Overview](#overview)
+  - [1 - KVMI](#1---kvmi)
+  - [2 - Nitro (_legacy_)](#2---nitro-legacy)
+- [Installation](#installation)
+- [Presentations](#presentations)
+- [References](#references)
+- [Maintainers](#maintainers)
+- [License](#license)
 
 ## Overview
 
@@ -91,12 +101,6 @@ Based on `Jonas Pfoh`'s work:
 ## Maintainers
 
 [@Wenzel](https://github.com/Wenzel)
-
-## Contributing
-
-PRs accepted.
-
-Small note: If editing the Readme, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
 
 ## License
 
