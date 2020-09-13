@@ -14,10 +14,10 @@ KVM-based Virtual Machine Instrospection.
   <a href="https://kvm-vmi.herokuapp.com">
     <img src="https://img.shields.io/badge/Slack-Join%20KVM--VMI-blue">
   <a>
-  <a href="https://kvm-vmi.github.io/kvm-vmi/kvmi/">
+  <a href="https://kvm-vmi.github.io/kvm-vmi/master/">
     <img src="https://img.shields.io/badge/-Documentation-green">
   <a>
-</p> 
+</p>
 
 ## Table of Contents
 
@@ -56,7 +56,7 @@ in this repository:
 
 ## Installation
 
-Follow the [Setup guide](https://kvm-vmi.github.io/kvm-vmi/kvmi/setup.html)
+Follow the [Setup guide](https://kvm-vmi.github.io/kvm-vmi/master/setup.html)
 
 ## Presentations
 
