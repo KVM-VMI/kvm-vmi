@@ -4,17 +4,21 @@ on:
   push:
     branches:
       - kvmi
-
-defaults:
-  run:
-    working-directory: docs
+      - kvmi-v6
+      - kvmi-v7
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        kvmi_ver: [kvmi, kvmi-v6, kvmi-v7]
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ matrix.kvmi_ver }}
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -22,15 +26,48 @@ jobs:
           python-version: 3.6
 
       - name: Install dependencies 📦
-        run: pip install -r requirements.txt
+        run: pip install -r docs/requirements.txt
 
       - name: Build documentation 🔨
-        run: make html
+        run: sphinx-build -M html docs "docs/_build/${{ matrix.kvmi_ver }}"
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.kvmi_ver }}
+          path: "docs/_build/${{ matrix.kvmi_ver }}/html" 
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # the deploy action below depends on a checkout of the repo
+      # otherwise it fails trying to remote the 'origin' remote
+      # https://github.com/JamesIves/github-pages-deploy-action/issues/335
+      - uses: actions/checkout@v2
+
+      # download artifacts
+      - uses: actions/download-artifact@v2
+        with:
+          name: kvmi
+          path: _web/kvmi
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: kvmi
+          path: _web/kvmi-v6
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: kvmi
+          path: _web/kvmi-v7
 
       # add .nojekyll to the root so that github won't 404 on content added to dirs
       # that start with an underscore (_), such as our "_content" dir..
       - name: Add nojekyll for Github Pages
-        run: touch _build/html/.nojekyll
+        run: touch _web/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
@@ -38,5 +75,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           # note: FOLDER doesn't care about the job's working directory
-          FOLDER: docs/_build/html
+          FOLDER: _web
           SINGLE_COMMIT: true
+
