@@ -3,6 +3,7 @@ name: Documentation
 on:
   push:
     branches:
+      - master
       - kvmi
       - kvmi-v6
       - kvmi-v7
@@ -13,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        kvmi_ver: [kvmi, kvmi-v6, kvmi-v7]
+        kvmi_ver: [master, kvmi, kvmi-v6, kvmi-v7]
 
     steps:
       - uses: actions/checkout@v2
@@ -49,6 +50,11 @@ jobs:
       - uses: actions/checkout@v2
 
       # download artifacts
+      - uses: actions/download-artifact@v2
+        with:
+          name: master
+          path: _web/master
+
       - uses: actions/download-artifact@v2
         with:
           name: kvmi
