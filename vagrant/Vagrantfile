@@ -1,6 +1,6 @@
 Vagrant.configure(2) do |config|
     config.vm.box = "generic/debian10"
-    config.vm.box_version = "3.0.22"
+    config.vm.box_version = "3.0.32"
     config.vm.define "kvmi"
 
     # configuration
