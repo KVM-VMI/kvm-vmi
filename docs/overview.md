@@ -20,3 +20,10 @@ _Virtual Machine Introspection_ is a technology that aims to understand the gues
 - `qemu`: [QEMU](https://github.com/qemu/qemu) emulator, with *VMI* extensions
 - `libvmi`: fork of [LibVMI], the *Simplified Virtual Machine Introspection Library*, with an KVM driver integration based on `KVM-VMI`
 - `vagrant`: a [Vagrant](https://www.vagrantup.com/) based development environment to easily setup `KVM-VMI`
+
+## KVMi
+
+The `KVMi` refers to the new `KVMi subsystem`, is a set of _Virtual Machine Introspection_
+patches currently developed by Bitdefender for KVM.
+
+The stable version available on `master` is: `KVMi-v7`
