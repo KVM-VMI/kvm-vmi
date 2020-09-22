@@ -5,6 +5,11 @@ Vagrant.configure(2) do |config|
 
     # configuration
     root_dir = '/vagrant'
+    enabled_vms = {
+        'winxp': true,
+        'win7': false,
+        'ubuntu': false,
+    }
 
     # synced_folder_hash is a convenient way to define multiple
     # local directory mappings that should be exposed to the guest
