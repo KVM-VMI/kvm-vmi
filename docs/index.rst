@@ -9,4 +9,5 @@ to the KVM hypervisor.
 
     overview
     setup
+    kvmi
     archived
