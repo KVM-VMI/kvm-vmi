@@ -108,15 +108,11 @@ Modify the XML configuration as the following.
 
 ~~~XML
 <domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
-    <qemu:commandline>
+  <qemu:commandline>
       <qemu:arg value='-chardev'/>
       <qemu:arg value='socket,path=/tmp/introspector,id=chardev0,reconnect=10'/>
       <qemu:arg value='-object'/>
-      <qemu:arg value='secret,id=key0,data=some'/>
-      <qemu:arg value='-object'/>
-      <qemu:arg value='introspection,id=kvmi,chardev=chardev0,key=key0'/>
-      <qemu:arg value='-accel'/>
-      <qemu:arg value='kvm,introspection=kvmi'/>
+      <qemu:arg value='introspection,id=kvmi,chardev=chardev0'/>
   </qemu:commandline>
   ...
   <devices>
