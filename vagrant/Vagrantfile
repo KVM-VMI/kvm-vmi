@@ -1,12 +1,28 @@
 Vagrant.configure(2) do |config|
     config.vm.box = "generic/debian10"
-    config.vm.box_version = "3.0.22"
+    config.vm.box_version = "3.0.32"
     config.vm.define "kvmi"
 
+    # configuration
+    root_dir = '/vagrant'
+    enabled_vms = {
+        'winxp': true,
+        'win7': false,
+        'ubuntu': false,
+    }
+
+    # synced_folder_hash is a convenient way to define multiple
+    # local directory mappings that should be exposed to the guest
+    # [local path] => [remote path]
+    # if Nil, remote path is /vagrant/{basename}
+    synced_folder_hash = {
+        "" => nil,
+    }
+
+    # disable exposing current dir
     config.vm.synced_folder ".", "/vagrant", disabled: true
 
-    root_dir = '/vagrant'
-    # NFS only works with libvirt
+    # expose parent dir
     config.vm.synced_folder "..", root_dir
 
     config.vm.provider "libvirt" do |libvirt, override|
@@ -17,12 +33,22 @@ Vagrant.configure(2) do |config|
         libvirt.nested = true
 
         # use NFS
-        override.vm.synced_folder "..", root_dir,
-            :nfs => true,
-            :nfs_version => 4,
-            :nfs_udp => false,
-            # speedup NFS with custom options
-            :linux__nfs_options => ["rw", "no_subtree_check", "all_squash"]
+        synced_folder_hash.each do |folder, mntpnt|
+            if folder.empty?
+                next
+            end
+            remote_folder = mntpnt
+            if remote_folder.nil?
+                basename = File.basename(folder)
+                remote_folder = "/vagrant/#{basename}"
+            end
+            override.vm.synced_folder folder, remote_folder,
+                :nfs => true,
+                :nfs_version => 4,
+                :nfs_udp => false,
+                # speedup NFS with custom options
+                :linux__nfs_options => ["rw", "no_subtree_check", "all_squash"]
+        end
     end
 
     config.vm.provider "virtualbox" do |vbox, override|
@@ -30,9 +56,19 @@ Vagrant.configure(2) do |config|
         vbox.memory = 2048
         vbox.linked_clone = true
 
-        # virtualbox needs specific config for NFS, use vboxsf instead
-        override.vm.synced_folder "..", root_dir,
-            :type => "virtualbox"
+        synced_folder_hash.each do |folder, mntpnt|
+            if folder.empty?
+                next
+            end
+            remote_folder = mntpnt
+            if remote_folder.nil?
+                basename = File.basename(folder)
+                remote_folder = "/vagrant/#{basename}"
+            end
+            # virtualbox needs specific config for NFS, use vboxsf instead
+            override.vm.synced_folder "..", root_dir,
+                :type => "virtualbox"
+        end
     end
 
     config.vm.provision "ansible" do |ansible|

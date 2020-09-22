@@ -6,10 +6,6 @@
 	path = qemu
 	url = https://github.com/KVM-VMI/qemu
 	branch = vmi
-[submodule "nitro"]
-	path = nitro
-	url = https://github.com/KVM-VMI/nitro
-	branch = master
 [submodule "libvmi"]
 	path = libvmi
 	url = https://github.com/KVM-VMI/libvmi

@@ -3,7 +3,7 @@
   git:
     repo: 'https://github.com/bitdefender/libkvmi'
     dest: /home/vagrant/libkvmi
-    version: kvmi-v6
+    version: master
   become: false
 
 - name: install libkvmi build deps
