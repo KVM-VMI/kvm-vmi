@@ -79,7 +79,7 @@ $ sudo make install
 
 Reboot.
 Run `uname -a`
-You should be on kernel `5.0.0-rc7` (`kvmi v6`)
+You should be on kernel `5.4.24-kvmi` (`kvmi v7`)
 
 
 ### QEMU
