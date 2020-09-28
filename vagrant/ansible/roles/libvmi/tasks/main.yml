@@ -24,7 +24,7 @@
   become: false
 
 - name: configure build
-  command: cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_KVM=ON -DENABLE_XEN=OFF -DENABLE_BAREFLANK=OFF ..
+  command: cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_KVM=ON -DENABLE_XEN=OFF -DENABLE_BAREFLANK=OFF -DVMI_DEBUG='(VMI_DEBUG_CORE | VMI_DEBUG_DRIVER | VMI_DEBUG_KVM)' -DENV_DEBUG=ON ..
   args:
     chdir: "{{ root_dir }}/libvmi/build"
   become: false
