@@ -6,7 +6,7 @@ First let's make sure that we have the repository, on the right branches.
 
 If you **haven't** cloned `KVM-VMI` yet, use the following command:
 ~~~
-$ git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive
+$ git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive --b kvmi-v6
 ~~~
 
 ~~~
