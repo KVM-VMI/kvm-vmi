@@ -62,12 +62,12 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: kvmi
+          name: kvmi-v6
           path: _web/kvmi-v6
 
       - uses: actions/download-artifact@v2
         with:
-          name: kvmi
+          name: kvmi-v7
           path: _web/kvmi-v7
 
       # add .nojekyll to the root so that github won't 404 on content added to dirs
