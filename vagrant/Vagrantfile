@@ -1,3 +1,5 @@
+require 'rubygems'
+
 Vagrant.configure(2) do |config|
     config.vm.box = "generic/debian10"
     config.vm.box_version = "3.0.32"
@@ -96,6 +98,8 @@ Vagrant.configure(2) do |config|
         ansible.playbook = "vagrant/ansible/playbook_1.yml"
         ansible.extra_vars = {
             'root_dir': root_dir,
+            # to do the KVM git checkout if necessary
+            'is_windows': Gem.win_platform?
         }
     end
 
