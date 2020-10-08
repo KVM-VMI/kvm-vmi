@@ -76,6 +76,19 @@ Vagrant.configure(2) do |config|
         end
     end
 
+    config.vm.provider "hyperv" do |hyperv, override|
+        hyperv.cpus = 4
+        hyperv.memory = 2048
+        hyperv.enable_virtualization_extensions = true
+
+        # on Windows we will use rsync
+        # excluding .git directories is recommended of course, but here we need the kvm/.git directory
+        # since we want to do the checkout from inside the VM
+        # We cannot do an initial checkout on the Windows host because of filesystem limitations.
+        override.vm.synced_folder "..", root_dir,
+            :type => "rsync"
+    end
+
     config.vm.provision "ansible_local" do |ansible|
         # debug
         # ansible.verbose =  '-vvv'
