@@ -95,6 +95,7 @@ Vagrant.configure(2) do |config|
         ansible.playbook = "ansible/playbook_2.yml"
         ansible.extra_vars = {
             'root_dir': root_dir,
+            'enabled_vms': enabled_vms
         }
     end
 end
