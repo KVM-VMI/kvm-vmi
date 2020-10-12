@@ -1,12 +1,9 @@
 [submodule "kvm"]
 	path = kvm
 	url = https://github.com/KVM-VMI/kvm
-	branch = vmi
 [submodule "qemu"]
 	path = qemu
 	url = https://github.com/KVM-VMI/qemu
-	branch = vmi
 [submodule "libvmi"]
 	path = libvmi
 	url = https://github.com/KVM-VMI/libvmi
-	branch = nitro
