@@ -89,6 +89,20 @@ Vagrant.configure(2) do |config|
         # We cannot do an initial checkout on the Windows host because of filesystem limitations.
         override.vm.synced_folder "..", root_dir,
             :type => "rsync"
+
+        # add synced folder hash
+        synced_folder_hash.each do |folder, mntpnt|
+            if folder.empty?
+                next
+            end
+            remote_folder = mntpnt
+            if remote_folder.nil?
+                basename = File.basename(folder)
+                remote_folder = "/vagrant/#{basename}"
+            end
+            override.vm.synced_folder folder, remote_folder,
+                :type => "rsync"
+        end
     end
 
     config.vm.provision "ansible_local" do |ansible|
