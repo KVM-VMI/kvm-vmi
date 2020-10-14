@@ -1,19 +1,32 @@
 # Setup
 
+This guide will help you setup and configure KVM introspection.
+
+Currently 2 setup methods are supported:
+
+1. Vagrant: contained in a virtual machine (on both Linux and Windows)
+2. bare-metal: directly on the host
+
 ## Cloning the sources
 
-First let's make sure that we have the repository, on the right branches.
+The first is to clone the main `KVM-VMI` repository:
 
-If you **haven't** cloned `KVM-VMI` yet, use the following command:
 ~~~
 $ git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive
 ~~~
+
+If you have already cloned the repository, the following commands
+will make sure that you have the submodules checked out, on the right commits:
 
 ~~~
 $ cd kvm-vmi
 $ git checkout master
 $ git submodule update
 ~~~
+
+⚠️ **Note**: If you are running on Windows, you will not be able to clone the `kvm` submodule.
+This is due to a Windows filesystem limitation.
+However, you will still be able to setup `KVM-VMI`, by following the `Vagrant` option.
 
 This setup will help you configure 3 components:
 - `KVM`
@@ -23,18 +36,155 @@ This setup will help you configure 3 components:
 ## Option 1: Vagrant - Virtual Machine based setup
 
 This guide will help you setup a `KVM-VMI` development environment,
-contained in a virtual machine, on KVM.
-
-![vagrant_setup](images/vagrant-kvm-vmi.png)
+contained in a virtual machine.
 
 
 [Vagrant](https://www.vagrantup.com/) is a tool that helps create reproductible dev environment.
+
 A Vagrant setup is available for KVM-VMI, and it will configure and install all the components
 as well as a test virtual machine for you.
 
-Go to `kvm-vmi/vagrant` and follow the instructions there.
+➡️ **Start by installing** [Vagrant](https://www.vagrantup.com/downloads) **for your platform** (Linux or Windows)
 
-Otherwise, keep reading
+⚠️ **Note**: Your Linux distribution might provide a package to install Vagrant.
+
+### Linux Setup
+
+If you are running Linux, Vagrant will use the [libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt) provider
+to leverage the `KVM` hypervisor.
+
+**1** Install `vagrant-libvirt` plugin
+~~~
+sudo apt-get install ruby-dev
+vagrant plugin install vagrant-libvirt
+~~~
+
+⚠️ **Note**: Your Linux distribution might provide a package to install `vagrant-libvirt`.
+
+**2** Install `vagrant-reload` plugin
+~~~
+vagrant plugin install vagrant-reload
+~~~
+
+### Windows Setup
+
+If you are running Windows, Vagrant will use the [Hyper-V](https://www.vagrantup.com/docs/providers/hyperv) provider.
+
+**1** Install `vagrant-reload` plugin
+~~~
+vagrant plugin install vagrant-reload
+~~~
+
+The next part assumes that you don't have cloned the submodules.
+It is not possible to clone the `kvm` submodule on Windows, as it contains
+a couple of files that are violating the Windows filesystem naming conventions:
+
+- `drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c`
+- `drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.h`
+- `include/soc/arc/aux.h`
+
+⚠️ **Note**: For more information, please have a look at [MSDN Naming Conventions](https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN#naming-conventions)
+
+
+**2** Checkout the other submodules
+
+We need to checkout `qemu` and `libvmi` submodules
+
+~~~
+cd kvm-vmi
+git submodule update --init qemu libvmi
+~~~
+
+### Starting the Vagrant Virtual Machine
+
+**1** Tune the `Vagrantfile` to your needs (CPUs, RAM)
+
+~~~
+cd kvm-vmi/vagrant
+vim Vagrantfile
+~~~
+
+**2** Start the Vagrant VM setup
+~~~
+vagrant up --provider libvirt           # On Linux
+vagrant up --provider hyperv --color    # On Windows (use an elevated powershell)
+~~~
+
+**3** Wait, this is going to take a long time (~2h) ☕
+
+### Managing remote VMs
+
+#### Linux - Manage your VMs via virt-manager
+
+On Linux, you can use `virt-manager` to manage the remote VMs in your Vagrant VM.
+
+1. `vagrant ssh` to SSH into the VM
+2. `ip a` to get the VM's IP address
+    ![ip a](images/linux/ip_a.png)
+3. open `virt-manager`
+4. File ➡️ Add a connection
+5. [x] check _Connect with SSH_
+    ![add_connection](images/linux/add_connection.png)
+6. fill the hostname and click _Connect_
+7. answer `yes`
+8. password is `vagrant`
+
+You can now manage your remote VMs from `virt-manager`
+
+#### Windows - Manage your VMs
+
+`virsh` will be your main management tool
+
+1. `vagrant ssh`
+    ![vagrant_ssh](images/windows/vagrant_ssh.png)
+2. `sudo virsh`
+3. `list --all`
+4. `start winxp`
+    ![start_winxp](images/windows/start_winxp.png)
+5. `ip a` to get the guest's IP address
+    ![ip a](images/windows/ip_a.png)
+6. `sudo netstat -lapute` to get QEMU's VNC port
+    ![port](images/windows/port.png)
+7. Connect with a VNC client to the remote VM !
+
+![vnc connect](images/windows/vnc_connect.png)
+![vnc opened](images/windows/vnc_warning.png)
+![vnc winxp](images/windows/winxp.png)
+
+### Running LibVMI tools
+
+1. `vagrant ssh`
+2. Start the VM
+
+Some Libvmi example programs are installed system wide:
+
+![vmi-win-guid](images/windows/vmi-win-guid.png)
+
+![vmi-process-list](images/windows/vmi-process-list.png)
+
+You can also run the examples from the `build` directory:
+
+
+1. Go to `/vagrant/libvmi/build`
+2. `./examples/cr3-event-example winxp /tmp/introspector`
+
+![cr3-example](images/windows/cr3-event.png)
+🎉
+
+### Troubleshooting
+
+#### Opening the firewall for NFS (Linux)
+
+You need to open your firewall for `NFS`. The following commands should make it work for a `Vagrant` box
+to access your host `NFS` server:
+
+~~~
+firewall-cmd --permanent --add-service=nfs
+firewall-cmd --permanent --add-service=rpc-bind
+firewall-cmd --permanent --add-service=mountd
+firewall-cmd --reload
+~~~
+
 
 ## Option 2: Bare-metal setup
 

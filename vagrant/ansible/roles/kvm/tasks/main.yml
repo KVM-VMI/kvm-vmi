@@ -15,6 +15,20 @@
     - libelf-dev
     - libssl-dev
 
+# because of Windows filesystem restrictions, the KVM repo cannot be checked out on Windows
+# it contains some files like
+# - drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
+# - drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.h
+# - include/soc/arc/aux.h
+# etc..
+# see: https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN#naming-conventions
+- name: Perform initial checkout of KVM (only when running on Windows)
+  command: git submodule update --init kvm
+  args:
+    chdir: "{{ root_dir }}"
+  become: false
+  when: is_windows
+
 - name: configure kernel using distro's config
   command: make olddefconfig
   args:
