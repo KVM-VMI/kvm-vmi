@@ -118,12 +118,16 @@ vagrant up --provider hyperv --color    # On Windows (use an elevated powershell
 
 On Linux, you can use `virt-manager` to manage the remote VMs in your Vagrant VM.
 
-1. Open `virt-manager`
-2. File ➡️ Add a connection
-3. [x] check _Connect with SSH_
-4. username: `root`
-5. host: run `ip a` on the Vagrant VM to get the IP address (`vagrant ssh` is your friend to ssh into the VM)
-6. password: `vagrant`
+1. `vagrant ssh` to SSH into the VM
+2. `ip a` to get the VM's IP address
+    ![ip a](images/linux/ip_a.png)
+3. open `virt-manager`
+4. File ➡️ Add a connection
+5. [x] check _Connect with SSH_
+    ![add_connection](images/linux/add_connection.png)
+6. fill the hostname and click _Connect_
+7. answer `yes`
+8. password is `vagrant`
 
 You can now manage your remote VMs from `virt-manager`
 
@@ -141,7 +145,7 @@ You can now manage your remote VMs from `virt-manager`
     ![ip a](images/windows/ip_a.png)
 6. `sudo netstat -lapute` to get QEMU's VNC port
     ![port](images/windows/port.png)
-7.Connect with a VNC client to the remote VM !
+7. Connect with a VNC client to the remote VM !
 
 ![vnc connect](images/windows/vnc_connect.png)
 ![vnc opened](images/windows/vnc_warning.png)
