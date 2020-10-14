@@ -143,8 +143,7 @@ You can now manage your remote VMs from `virt-manager`
     ![start_winxp](images/windows/start_winxp.png)
 5. `ip a` to get the guest's IP address
     ![ip a](images/windows/ip_a.png)
-6. `sudo netstat -lapute` to get QEMU's VNC port
-    ![port](images/windows/port.png)
+6. `netstat -ltp | grep qemu` to get QEMU's VNC port
 7. Connect with a VNC client to the remote VM !
 
 ![vnc connect](images/windows/vnc_connect.png)
