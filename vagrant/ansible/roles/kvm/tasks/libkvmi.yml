@@ -19,7 +19,7 @@
   become: false
 
 - name: configure libkvmi
-  command: ./configure
+  command: ./configure --enable-optimize
   args:
     chdir: /home/vagrant/libkvmi
   become: false
