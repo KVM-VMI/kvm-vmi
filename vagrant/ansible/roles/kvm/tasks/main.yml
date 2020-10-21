@@ -89,6 +89,20 @@
     chdir: "{{ root_dir }}/kvm"
   become: false
 
+- name: enable KVM_INTROSPECTION_GUEST (HVMI)
+  command: ./scripts/config --enable KVM_INTROSPECTION_GUEST
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+  when: hvmi
+
+- name: disable TRANSPARENT_HUGEPAGE (HVMI)
+  command: ./scripts/config --disable TRANSPARENT_HUGEPAGE
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+  when: hvmi
+
 - name: append -kvmi to kernel version string
   lineinfile:
     dest: "{{ root_dir }}/kvm/Makefile"
@@ -118,6 +132,34 @@
 
 - name: update GRUB configuration
   command: update-grub
+
+- name: Ensure /etc/modules-load.d/ directory exists
+  file:
+    path: /etc/modules-load.d/
+    state: directory
+  when: hvmi
+
+- name: Create vhost-vsock.conf
+  copy:
+    src: vhost-vsock.conf
+    dest: /etc/modules-load.d/
+  when: hvmi
+
+- name: Ensure /etc/udev/rules.d/ directory exists
+  file:
+    path: /etc/udev/rules.d/
+    state: directory
+  when: hvmi
+
+- name: Create 10-vhost-vsock.rules
+  copy:
+    src: 10-vhost-vsock.rules
+    dest: /etc/udev/rules.d/
+  when: hvmi
+
+- name: Update all initrd images
+  command: update-initramfs -k all -u
+  when: hvmi
 
 - name: setup libkvmi
   include: libkvmi.yml

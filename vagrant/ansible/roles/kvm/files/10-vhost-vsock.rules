@@ -1,0 +1,1 @@
+KERNEL=="vhost-vsock", GROUP="kvm", MODE="0660"
