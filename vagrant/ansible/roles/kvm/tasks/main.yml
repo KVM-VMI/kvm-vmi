@@ -163,3 +163,4 @@
 
 - name: setup libkvmi
   include: libkvmi.yml
+  when: not hvmi
