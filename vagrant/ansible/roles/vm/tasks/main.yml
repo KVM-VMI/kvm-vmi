@@ -5,13 +5,6 @@
     dest: /data/
   become: false
 
-- name: fix permissions on kvm node
-  file:
-    path: /dev/kvm
-    owner: root
-    group: kvm
-    mode: 0666
-
 - name: build Windows XP
   include: build.yml
   with_items:

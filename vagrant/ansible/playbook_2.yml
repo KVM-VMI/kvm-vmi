@@ -14,6 +14,13 @@
       apt:
         name: packer
         state: present
+
+    - name: fix permissions on kvm node
+      file:
+        path: /dev/kvm
+        owner: root
+        group: kvm
+        mode: 0666
   roles:
     - remote
     - qemu
