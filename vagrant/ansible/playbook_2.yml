@@ -9,6 +9,11 @@
     - name: display kernel version
       debug:
         var: uname.stdout
+
+    - name: install Packer
+      apt:
+        name: packer
+        state: present
   roles:
     - remote
     - qemu

@@ -14,11 +14,6 @@
 - name: setup libvirt
   include: libvirt.yml
 
-- name: install Packer
-  apt:
-    name: packer
-    state: present
-
 - name: upload templates
   synchronize:
     src: files/templates
