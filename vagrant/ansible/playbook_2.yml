@@ -17,5 +17,6 @@
   roles:
     - remote
     - qemu
+    - libvirt
     - libvmi
     - vm

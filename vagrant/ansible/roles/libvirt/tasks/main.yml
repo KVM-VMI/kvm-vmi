@@ -4,7 +4,6 @@
     name: "{{ item }}"
   with_items:
     - libvirt-daemon-system
-    - python-libvirt
     - python3-libvirt
 
 # kvm group to access /dev/kvm, libvirt-qemu for rw on memory access socket
@@ -51,22 +50,5 @@
   command: virsh -c qemu:///system net-start default
   ignore_errors: yes
 
-- name: define libvirt pool
-  command: virsh -c qemu:///system pool-define-as default --type dir --target /data/vms
-
-- name: build libvirt pool
-  command: virsh -c qemu:///system pool-build default
-
-- name: fix permissions on pool directory
-  file:
-    path: /data/vms
-    state: directory
-    owner: vagrant
-    group: vagrant
-
-- name: set libvirt pool as autostart
-  command: virsh -c qemu:///system pool-autostart default
-
-- name: ensure libvirt pool is started
-  command: virsh -c qemu:///system pool-start default
-  ignore_errors: yes
+- name: setup libvirt pool
+  include_tasks: pool.yml
