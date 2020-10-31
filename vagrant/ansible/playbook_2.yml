@@ -25,7 +25,8 @@
     - remote
     - qemu
     - libvirt
+    - name: hvmi
+      when: hvmi
     - name: libvmi
       when: not hvmi
     - name: vm
-      when: not hvmi
