@@ -1,0 +1,16 @@
+# input:
+#   guest_path: (str) path to the qcow image to be setup in libvirt with KVMi support
+#   vm_name: (str)(optional) VM name in libvirt
+#   pool_path: (str)(optional) path to the libvirt pool dir
+#   uri: (str)(optional) libvirt connection URI
+#   kvmi_device: (str)(optional) specified whether the qemu cmdline should use 'socket' or 'vsock'
+
+- name: move qcow into libvirt pool
+  command: "mv \"{{ guest_path }}\" \"{{ pool_path }}\""
+
+- name: define vm in libvirt
+  virt:
+    name: "{{ vm_name | default(guest_path | basename | splitext | first) }}"
+    command: define
+    xml: "{{ lookup('template', 'domain-template.xml.j2')}}"
+    uri: "{{ uri }}"

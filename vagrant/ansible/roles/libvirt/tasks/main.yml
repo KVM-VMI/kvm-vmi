@@ -4,6 +4,7 @@
     name: "{{ item }}"
   with_items:
     - libvirt-daemon-system
+    - python-libvirt
     - python3-libvirt
 
 # kvm group to access /dev/kvm, libvirt-qemu for rw on memory access socket

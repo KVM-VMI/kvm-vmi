@@ -1,0 +1,18 @@
+pool_path: "/data/vms"
+uri: "qemu:///system"
+kvmi_device: "socket"
+
+qemu_cmdline_socket: "  <qemu:commandline>
+<qemu:arg value='-chardev'/>
+<qemu:arg value='socket,path=/tmp/introspector,id=chardev0,reconnect=3'/>
+<qemu:arg value='-object'/>
+<qemu:arg value='introspection,id=kvmi,chardev=chardev0'/>
+</qemu:commandline>"
+
+qemu_cmdline_vsock: "<qemu:commandline>
+<qemu:arg value='-device'/>
+<qemu:arg value='vhost-vsock-pci,id=bitdefender-vsock,guest-cid=321'/>
+</qemu:commandline>"
+
+qemu_cmdline: "{{ qemu_cmdline_socket if kvmi_device == 'socket' else qemu_cmdline_vsock }}"
+vm_name_val: "{{ vm_name if vm_name is defined else guest_path | basename | splitext | first }}"
