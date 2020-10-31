@@ -23,8 +23,8 @@
         mode: 0666
   roles:
     - remote
-    - qemu
     - libvirt
+    - qemu
     - name: hvmi
       when: hvmi
     - name: libvmi
