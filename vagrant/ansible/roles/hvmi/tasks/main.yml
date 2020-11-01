@@ -1,0 +1,30 @@
+- name: upload kvmi templates
+  synchronize:
+    src: files/kvmi-templates
+    dest: "/home/vagrant/"
+  become: false
+
+- name: build hvmi appliance with Packer
+  command: "packer build -var cpus={{ ansible_processor_vcpus }} -var-file kvmi-guest.json ubuntu-template.json"
+  args:
+    chdir: "/home/vagrant/kvmi-templates"
+  become: false
+
+- name: get qcow name
+  find:
+    path: "/home/vagrant/kvmi-templates/out"
+  register: kvmi-templates-out
+  become: false
+
+- name: import HVMI in libvirt
+  include_role:
+    name: install_guest
+  vars:
+    guest_path: "{{ kvmi-templates-out.files[0].path }}"
+    vm_name: hvmi
+    kvmi_device: vhost
+
+- name: remove output-qemu
+  file:
+    path: "/home/vagrant/kvmi-templates/out"
+    state: absent
