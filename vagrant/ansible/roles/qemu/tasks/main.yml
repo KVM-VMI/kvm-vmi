@@ -29,3 +29,19 @@
   command: make install
   args:
     chdir: "{{ root_dir }}/qemu"
+
+- name: reconfigure qemu for libvirt
+  replace:
+    path: /etc/libvirt/qemu.conf
+    regexp: "([\\W\\w]*)(#cgroup_device_acl[^\\]]+#\\])([\\W\\w]*)"
+    replace: |
+      \1
+      cgroup_device_acl = [
+          "/dev/null", "/dev/full", "/dev/zero",
+          "/dev/random", "/dev/urandom",
+          "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+          "/dev/rtc", "/dev/hpet", "/dev/vfio/vfio",
+          "/dev/vhost-vsock"
+      ]
+      \3
+  when: hvmi
