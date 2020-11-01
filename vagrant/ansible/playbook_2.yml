@@ -10,11 +10,6 @@
       debug:
         var: uname.stdout
 
-    - name: install Packer
-      apt:
-        name: packer
-        state: present
-
     - name: fix permissions on kvm node
       file:
         path: /dev/kvm
@@ -23,6 +18,7 @@
         mode: 0666
   roles:
     - remote
+    - packer
     - libvirt
     - qemu
     - name: hvmi

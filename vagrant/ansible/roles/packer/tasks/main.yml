@@ -1,0 +1,26 @@
+- name: install unzip
+  package:
+    name: unzip
+
+- name: download latest Packer
+  get_url:
+    url: 'https://releases.hashicorp.com/packer/1.6.5/packer_1.6.5_linux_amd64.zip'
+    dest: /tmp/packer.zip
+  become: false
+
+- name: extract Packer
+  unarchive:
+    src: /tmp/packer.zip
+    dest: /tmp
+  become: false
+
+- name: remove archive
+  file:
+    path: /tmp/packer.zip
+    state: absent
+  become: false
+
+- name: install Packer
+  command: mv /tmp/packer /usr/local/bin/
+  args:
+    creates: /usr/local/bin/packer
