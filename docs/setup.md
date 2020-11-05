@@ -280,7 +280,7 @@ You should use this library to build your applications.
 ![libkvmi](images/libkvmi.png)
 
 ~~~
-$ git clone https://github.com/bitdefender/libkvmi --branch kvmi-v6
+$ git clone https://github.com/bitdefender/libkvmi
 $ ./bootstrap
 $ ./configure
 $ make
