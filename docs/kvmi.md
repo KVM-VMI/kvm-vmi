@@ -58,6 +58,7 @@ for minimum overhead.
 
 - Publication: **20th December 2018**
 - [Mailing list](https://www.spinics.net/lists/kvm/msg179441.html)
+- Kernel: `4.20.0-rc7`
 
 **Changes since** `v4`:
 
@@ -125,6 +126,7 @@ for minimum overhead.
 
 - Publication: **9th August 2019**
 - [Patches on the mailing list](https://lore.kernel.org/kvm/20190809160047.8319-1-alazar@bitdefender.com/)
+- Kernel: `5.0-rc7`
 
 **Changes since** `v5`:
 
@@ -149,6 +151,7 @@ at least)
 
 - Publication: **7th February 2020**
 - [Mailing list](https://lore.kernel.org/kvm/20200207181636.1065-1-alazar@bitdefender.com/)
+- Kernel: `5.4.24`
 
 **Changes since** `v6`:
 
@@ -186,6 +189,7 @@ at least)
 
 - Publication: **22nd Jul 2020**
 - [Mailing list](https://lore.kernel.org/kvm/20200721210922.7646-1-alazar@bitdefender.com/)
+- Kernel: `5.8`
 
 **Changes since** `v8`:
 
@@ -207,6 +211,7 @@ at least)
 
 - Publication: **25th November 2020**
 - [Mailing list](https://lore.kernel.org/kvm/20201125093600.2766-1-alazar@bitdefender.com/)
+- Kernel: `5.10`
 
 **Changes since** `v9`:
 
