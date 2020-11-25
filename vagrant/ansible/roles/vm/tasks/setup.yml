@@ -1,0 +1,40 @@
+---
+- name: Download image if requested and available
+  include: download.yml
+  when: (download_vm_image) and (item.image_url is defined)
+
+# else build image
+- name: Build VM with Packer
+  include: build.yml
+  when: not download_vm_image
+
+- name: define vm in libvirt
+  virt:
+    name: "{{ item.name }}"
+    command: define
+    xml: "{{ lookup('template', 'domain-template.xml.j2')}}"
+    uri: 'qemu:///system'
+
+- name: ensure libvmi config dir is present
+  file:
+    path: /etc/libvmi
+    state: directory
+
+- name: check if vm has a rekall profile
+  local_action: stat path="{{ role_path }}/files/{{ item.name }}-profile.json"
+  register: vm_profile
+  become: false
+
+- name: install vm rekall profile
+  copy:
+    src: "files/{{ item.name }}-profile.json"
+    dest: "/etc/libvmi/{{ item.name}}-profile.json"
+  when: vm_profile.stat.exists
+
+- name: install libvmi config entry
+  blockinfile:
+    path: '/etc/libvmi.conf'
+    block: "{{ lookup('file', 'files/'+item.name+'.conf')}}"
+    marker: ""
+    state: present
+    create: yes

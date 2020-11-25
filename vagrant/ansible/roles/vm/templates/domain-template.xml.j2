@@ -36,7 +36,7 @@
     <emulator>/usr/local/bin/qemu-system-x86_64</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2'/>
-            <source file='/data/vms/{{ qemu_output.files[0].path | basename }}'/>
+            <source file='/data/vms/{{ vms_image_filename }}'/>
       <target dev='hda' bus='ide'/>
       <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
