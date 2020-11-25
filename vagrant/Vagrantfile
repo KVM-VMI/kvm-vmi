@@ -12,6 +12,7 @@ Vagrant.configure(2) do |config|
         'win7': false,
         'ubuntu': false,
     }
+    libvirt_sync_folder_type = "nfs"
 
     # synced_folder_hash is a convenient way to define multiple
     # local directory mappings that should be exposed to the guest
@@ -33,13 +34,13 @@ Vagrant.configure(2) do |config|
 
         # expose parent dir
         override.vm.synced_folder "..", root_dir,
-        :nfs => true,
+        :type => libvirt_sync_folder_type,
         :nfs_version => 4,
         :nfs_udp => false,
         # speedup NFS with custom options
         :linux__nfs_options => ["rw", "no_subtree_check", "all_squash"]
 
-        # use NFS
+        # sync custom folders
         synced_folder_hash.each do |folder, mntpnt|
             if folder.empty?
                 next
@@ -50,7 +51,7 @@ Vagrant.configure(2) do |config|
                 remote_folder = "/vagrant/#{basename}"
             end
             override.vm.synced_folder folder, remote_folder,
-                :nfs => true,
+                :type => libvirt_sync_folder_type,
                 :nfs_version => 4,
                 :nfs_udp => false,
                 # speedup NFS with custom options
