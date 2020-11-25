@@ -54,43 +54,10 @@ for minimum overhead.
 - remove KVMI_READ_PHYSICAL and KVMI_WRITE_PHYSICAL (not used anymore)
 - make the interface a little more consistent
 
-## v5
+## v3
 
-- Publication: **20th December 2018**
-- [Mailing list](https://www.spinics.net/lists/kvm/msg179441.html)
-- Kernel: `4.20.0-rc7`
-
-**Changes since** `v4`:
-
-- move the new and improved remote mapping code to the mm/ tree
-- add two VM events (in addition to vCPU events) - KVMI_EVENT_CREATE_VCPU
-      and KVMI_EVENT_UNHOOK - controlled by KVMI_CONTROL_VM_EVENTS
-- add KVM_INTROSPECTION_UNHOOK ioctl to support suspend, snapshot
-      and live migration
-- use KVMI_PAUSE_ALL_VCPUS instead of KVMI_PAUSE_VCPU (temporarily)
-- fix the reinjection of guest breakpoints
-- add single-stepping
-- extend KVMI_EVENT_PF to support single-stepping and to reduce
-      the number of events on REP prefixed instructions
-- allow the guest to update A/D bits when the page tables are tracked
-      (write protected)
-- extend page tracking to pass the gva in addition to gpa
-- make small changes to the wire protocol (error codes, padding, names)
-- extend struct kvm_introspection (ioctl KVM_INTROSPECTION) with the guest's uuid
-- change the maximum message size to 4K (from 64K)
-- fix more bugs
-
-**Changes since** `v3`:
-
-- move the accept/handshake worker to QEMU
-- extend and use the 'page_track' infrastructure to intercept page
-  accesses during emulation
-- remove the 0x40000000-0x40001fff range from monitored MSR-s
-- make small changes to the wire protocol (error codes, padding, names)
-- simplify KVMI_PAUSE_VCPU
-- add new commands: KVMI_GET_MAP_TOKEN, KVMI_GET_XSAVE
-- add pat to KVMI_EVENT
-- document KVM_HC_MEM_MAP and KVM_HC_MEM_UNMAP hypercalls
+- Publication: **11th September 2017**
+- [Mailing list](https://lore.kernel.org/kvm/20170911153637.30326-1-alazar@bitdefender.com/)
 
 **Changes since** `v2`:
 
@@ -121,6 +88,49 @@ for minimum overhead.
   "Guest snapshots with memory", "Memory access safety"
 - document the hypercall used by the KVMI_EVENT_HYPERCALL command
   (was KVMI_EVENT_USER_CALL)
+
+## v4
+
+- Publication: **18th December 2017**
+- [Mailing list](https://lore.kernel.org/kvm/20171218190642.7790-1-alazar@bitdefender.com/)
+
+**Changes since** `v3`:
+
+- move the accept/handshake worker to QEMU
+- extend and use the 'page_track' infrastructure to intercept page
+  accesses during emulation
+- remove the 0x40000000-0x40001fff range from monitored MSR-s
+- make small changes to the wire protocol (error codes, padding, names)
+- simplify KVMI_PAUSE_VCPU
+- add new commands: KVMI_GET_MAP_TOKEN, KVMI_GET_XSAVE
+- add pat to KVMI_EVENT
+- document KVM_HC_MEM_MAP and KVM_HC_MEM_UNMAP hypercalls
+
+## v5
+
+- Publication: **20th December 2018**
+- [Mailing list](https://www.spinics.net/lists/kvm/msg179441.html)
+- Kernel: `4.20.0-rc7`
+
+**Changes since** `v4`:
+
+- move the new and improved remote mapping code to the mm/ tree
+- add two VM events (in addition to vCPU events) - KVMI_EVENT_CREATE_VCPU
+      and KVMI_EVENT_UNHOOK - controlled by KVMI_CONTROL_VM_EVENTS
+- add KVM_INTROSPECTION_UNHOOK ioctl to support suspend, snapshot
+      and live migration
+- use KVMI_PAUSE_ALL_VCPUS instead of KVMI_PAUSE_VCPU (temporarily)
+- fix the reinjection of guest breakpoints
+- add single-stepping
+- extend KVMI_EVENT_PF to support single-stepping and to reduce
+      the number of events on REP prefixed instructions
+- allow the guest to update A/D bits when the page tables are tracked
+      (write protected)
+- extend page tracking to pass the gva in addition to gpa
+- make small changes to the wire protocol (error codes, padding, names)
+- extend struct kvm_introspection (ioctl KVM_INTROSPECTION) with the guest's uuid
+- change the maximum message size to 4K (from 64K)
+- fix more bugs
 
 ## v6
 
