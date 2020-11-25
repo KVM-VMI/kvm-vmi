@@ -1,7 +1,38 @@
-# KVMi
+# KVMi subsystem for KVM
 
 This page tracks the new versions of the `KVMi` subsystem for KVM.
 
+## Description
+
+The KVM introspection subsystem provides a facility for applications
+running on the host or in a separate VM, to control the execution of
+other VMs (pause, resume, shutdown), query the state of the vCPUs (GPRs,
+MSRs etc.), alter the page access bits in the shadow page tables (only
+for the hardware backed ones, eg. Intel's EPT) and receive notifications
+when events of interest have taken place (shadow page table level faults,
+key MSR writes, hypercalls etc.). Some notifications can be responded
+to with an action (like preventing an MSR from being written), others
+are mere informative (like breakpoint events which can be used for
+execution tracing).  With few exceptions, all events are optional. An
+application using this subsystem will explicitly register for them.
+
+The use case that gave way for the creation of this subsystem is to
+monitor the guest OS and as such the ABI/API is highly influenced by how
+the guest software (kernel, applications) sees the world. For example,
+some events provide information specific for the host CPU architecture
+(eg. `MSR_IA32_SYSENTER_EIP`) merely because its leveraged by guest software
+to implement a critical feature (fast system calls).
+
+At the moment, the target audience for KVMI are security software authors
+that wish to perform forensics on newly discovered threats (exploits)
+or to implement another layer of security like preventing a large set
+of kernel rootkits simply by "locking" the kernel image in the shadow
+page tables (ie. enforce `.text` `r-x`, `.rodata` `rw-` etc.). It's the latter
+case that made KVMI a separate subsystem, even though many of these
+features are available in the device manager. The ability to build a
+security application that does not interfere (in terms of performance)
+with the guest software asks for a specialized interface that is designed
+for minimum overhead.
 
 ## v1
 
