@@ -22,7 +22,7 @@ cache:
   - /home/travis/.vagrant.d/boxes
 
 install:
-  - wget -nv https://releases.hashicorp.com/vagrant/2.2.9/vagrant_2.2.9_x86_64.deb -O vagrant.deb
+  - wget -nv https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.deb -O vagrant.deb
   - sudo dpkg -i vagrant.deb
 
   - vagrant --version
