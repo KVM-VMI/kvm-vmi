@@ -43,7 +43,12 @@ script:
   # enable downloading VM images instead of building them
   - sed -i -E "s/^(\s*download_vm_image\:\s).*/\1true/" ansible/playbook_2.yml
   # we are not in libvirt group, so use sudo
-  # also editing NFS exports require root
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
   - sudo -E vagrant up --provider=libvirt
   - kill %1
+  # start win7 VM
+  - sudo -E vagrant ssh -c 'virsh -c qemu:///system start win7'
+  # wait a few minutes until the VM boot
+  - sleep 5m
+  # run vmi-process-list
+  - sudo -E vagrant ssh -c 'LIBVMI_DEBUG=1 vmi-process-list -n win7 -j /etc/libvmi/win7-profile.json -s /tmp/introspector'
