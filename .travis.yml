@@ -15,6 +15,7 @@ addons:
       - qemu-utils
       - ruby-dev
       - ansible
+      - nfs-kernel-server
 
 # Cache the big Vagrant boxes
 cache:
