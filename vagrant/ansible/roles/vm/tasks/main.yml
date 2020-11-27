@@ -32,20 +32,34 @@
     group: kvm
     mode: 0666
 
-- name: build Windows XP
-  include: build.yml
+- name: setup Windows XP
+  include: setup.yml
   with_items:
-    - { name: 'winxp', ram: '512', packer_template: 'windows.json', packer_varfile: 'winxp.json' }
+    - {
+        name: 'winxp',
+        ram: '512',
+        packer_template: 'windows.json',
+        packer_varfile: 'winxp.json',
+        image_url: 'https://www.dropbox.com/s/0zycew5u3xnf8m7/winxp.qcow2?dl=1',
+        checksum_url: 'sha1:8550675150ee1601859c4665d49eb29005065446'
+      }
   when: enabled_vms['winxp']
 
-- name: build Windows 7
-  include: build.yml
+- name: setup Windows 7
+  include: setup.yml
   with_items:
-    - { name: 'win7', ram: '1500', packer_template: 'windows.json', packer_varfile: 'win7.json' }
+    - {
+        name: 'win7',
+        ram: '1500',
+        packer_template: 'windows.json',
+        packer_varfile: 'win7.json',
+        image_url: 'https://www.dropbox.com/s/x9uyexfbhumphe7/win7.qcow2?dl=1',
+        checksum_url: 'sha1:64c1c051efa70c902b0fd4b10c7d8da90215bbca'
+      }
   when: enabled_vms['win7']
 
-- name: build Ubuntu
-  include: build.yml
+- name: setup Ubuntu
+  include: setup.yml
   with_items:
     - { name: 'ubuntu', ram: '1024', packer_template: 'ubuntu.json', packer_varfile: 'ubuntu-16.04-server-i386.json' }
   when: enabled_vms['ubuntu']

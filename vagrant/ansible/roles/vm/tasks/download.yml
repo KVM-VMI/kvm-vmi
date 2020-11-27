@@ -1,0 +1,9 @@
+- name: download VM image
+  get_url:
+    url: "{{ item.image_url }}"
+    dest: "/data/vms/{{ item.name }}"
+    checksum: "{{ item.checksum_url }}"
+
+- name: set qcow filename
+  set_fact:
+    vms_image_filename: "{{ item.name }}"

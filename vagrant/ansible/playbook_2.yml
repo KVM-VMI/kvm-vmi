@@ -1,6 +1,9 @@
 ---
 - hosts: all
   become: true
+  vars:
+    # download the VM image instead of building it with Packer, if available
+    download_vm_image: false
   pre_tasks:
     - name: get kernel version
       command: uname -r
