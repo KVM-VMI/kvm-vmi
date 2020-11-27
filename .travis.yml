@@ -34,21 +34,21 @@ script:
   - pushd vagrant
   # use rsync since NFS doesn't work
   - sed -i -E "s:^(\s*)libvirt_sync_folder_type =.*:\1libvirt_sync_folder_type = 'rsync':" Vagrantfile
-  # disable winxp
-  - sed -i -E "s/^(\s*'winxp'\:\s).*/\1false,/g" Vagrantfile
+  # enable winxp
+  - sed -i -E "s/^(\s*'winxp'\:\s).*/\1true,/g" Vagrantfile
   # disable ubuntu
   - sed -i -E "s/^(\s*'ubuntu'\:\s).*/\1false,/g" Vagrantfile
-  # enable win7
-  - sed -i -E "s/^(\s*'win7'\:\s).*/\1true,/g" Vagrantfile
+  # disable win7
+  - sed -i -E "s/^(\s*'win7'\:\s).*/\1false,/g" Vagrantfile
   # enable downloading VM images instead of building them
   - sed -i -E "s/^(\s*download_vm_image\:\s).*/\1true/" ansible/playbook_2.yml
   # we are not in libvirt group, so use sudo
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
   - sudo -E vagrant up --provider=libvirt
   - kill %1
-  # start win7 VM
-  - sudo -E vagrant ssh -c 'virsh -c qemu:///system start win7'
+  # start winxp VM
+  - sudo -E vagrant ssh -c 'virsh -c qemu:///system start winxp'
   # wait a few minutes until the VM boots
   - sleep 9m
   # run vmi-process-list
-  - sudo -E vagrant ssh -c 'LIBVMI_DEBUG=1 vmi-process-list -n win7 -j /etc/libvmi/win7-profile.json -s /tmp/introspector'
+  - sudo -E vagrant ssh -c 'vmi-process-list -n winxp -j /etc/libvmi/winxp-profile.json -s /tmp/introspector'
