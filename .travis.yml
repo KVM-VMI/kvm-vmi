@@ -48,7 +48,7 @@ script:
   - kill %1
   # start win7 VM
   - sudo -E vagrant ssh -c 'virsh -c qemu:///system start win7'
-  # wait a few minutes until the VM boot
-  - sleep 5m
+  # wait a few minutes until the VM boots
+  - sleep 9m
   # run vmi-process-list
   - sudo -E vagrant ssh -c 'LIBVMI_DEBUG=1 vmi-process-list -n win7 -j /etc/libvmi/win7-profile.json -s /tmp/introspector'
