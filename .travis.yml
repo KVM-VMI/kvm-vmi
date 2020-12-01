@@ -33,8 +33,6 @@ install:
 
 script:
   - pushd vagrant
-  # use rsync since NFS doesn't work
-  - sed -i -E "s:^(\s*)libvirt_sync_folder_type =.*:\1libvirt_sync_folder_type = 'rsync':" Vagrantfile
   # enable winxp
   - sed -i -E "s/^(\s*'winxp'\:\s).*/\1true,/g" Vagrantfile
   # disable ubuntu
