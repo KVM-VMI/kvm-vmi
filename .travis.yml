@@ -1,5 +1,5 @@
 ---
-dist: bionic
+dist: focal
 language: minimal
 git:
   depth: 1
@@ -9,7 +9,8 @@ addons:
       - bridge-utils
       - dnsmasq-base
       - ebtables
-      - libvirt-bin
+      - libvirt-daemon
+      - libvirt-daemon-system
       - libvirt-dev
       - qemu-kvm
       - qemu-utils
