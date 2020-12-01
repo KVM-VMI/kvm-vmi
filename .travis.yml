@@ -33,6 +33,8 @@ install:
 
 script:
   - pushd vagrant
+  # use NFS v3 as v4 raises permission denied errors in Travis
+  - sed -i -E "s:^(\s*)libvirt_nfs_ver =.*:\1libvirt_nfs_ver = 3:" Vagrantfile
   # enable winxp
   - sed -i -E "s/^(\s*'winxp'\:\s).*/\1true,/g" Vagrantfile
   # disable ubuntu
