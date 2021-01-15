@@ -35,59 +35,27 @@
     chdir: "{{ root_dir }}/kvm"
   become: false
 
-# disable trusted keys debian/certs/debian-uefi-certs.pem
-# as they are only available in the kernel sources, and we don't
-# care about SecureBoot
-- name: disable SYSTEM_TRUSTED_KEYS
-  command: ./scripts/config --disable SYSTEM_TRUSTED_KEYS
+- name: configure KVM introspection
+  command: "./scripts/config {{ item.switch }} {{ item.option }}"
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
-
-- name: disable MODULE_SIG_KEY
-  command: ./scripts/config --disable MODULE_SIG_KEY
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-# configure KVM
-- name: enable KVM
-  command: ./scripts/config --enable KVM
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-- name: enable KVM_INTEL
-  command: ./scripts/config --enable KVM_INTEL
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-- name: enable KVM_AMD
-  command: ./scripts/config --enable KVM_AMD
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-# KVM_INTROSPECTION depends on REMOTE_MAPPING,
-# which depends on KSM being disabled
-- name: disable KSM
-  command: ./scripts/config --disable KSM
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-- name: enable REMOTE_MAPPING
-  command: ./scripts/config --enable REMOTE_MAPPING
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
-
-- name: enable KVM_INTROSPECTION
-  command: ./scripts/config --enable KVM_INTROSPECTION
-  args:
-    chdir: "{{ root_dir }}/kvm"
-  become: false
+  with_items:
+    # disable trusted keys debian/certs/debian-uefi-certs.pem
+    # as they are only available in the kernel sources, and we don't
+    # care about SecureBoot
+    - { switch: "--disable", option: "SYSTEM_TRUSTED_KEYS" }
+    - { switch: "--disable", option: "MODULE_SIG_KEY" }
+    # ensure KVM is enabled
+    - { switch: "--enable", option: "KVM" }
+    - { switch: "--enable", option: "KVM_INTEL" }
+    - { switch: "--enable", option: "KVM_AMD" }
+    # enable KVM_INTROSPECTION
+    - { switch: "--enable", option: "KVM_INTROSPECTION" }
+    # enable REMOTE_MAPPING
+    # -> !TRANSPARENT_HUGEPAGE
+    - { switch: "--disable", option: "TRANSPARENT_HUGEPAGE" }
+    - { switch: "--enable", option: "REMOTE_MAPPING" }
 
 - name: append -kvmi to kernel version string
   lineinfile:
