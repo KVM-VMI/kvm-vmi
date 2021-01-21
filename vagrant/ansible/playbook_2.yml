@@ -12,6 +12,21 @@
     - name: display kernel version
       debug:
         var: uname.stdout
+
+    - name: compile kvm self-tests
+      make:
+        chdir: "{{ root_dir }}/kvm/tools/testing/selftests/kvm"
+        target: all
+        params:
+          TEST_GEN_PROGS_x86_64: x86_64/kvmi_test
+          DEBUG: 1
+      become: false
+
+    - name: run kvm self-tests
+      command: ./tools/testing/selftests/kvm/x86_64/kvmi_test
+      args:
+        chdir: "{{ root_dir }}/kvm"
+
   roles:
     - remote
     - qemu
