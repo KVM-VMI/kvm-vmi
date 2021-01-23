@@ -15,10 +15,6 @@
   command: "make modules_install"
   args:
     chdir: "{{ root_dir }}/kvm"
-  environment:
-    # strip modules to reduces initramfs size by x10
-    # otherwise /boot will be full
-    INSTALL_MOD_STRIP: "1"
 
 - name: install kernel
   command: "make install"
