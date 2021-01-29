@@ -13,6 +13,9 @@
       debug:
         var: uname.stdout
 
+    - name: disable singlestep test
+      command: sed -e '/test_cmd_vcpu_control_singlestep(vm);/d' -i {{ root_dir }}/kvm/tools/testing/selftests/kvm/x86_64/kvmi_test.c
+
     - name: compile kvm self-tests
       make:
         chdir: "{{ root_dir }}/kvm/tools/testing/selftests/kvm"
