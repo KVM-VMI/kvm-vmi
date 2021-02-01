@@ -38,7 +38,10 @@ Vagrant.configure(2) do |config|
         :nfs_version => 4,
         :nfs_udp => false,
         # speedup NFS with custom options
-        :linux__nfs_options => ["rw", "no_subtree_check", "all_squash"]
+        :linux__nfs_options => ["rw", "no_subtree_check", "all_squash"],
+        # changed default behavior --copy-links to --links, because
+        # some symlinks in qemu were pointing to non existent dirs in /opt
+        :rsync__args => ["--verbose", "--archive", "--delete", "-z", "--links"]
 
         # sync custom folders
         synced_folder_hash.each do |folder, mntpnt|
@@ -105,6 +108,12 @@ Vagrant.configure(2) do |config|
                 :type => "rsync"
         end
     end
+
+    # install ansible
+    # set stdout_callback = yaml to improve error output
+    # note: problem with \1yaml -> \x01yaml in ansible.cfg
+    config.vm.provision "shell",
+        inline: "apt-get install -y ansible && sed -i -E 's/^#?(stdout_callback\s*=\s*).*$/stdout_callback = yaml/' /etc/ansible/ansible.cfg"
 
     config.vm.provision "ansible_local" do |ansible|
         # debug

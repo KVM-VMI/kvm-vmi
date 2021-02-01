@@ -51,4 +51,4 @@ script:
   # wait a few minutes until the VM boots
   - sleep 9m
   # run vmi-process-list
-  - sudo -E vagrant ssh -c 'vmi-process-list -n winxp -j /etc/libvmi/winxp-profile.json -s /tmp/introspector'
+  - sudo -E vagrant ssh -c 'LIBVMI_DEBUG=1 vmi-process-list -n winxp -j /etc/libvmi/winxp-profile.json -s /tmp/introspector'
