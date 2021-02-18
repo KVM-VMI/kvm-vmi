@@ -18,6 +18,7 @@ _Virtual Machine Introspection_ is a technology that aims to understand the gues
 
 - `kvm`: Linux's *Kernel-Based Virtual Machine* kernel [git tree](https://www.linux-kvm.org/page/Code#kernel_git_tree), with *VMI* extensions
 - `qemu`: [QEMU](https://github.com/qemu/qemu) emulator, with *VMI* extensions
+- [`libkvmi`](https://github.com/bitdefender/libkvmi): KVM Virtual Machine Introspection library
 - `libvmi`: fork of [LibVMI], the *Simplified Virtual Machine Introspection Library*, with an KVM driver integration based on `KVM-VMI`
 - `vagrant`: a [Vagrant](https://www.vagrantup.com/) based development environment to easily setup `KVM-VMI`
 

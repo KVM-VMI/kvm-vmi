@@ -7,3 +7,6 @@
 [submodule "libvmi"]
 	path = libvmi
 	url = https://github.com/KVM-VMI/libvmi
+[submodule "libkvmi"]
+	path = libkvmi
+	url = https://github.com/bitdefender/libkvmi
