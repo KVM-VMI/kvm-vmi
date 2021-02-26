@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>KVMi subsystem for KVM &mdash; KVM-VMI 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Archived" href="archived.html" />
+    <link rel="prev" title="Setup" href="setup.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> KVM-VMI
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">KVMi subsystem for KVM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v1">v1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2">v2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v3">v3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v4">v4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v5">v5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v6">v6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v7">v7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v8">v8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v9">v9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v10">v10</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="archived.html">Archived</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">KVM-VMI</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>KVMi subsystem for KVM</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/kvmi.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="kvmi-subsystem-for-kvm">
+<h1>KVMi subsystem for KVM<a class="headerlink" href="#kvmi-subsystem-for-kvm" title="Permalink to this headline">¶</a></h1>
+<p>This page tracks the new versions of the <code class="docutils literal notranslate"><span class="pre">KVMi</span></code> subsystem for KVM.</p>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The KVM introspection subsystem provides a facility for applications
+running on the host or in a separate VM, to control the execution of
+other VMs (pause, resume, shutdown), query the state of the vCPUs (GPRs,
+MSRs etc.), alter the page access bits in the shadow page tables (only
+for the hardware backed ones, eg. Intel’s EPT) and receive notifications
+when events of interest have taken place (shadow page table level faults,
+key MSR writes, hypercalls etc.). Some notifications can be responded
+to with an action (like preventing an MSR from being written), others
+are mere informative (like breakpoint events which can be used for
+execution tracing).  With few exceptions, all events are optional. An
+application using this subsystem will explicitly register for them.</p>
+<p>The use case that gave way for the creation of this subsystem is to
+monitor the guest OS and as such the ABI/API is highly influenced by how
+the guest software (kernel, applications) sees the world. For example,
+some events provide information specific for the host CPU architecture
+(eg. <code class="docutils literal notranslate"><span class="pre">MSR_IA32_SYSENTER_EIP</span></code>) merely because its leveraged by guest software
+to implement a critical feature (fast system calls).</p>
+<p>At the moment, the target audience for KVMI are security software authors
+that wish to perform forensics on newly discovered threats (exploits)
+or to implement another layer of security like preventing a large set
+of kernel rootkits simply by “locking” the kernel image in the shadow
+page tables (ie. enforce <code class="docutils literal notranslate"><span class="pre">.text</span></code> <code class="docutils literal notranslate"><span class="pre">r-x</span></code>, <code class="docutils literal notranslate"><span class="pre">.rodata</span></code> <code class="docutils literal notranslate"><span class="pre">rw-</span></code> etc.). It’s the latter
+case that made KVMI a separate subsystem, even though many of these
+features are available in the device manager. The ability to build a
+security application that does not interfere (in terms of performance)
+with the guest software asks for a specialized interface that is designed
+for minimum overhead.</p>
+</div>
+<div class="section" id="v1">
+<h2>v1<a class="headerlink" href="#v1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>16th June 2017</strong></p></li>
+<li><p><a class="reference external" href="https://www.spinics.net/lists/kvm/msg151508.html">Mailing list</a></p></li>
+</ul>
+</div>
+<div class="section" id="v2">
+<h2>v2<a class="headerlink" href="#v2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>7th July 2017</strong></p></li>
+<li><p><a class="reference external" href="https://www.spinics.net/lists/kvm/msg152567.html">Mailing list</a></p></li>
+</ul>
+<p><strong>Changes since</strong> <code class="docutils literal notranslate"><span class="pre">v1</span></code></p>
+<ul class="simple">
+<li><p>add documentation and ABI [Paolo, Jan]</p></li>
+<li><p>drop all the other patches for now [Paolo]</p></li>
+<li><p>remove KVMI_GET_GUESTS, KVMI_EVENT_GUEST_ON, KVMI_EVENT_GUEST_OFF,
+and let libvirt/qemu handle this [Stefan, Paolo]</p></li>
+<li><p>change the license from LGPL to GPL [Jan]</p></li>
+<li><p>remove KVMI_READ_PHYSICAL and KVMI_WRITE_PHYSICAL (not used anymore)</p></li>
+<li><p>make the interface a little more consistent</p></li>
+</ul>
+</div>
+<div class="section" id="v3">
+<h2>v3<a class="headerlink" href="#v3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>11th September 2017</strong></p></li>
+<li><p><a class="reference external" href="https://lore.kernel.org/kvm/20170911153637.30326-1-alazar&#64;bitdefender.com/">Mailing list</a></p></li>
+</ul>
+<p><strong>Changes since</strong> <code class="docutils literal notranslate"><span class="pre">v2</span></code>:</p>
+<ul class="simple">
+<li><p>make small changes to the wire protocol (eg. use kvmi_error_code
+with every command reply, a few renames, etc.)</p></li>
+<li><p>removed ‘_x86’ from x86 specific structure names. Architecture
+specific structures will have the same name.</p></li>
+<li><p>drop KVMI_GET_MTRR_TYPE and KVMI_GET_MTRRS (use KVMI_SET_REGISTERS)</p></li>
+<li><p>drop KVMI_EVENT_ACTION_SET_REGS (use KVMI_SET_REGISTERS)</p></li>
+<li><p>remove KVMI_MAP_PHYSICAL_PAGE_TO_GUEST and KVMI_UNMAP_PHYSICAL_PAGE_FROM_GUEST
+(to be replaced by a token+hypercall pair)</p></li>
+<li><p>extend KVMI_GET_VERSION with allowed commnd/event masks</p></li>
+<li><p>replace KVMI_PAUSE_GUEST/KVMI_UNPAUSE_GUEST with KVMI_PAUSE_VCPU</p></li>
+<li><p>replace KVMI_SHUTDOWN_GUEST with KVMI_EVENT_ACTION_CRASH</p></li>
+<li><p>replace KVMI_GET_XSAVE_INFO with KVMI_GET_CPUID</p></li>
+<li><p>merge KVMI_INJECT_PAGE_FAULT and KVMI_INJECT_BREAKPOINT
+in KVMI_INJECT_EXCEPTION</p></li>
+<li><p>replace event reply flags with ALLOW/SKIP/RETRY/CRASH actions</p></li>
+<li><p>make KVMI_SET_REGISTERS work with vCPU events only</p></li>
+<li><p>add EPT view support in KVMI_GET_PAGE_ACCESS/KVMI_SET_PAGE_ACCESS</p></li>
+<li><p>add support for multiple pages in KVMI_GET_PAGE_ACCESS/KVMI_SET_PAGE_ACCESS</p></li>
+<li><p>add (back) KVMI_READ_PHYSICAL/KVMI_WRITE_PHYSICAL</p></li>
+<li><p>add KVMI_CONTROL_VE</p></li>
+<li><p>add cstar to KVMI_EVENT</p></li>
+<li><p>add new events: KVMI_EVENT_VCPU_PAUSED, KVMI_EVENT_CREATE_VCPU,
+KVMI_EVENT_DESCRIPTOR_ACCESS, KVMI_EVENT_SINGLESTEP</p></li>
+<li><p>add new sections: “Introspection capabilities”, “Live migrations”,
+“Guest snapshots with memory”, “Memory access safety”</p></li>
+<li><p>document the hypercall used by the KVMI_EVENT_HYPERCALL command
+(was KVMI_EVENT_USER_CALL)</p></li>
+</ul>
+</div>
+<div class="section" id="v4">
+<h2>v4<a class="headerlink" href="#v4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>18th December 2017</strong></p></li>
+<li><p><a class="reference external" href="https://lore.kernel.org/kvm/20171218190642.7790-1-alazar&#64;bitdefender.com/">Mailing list</a></p></li>
+</ul>
+<p><strong>Changes since</strong> <code class="docutils literal notranslate"><span class="pre">v3</span></code>:</p>
+<ul class="simple">
+<li><p>move the accept/handshake worker to QEMU</p></li>
+<li><p>extend and use the ‘page_track’ infrastructure to intercept page
+accesses during emulation</p></li>
+<li><p>remove the 0x40000000-0x40001fff range from monitored MSR-s</p></li>
+<li><p>make small changes to the wire protocol (error codes, padding, names)</p></li>
+<li><p>simplify KVMI_PAUSE_VCPU</p></li>
+<li><p>add new commands: KVMI_GET_MAP_TOKEN, KVMI_GET_XSAVE</p></li>
+<li><p>add pat to KVMI_EVENT</p></li>
+<li><p>document KVM_HC_MEM_MAP and KVM_HC_MEM_UNMAP hypercalls</p></li>
+</ul>
+</div>
+<div class="section" id="v5">
+<h2>v5<a class="headerlink" href="#v5" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>20th December 2018</strong></p></li>
+<li><p><a class="reference external" href="https://www.spinics.net/lists/kvm/msg179441.html">Mailing list</a></p></li>
+<li><p>Kernel: <code class="docutils literal notranslate"><span class="pre">4.20.0-rc7</span></code></p></li>
+</ul>
+<p><strong>Changes since</strong> <code class="docutils literal notranslate"><span class="pre">v4</span></code>:</p>
+<ul class="simple">
+<li><p>move the new and improved remote mapping code to the mm/ tree</p></li>
+<li><p>add two VM events (in addition to vCPU events) - KVMI_EVENT_CREATE_VCPU
+and KVMI_EVENT_UNHOOK - controlled by KVMI_CONTROL_VM_EVENTS</p></li>
+<li><p>add KVM_INTROSPECTION_UNHOOK ioctl to support suspend, snapshot
+and live migration</p></li>
+<li><p>use KVMI_PAUSE_ALL_VCPUS instead of KVMI_PAUSE_VCPU (temporarily)</p></li>
+<li><p>fix the reinjection of guest breakpoints</p></li>
+<li><p>add single-stepping</p></li>
+<li><p>extend KVMI_EVENT_PF to support single-stepping and to reduce
+the number of events on REP prefixed instructions</p></li>
+<li><p>allow the guest to update A/D bits when the page tables are tracked
+(write protected)</p></li>
+<li><p>extend page tracking to pass the gva in addition to gpa</p></li>
+<li><p>make small changes to the wire protocol (error codes, padding, names)</p></li>
+<li><p>extend struct kvm_introspection (ioctl KVM_INTROSPECTION) with the guest’s uuid</p></li>
+<li><p>change the maximum message size to 4K (from 64K)</p></li>
+<li><p>fix more bugs</p></li>
+</ul>
+</div>
+<div class="section" id="v6">
+<h2>v6<a class="headerlink" href="#v6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>9th August 2019</strong></p></li>
+<li><p><a class="reference external" href="https://lore.kernel.org/kvm/20190809160047.8319-1-alazar&#64;bitdefender.com/">Patches on the mailing list</a></p></li>
+<li><p>Kernel: <code class="docutils literal notranslate"><span class="pre">5.0-rc7</span></code></p></li>
+</ul>
+<p><strong>Changes since</strong> <code class="docutils literal notranslate"><span class="pre">v5</span></code>:</p>
+<ul class="simple">
+<li><p>small changes to the protocol, but enough to make it backward
+incompatible with v5</p></li>
+<li><p>fix CR3 interception (thanks to Mathieu Tarral for reporting the issue)</p></li>
+<li><p>add SPP support (thanks to Weijiang Yang)</p></li>
+<li><p>add two more ioctls in order to let userspace/QEMU control
+the commands/events allowed for introspection</p></li>
+<li><p>extend the breakpoint event with the instruction length</p></li>
+<li><p>complete the descriptor table registers interception</p></li>
+<li><p>add new instructions to the x86 emulator</p></li>
+<li><p>move arch dependent code to arch/x86/kvm/</p></li>
+<li><p>lots of fixes, especially on page tracking, single-stepping, exception
+injection and remote memory mapping</p></li>
+<li><p>the guests are much more stable (on pair with our introspection
+products using Xen)</p></li>
+<li><p>speed improvements (the penalty on web browsing actions is 50% lower,
+at least)</p></li>
+</ul>
+</div>
+<div class="section" id="v7">
+<h2>v7<a class="headerlink" href="#v7" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>7th February 2020</strong></p></li>
+<li><p><a class="reference external" href="https://lore.kernel.org/kvm/20200207181636.1065-1-alazar&#64;bitdefender.com/">Mailing list</a></p></li>
+<li><p>Kernel: <code class="docutils literal notranslate"><span class="pre">5.4.24</span></code></p></li>
+</ul>
+<p><strong>Changes since</strong> <code class="docutils literal notranslate"><span class="pre">v6</span></code>:</p>
+<ul class="simple">
+<li><p>this is a subset of the previous version, as Sean and Paolo suggested,
+keeping “only” the basic introspection capabilities</p></li>
+<li><p>add a x86_64 test in tools/testing/selftests/kvm [Paolo]</p></li>
+<li><p>simplify the requests/replies handling [Paolo]</p></li>
+<li><p>add a new ioctl (PREHOOK) to notify the introspection tool to unhook
+[Paolo, Sean]</p></li>
+<li><p>add two new commands KVMI_VCPU_CONTROL_SINGLESTEP
+and KVMI_VCPU_TRANSLATE_GVA [Mathieu]</p></li>
+<li><p>restore the status of MSRs, CR3, descriptors access interception
+and prevent conflicts with userspace [Sean]</p></li>
+<li><p>other fixes for allmost all the issues pointed in the previous
+code review [Sean, Paolo]</p></li>
+</ul>
+</div>
+<div class="section" id="v8">
+<h2>v8<a class="headerlink" href="#v8" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>30th March 2020</strong></p></li>
+<li><p><a class="reference external" href="https://lore.kernel.org/kvm/20200330101308.21702-1-alazar&#64;bitdefender.com/">Mailing list</a></p></li>
+</ul>
+<p><strong>Changes since</strong> <code class="docutils literal notranslate"><span class="pre">v7</span></code>:</p>
+<ul class="simple">
+<li><p>remove the RFC tag</p></li>
+<li><p>KVMI_EVENT_SINGLESTEP and KVMI_EVENT_TRAP doesn’t have to
+be enabled. These events are sent after a specific command
+(KVMI_VCPU_CONTROL_SINGLESTEP/KVMI_VCPU_INJECT_EXCEPTION), as it is
+the case with KVMI_VCPU_PAUSE/KVMI_EVENT_PAUSE.</p></li>
+<li><p>add kvm_x86_ops.desc_ctrl_supported()</p></li>
+<li><p>fix the descriptor-table and MSR events on AMD</p></li>
+<li><p>drop KVMI_EVENT_REPLY (use KVMI_EVENT instead; as we do with the commands)</p></li>
+<li><p>other small changes (code refactoring, message validation, etc.).</p></li>
+</ul>
+</div>
+<div class="section" id="v9">
+<h2>v9<a class="headerlink" href="#v9" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>22nd Jul 2020</strong></p></li>
+<li><p><a class="reference external" href="https://lore.kernel.org/kvm/20200721210922.7646-1-alazar&#64;bitdefender.com/">Mailing list</a></p></li>
+<li><p>Kernel: <code class="docutils literal notranslate"><span class="pre">5.8</span></code></p></li>
+</ul>
+<p><strong>Changes since</strong> <code class="docutils literal notranslate"><span class="pre">v8</span></code>:</p>
+<ul class="simple">
+<li><p>rebase on 5.8</p></li>
+<li><p>fix non-x86 builds (avoid including the UAPI headers from kvmi_host.h)</p></li>
+<li><p>fix the clean-up for KVMI_VCPU_SINGLESTEP [Mathieu]</p></li>
+<li><p>extend KVMI_VM_SET_PAGE_ACCESS with the ‘visible’ option</p></li>
+<li><p>improve KVMI_VM_GET_MAX_GFN (skip read-only, invalid or non-user memslots)</p></li>
+<li><p>add KVMI_VM_CONTROL_CLEANUP [Tamas, Mathieu]</p></li>
+<li><p>add KVMI_VCPU_GET_XCR and KVMI_VCPU_SET_XSAVE (SSE emulation)</p></li>
+<li><p>move KVM_REQ_INTROSPECTION in the range of arch-independent requests</p></li>
+<li><p>better split of x86 vs arch-independent code</p></li>
+<li><p>cover more error codes with tools/testing/selftests/kvm/x86_64/kvmi_test.c</p></li>
+<li><p>remove more error messages and close the introspection connection
+when an error code can’t be sent back or it doesn’t make sense to send it</p></li>
+<li><p>other small changes (code refactoring, message validation, etc.).</p></li>
+</ul>
+</div>
+<div class="section" id="v10">
+<h2>v10<a class="headerlink" href="#v10" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Publication: <strong>25th November 2020</strong></p></li>
+<li><p><a class="reference external" href="https://lore.kernel.org/kvm/20201125093600.2766-1-alazar&#64;bitdefender.com/">Mailing list</a></p></li>
+<li><p>Kernel: <code class="docutils literal notranslate"><span class="pre">5.10</span></code></p></li>
+</ul>
+<p><strong>Changes since</strong> <code class="docutils literal notranslate"><span class="pre">v9</span></code>:</p>
+<ul class="simple">
+<li><p>rebase on 5.10 from 5.8</p></li>
+<li><p>complete the split of x86 and arch-independent code</p></li>
+<li><p>split the VM and vCPU events</p></li>
+<li><p>clean up the interface headers (VM vs vCPU messages/events)</p></li>
+<li><p>clean up the tests</p></li>
+<li><p>add a new exit code (for the CRASH action) instead of killing
+the vCPU threads [Christoph]</p></li>
+<li><p>other small changes (code refactoring, message validation, etc.).</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="archived.html" class="btn btn-neutral float-right" title="Archived" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="setup.html" class="btn btn-neutral float-left" title="Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Mathieu Tarral
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
