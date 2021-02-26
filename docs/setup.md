@@ -228,7 +228,7 @@ $ sudo make install
 
 Reboot.
 Run `uname -a`
-You should be on kernel `5.4.24-kvmi` (`kvmi v7`)
+You should be on kernel `5.4.24+` (`kvmi v7`)
 
 
 ### QEMU
