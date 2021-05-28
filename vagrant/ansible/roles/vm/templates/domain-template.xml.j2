@@ -1,7 +1,7 @@
 <domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
     <name>{{ item.name }}</name>
     <memory unit='MiB'>{{ item.ram | default('1024') }}</memory>
-  <vcpu placement='static'>2</vcpu>
+  <vcpu placement='static'>1</vcpu>
   <qemu:commandline>
       <qemu:arg value='-chardev'/>
       <qemu:arg value='socket,path=/tmp/introspector,id=chardev0,reconnect=3'/>
