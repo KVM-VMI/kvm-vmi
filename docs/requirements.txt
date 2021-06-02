@@ -21,7 +21,7 @@ msgpack==0.6.2
 packaging==20.3
 pep517==0.8.2
 progress==1.5
-Pygments==2.6.1
+Pygments==2.7.4
 pyparsing==2.4.6
 pytoml==0.1.21
 pytz==2020.1
