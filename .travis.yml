@@ -1,5 +1,5 @@
 ---
-dist: bionic
+dist: focal
 language: minimal
 git:
   depth: 1
@@ -9,12 +9,13 @@ addons:
       - bridge-utils
       - dnsmasq-base
       - ebtables
-      - libvirt-bin
+      - libvirt-daemon
+      - libvirt-daemon-system
       - libvirt-dev
       - qemu-kvm
       - qemu-utils
       - ruby-dev
-      - ansible
+      - nfs-kernel-server
 
 # Cache the big Vagrant boxes
 cache:
@@ -32,8 +33,8 @@ install:
 
 script:
   - pushd vagrant
-  # use rsync since NFS doesn't work
-  - sed -i -E "s:^(\s*)libvirt_sync_folder_type =.*:\1libvirt_sync_folder_type = 'rsync':" Vagrantfile
+  # use NFS v3 as v4 raises permission denied errors in Travis
+  - sed -i -E "s:^(\s*)libvirt_nfs_ver =.*:\1libvirt_nfs_ver = 3:" Vagrantfile
   # enable winxp
   - sed -i -E "s/^(\s*'winxp'\:\s).*/\1true,/g" Vagrantfile
   # disable ubuntu
