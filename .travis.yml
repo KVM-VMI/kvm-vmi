@@ -1,20 +1,24 @@
 ---
-dist: bionic
+dist: focal
 language: minimal
 git:
   depth: 1
 addons:
   apt:
+    sources:
+      - sourceline: 'deb [arch=amd64] https://apt.releases.hashicorp.com focal main'
+        key_url: 'https://apt.releases.hashicorp.com/gpg'
     packages:
       - bridge-utils
       - dnsmasq-base
       - ebtables
-      - libvirt-bin
+      - libvirt-daemon-system
       - libvirt-dev
       - qemu-kvm
       - qemu-utils
       - ruby-dev
       - ansible
+      - vagrant
 
 # Cache the big Vagrant boxes
 cache:
@@ -22,9 +26,6 @@ cache:
   - /home/travis/.vagrant.d/boxes
 
 install:
-  - wget -nv https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.deb -O vagrant.deb
-  - sudo dpkg -i vagrant.deb
-
   - vagrant --version
 
   - vagrant plugin install vagrant-libvirt
