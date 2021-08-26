@@ -204,6 +204,19 @@ $ sudo apt-get install bc fakeroot flex bison libelf-dev libssl-dev ncurses-dev
 Let's configure the kernel
 ~~~
 $ cd kvm-vmi/kvm
+~~~
+
+You can start from your active config
+~~~
+$ cp /boot/config-$(uname -r) .config
+~~~
+or from the default config
+~~~
+$ make x86_64_defconfig
+~~~
+
+Run the menu based program:
+~~~
 $ make olddefconfig
 $ make menuconfig
 ~~~
@@ -213,17 +226,15 @@ Apply the following configuration:
 CONFIG_KVM=m
 CONFIG_KVM_INTEL=m
 CONFIG_KVM_AMD=m
-CONFIG_KSM=n
-CONFIG_REMOTE_MAPPING=y
 CONFIG_KVM_INTROSPECTION=y
 ~~~
 
 Build and install the kernel
 ~~~
-$ make -j4 bzImage
-$ make -j4 modules
-$ sudo make modules_install
+$ make -j$(nproc)
+$ sudo make modules_install INSTALL_MOD_STRIP=1
 $ sudo make install
+$ sudo update-grub
 ~~~
 
 Reboot.
@@ -269,6 +280,8 @@ Modify the XML configuration as the following.
 ~~~
 
 Note that you need to **add** `xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'`.
+
+Note: If you want to use the remote memory mapping feature (and setup a VM with the introspection tool) you'll find detailed instructions [here](https://hvmi.github.io/blog/2020/08/10/getting-started-on-kvm.html).
 
 Validate the new configuration and start the domain.
 
