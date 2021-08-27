@@ -233,3 +233,51 @@ at least)
 - add a new exit code (for the CRASH action) instead of killing
   the vCPU threads [Christoph]
 - other small changes (code refactoring, message validation, etc.).
+
+## Debugging
+
+Enable CONFIG_DYNAMIC_DEBUG, CONFIG_FTRACE and CONFIG_FUNCTION_TRACER and rebuild the kernel.
+
+Use the following commands to read the output of all `trace_kvmi_...()` functions:
+```
+mount -t tracefs nodev /sys/kernel/tracing
+echo 'kvmi:*' > /sys/kernel/tracing/set_event
+cat /sys/kernel/tracing/trace_pipe
+```
+
+Use the following commands to enable the output from `kvm_debug()` calls for specific files:
+```
+mount -t debugfs none /sys/kernel/debug
+echo 8 > /proc/sys/kernel/printk
+echo "file kvmi_msg.c +p" >> /sys/kernel/debug/dynamic_debug/control
+echo "file kvmi.c +p" >> /sys/kernel/debug/dynamic_debug/control
+```
+
+## How to add new events/commands
+
+Follow what Arash Eslami did for KVMI_EVENT_CPUID - https://github.com/KVM-VMI/kvm/pull/41/files
+
+Read [the documention](https://github.com/KVM-VMI/kvm/blob/kvmi-v7/Documentation/virt/kvm/kvmi.rst) especially the [Events section](https://github.com/KVM-VMI/kvm/blob/kvmi-v7/Documentation/virt/kvm/kvmi.rst#events) if you add an event.
+
+Find the proper place in the KVM system and place the function call (that will send the new event).
+Write the implementation in `arch/x86/kvm/kvmi.c` and the event in `arch/x86/include/uapi/asm/kvmi.h` (if it is a x86 architecture specific event), otherwise in `virt/kvm/introspection/kvmi.c` and `include/uapi/linux/kvmi.h`.
+
+Add the event to `KVMI_KNOWN_VCPU_EVENTS` or `KVMI_KNOWN_VM_EVENTS` macro.
+
+Don't forget to update the documentation and to add a new test in `tools/testing/selftests/kvm/x86_64/kvmi_test.c`. Once you reboot with the new kernel, this will be the easiest way to test your changes.
+
+```
+make -C tools/testing/selftests/kvm TEST_GEN_PROGS_x86_64=x86_64/kvmi_test run_tests DEBUG=1
+```
+
+If you get a `madvise failed` error message, run the following command and rebuild `kvmi_test`
+```
+sed -i '/madvise failed/s/== 0,/== 0 \|\| errno == EINVAL,/' tools/testing/selftests/kvm/lib/kvm_util.c
+```
+
+For a new command, you must add the command handling function to `msg_vm[]` or `msg_vcpu[]` array,
+the new id to `KVMI_KNOWN_COMMANDS` macro and the new structures to `arch/x86/include/uapi/asm/kvmi.h` or `include/uapi/linux/kvmi.h`. Don't forget the documentation and selftest.
+
+Once you've tested the kernel side, add the event/command to userspace:
+ - [libkvmi](https://github.com/bitdefender/libkvmi)
+ - [libvmi](https://github.com/kvm-VMI/libvmi)
