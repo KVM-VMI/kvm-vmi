@@ -229,6 +229,11 @@ CONFIG_KVM_AMD=m
 CONFIG_KVM_INTROSPECTION=y
 ~~~
 
+If you are running on Ubuntu:
+~~~
+CONFIG_TRANSPARENT_HUGEPAGE=n
+~~~
+
 Build and install the kernel
 ~~~
 $ make -j$(nproc)
