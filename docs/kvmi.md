@@ -234,6 +234,32 @@ at least)
   the vCPU threads [Christoph]
 - other small changes (code refactoring, message validation, etc.).
 
+## v11
+
+- Publication: **7th December 2020**
+- [Mailing list](https://lore.kernel.org/kvm/20201207204622.15258-1-alazar@bitdefender.com/)
+- Kernel: `5.10`
+
+Changes since v10:
+
+- fix the event reply validation
+- fix the compile-time warnings reported by "kernel test robot <lkp@intel.com>"
+- send the error code (KVM_ENOMEM) when the memory allocation fails
+  while handling the KVMI_VCPU_GET_XSAVE command
+
+## v12
+
+- Publication: **6th October 2021**
+- [Mailing list](https://lore.kernel.org/kvm/20211006173113.26445-1-alazar@bitdefender.com/)
+- Kernel: `5.15`
+
+Changes since v11:
+
+- rebase to 5.15 (from 5.10)
+- remove patches no longer needed
+- remove kvm_get_max_gfn()/KVMI_VM_GET_MAX_GFN (a couple of tests are needed to see
+  if it is better to send the memory size from QEMU, during handshake)
+
 ## Debugging
 
 Enable CONFIG_DYNAMIC_DEBUG, CONFIG_FTRACE and CONFIG_FUNCTION_TRACER and rebuild the kernel.
