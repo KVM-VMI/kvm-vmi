@@ -29,8 +29,14 @@
   become: false
   when: is_windows
 
-- name: configure kernel using distro's config
-  command: make olddefconfig
+- name: configure kernel using default x86_64 config
+  command: make x86_64_defconfig
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+
+- name: configure kernel with KVM guest features
+  command: make kvm_guest.config
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
