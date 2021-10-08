@@ -84,6 +84,12 @@
     regexp: '^GRUB_DEFAULT'
     line: 'GRUB_DEFAULT="1>0"'
 
+- name: add kvm.introspection=1 to kernel command line
+  lineinfile:
+    dest: /etc/default/grub.d/99-introspection.cfg
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT kvm.introspection=1"'
+    create: yes
+
 - name: update GRUB configuration
   command: update-grub
 
