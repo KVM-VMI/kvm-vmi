@@ -25,8 +25,10 @@
           DEBUG: 1
       become: false
 
+    # add timeout because the self-tests can hang
+    # and we don't won't to burn Travis CI credits for no reason
     - name: run kvm self-tests
-      command: ./tools/testing/selftests/kvm/x86_64/kvmi_test
+      command: timeout 10s ./tools/testing/selftests/kvm/x86_64/kvmi_test
       args:
         chdir: "{{ root_dir }}/kvm"
 
