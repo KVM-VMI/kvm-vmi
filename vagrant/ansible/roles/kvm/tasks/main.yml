@@ -29,8 +29,14 @@
   become: false
   when: is_windows
 
-- name: configure kernel using distro's config
-  command: make olddefconfig
+- name: configure kernel using default x86_64 config
+  command: make x86_64_defconfig
+  args:
+    chdir: "{{ root_dir }}/kvm"
+  become: false
+
+- name: configure kernel with KVM guest features
+  command: make kvm_guest.config
   args:
     chdir: "{{ root_dir }}/kvm"
   become: false
@@ -83,6 +89,12 @@
     dest: /etc/default/grub
     regexp: '^GRUB_DEFAULT'
     line: 'GRUB_DEFAULT="1>0"'
+
+- name: add kvm.introspection=1 to kernel command line
+  lineinfile:
+    dest: /etc/default/grub.d/99-introspection.cfg
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT kvm.introspection=1"'
+    create: yes
 
 - name: update GRUB configuration
   command: update-grub
