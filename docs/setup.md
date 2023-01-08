@@ -92,7 +92,7 @@ We need to checkout `qemu` and `libvmi` submodules
 
 ~~~
 cd kvm-vmi
-git submodule update --init qemu libvmi
+git submodule update --init qemu libvmi libkvmi
 ~~~
 
 ### Starting the Vagrant Virtual Machine
