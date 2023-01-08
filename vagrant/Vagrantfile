@@ -2,7 +2,7 @@ require 'rubygems'
 
 Vagrant.configure(2) do |config|
     config.vm.box = "generic/debian10"
-    config.vm.box_version = "4.1.18"
+    config.vm.box_version = "4.2.8"
     config.vm.define "kvmi"
 
     # configuration
