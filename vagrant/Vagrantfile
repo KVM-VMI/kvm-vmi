@@ -93,6 +93,7 @@ Vagrant.configure(2) do |config|
         # We cannot do an initial checkout on the Windows host because of filesystem limitations.
         override.vm.synced_folder "..", root_dir,
             :type => "rsync"
+            :rsync__args => ["--verbose", "--archive", "-z", "--copy-links"]
 
         # add synced folder hash
         synced_folder_hash.each do |folder, mntpnt|
