@@ -1,6 +1,6 @@
 [submodule "kvm"]
 	path = kvm
-	url = https://github.com/KVM-VMI/kvm
+	url = https://github.com/thomasdangl/kvm
 [submodule "qemu"]
 	path = qemu
 	url = https://github.com/KVM-VMI/qemu
