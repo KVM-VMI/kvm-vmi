@@ -52,10 +52,7 @@
     - { switch: "--enable", option: "KVM_AMD" }
     # enable KVM_INTROSPECTION
     - { switch: "--enable", option: "KVM_INTROSPECTION" }
-    # enable REMOTE_MAPPING
-    # -> !TRANSPARENT_HUGEPAGE
     - { switch: "--disable", option: "TRANSPARENT_HUGEPAGE" }
-    - { switch: "--enable", option: "REMOTE_MAPPING" }
 
 - name: append -kvmi to kernel version string
   lineinfile:
