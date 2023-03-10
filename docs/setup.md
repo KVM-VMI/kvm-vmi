@@ -197,44 +197,53 @@ You will have to compile and install an entire kernel.
 It is not possible to compile the KVM modules using an "out-of-tree" build.
 
 First we need to install the kernel build dependencies
-~~~
-$ sudo apt-get install bc fakeroot flex bison libelf-dev libssl-dev ncurses-dev
+~~~shell
+$ sudo apt-get install bc fakeroot flex bison libelf-dev libssl-dev dwarves
 ~~~
 
 Let's configure the kernel
-~~~
+~~~shell
 $ cd kvm-vmi/kvm
 ~~~
 
-You can start from your active config
-~~~
+Use your current kernel config as a base config
+~~~shell
 $ cp /boot/config-$(uname -r) .config
-~~~
-or from the default config
-~~~
-$ make x86_64_defconfig
-~~~
-
-Run the menu based program:
-~~~
-$ make olddefconfig
-$ make menuconfig
 ~~~
 
 Apply the following configuration:
-~~~
-CONFIG_KVM=m
-CONFIG_KVM_INTEL=m
-CONFIG_KVM_AMD=m
-CONFIG_KVM_INTROSPECTION=y
+~~~shell
+# disable kernel modules signature
+./scripts/config --disable SYSTEM_TRUSTED_KEYS
+./scripts/config --disable SYSTEM_REVOCATION_KEYS
+# enable KVM
+./scripts/config --module KVM
+./scripts/config --module KVM_INTEL
+./scripts/config --module KVM_AMD
+# enable intospection
+./scripts/config --enable KVM_INTROSPECTION
+# disable hugepage due to compilation issue
+./scripts/config --disable TRANSPARENT_HUGEPAGE
+# tweak localversion
+./scripts/config --set-str CONFIG_LOCALVERSION -kvmi
+# ubuntu 22.04 compatibility
+./scripts/config --enable PREEMPT
+./scripts/config --disable NET_VENDOR_NETRONOME
 ~~~
 
-Build and install the kernel
+Configure the rest of the kernel options with default values
+~~~shell
+$ make olddefconfig
 ~~~
-$ make -j$(nproc)
-$ sudo make modules_install INSTALL_MOD_STRIP=1
-$ sudo make install
-$ sudo update-grub
+
+Generate a debian package
+~~~shell
+$ make -j$(nproc) bindeb-pkg
+~~~
+
+Install the Linux image
+~~~shell
+$ sudo dpkg -i ../linux-image-5.4.24-kvmi+_5.4.24*deb
 ~~~
 
 Reboot.
@@ -245,12 +254,12 @@ You should be on kernel `5.4.24+` (`kvmi v7`)
 ### QEMU
 
 Dependencies
-~~~
+~~~shell
 $ sudo apt-get install libpixman-1-dev pkg-config zlib1g-dev libglib2.0-dev dh-autoreconf libspice-server-dev
 ~~~
 
 Configure, build and install QEMU
-~~~
+~~~shell
 $ cd kvm-vmi/qemu
 $ ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr/local
 $ make -j4
@@ -292,7 +301,7 @@ You should use this library to build your applications.
 
 ![libkvmi](images/libkvmi.png)
 
-~~~
+~~~shell
 $ cd kvm-vmi/libkvmi
 $ ./bootstrap
 $ ./configure
@@ -303,7 +312,7 @@ $ sudo make install
 #### Libkvmi examples
 
 Run the example provided by libkvmi: `hookguest-libkvmi`
-~~~
+~~~shell
 $ cd libkvmi/examples
 $ ./hookguest-libkvmi /tmp/introspector
 ~~~
@@ -315,12 +324,12 @@ Give it at least `10` seconds (waiting on QEMU to connect to the socket `/tmp/in
 [LibVMI](https://github.com/libvmi/libvmi) is a VMI library providing a unified access on `Xen` and `KVM`, as well as a semantic layer.
 
 Dependencies
-~~~
+~~~shell
 $ sudo apt-get install build-essential gcc libtool cmake pkg-config check libglib2.0-dev libvirt-dev flex bison libjson-c-dev
 ~~~
 
 Build and install
-~~~
+~~~shell
 $ cd kvm-vmi/libvmi
 $ mkdir build
 $ cd build
@@ -338,7 +347,7 @@ You can generate one like this:
 1. Run `./examples/vmi-win-guid` and note the `Kernel filename` and `PDB GUID` fields.
 2. Use Volatility3 to extract the JSON profile
 
-~~~
+~~~shell
 $ git clone https://github.com/volatilityfoundation/volatility3
 $ cd volatility3
 $ virtualenv -p python3 venv
@@ -352,7 +361,7 @@ $ source venv/bin/activate
 The debug output can be configured via `CMake`.
 The constants should be used from `libvmi/debug.h`
 
-~~~
+~~~shell
 cd build 
 cmake .. -DVMI_DEBUG='(VMI_DEBUG_KVM | VMI_DEBUG_DRIVER)'
 make
@@ -361,7 +370,7 @@ sudo make install
 
 Toggling the debug output is controlled by an environment variable: `LIBVMI_DEBUG`
 
-~~~
+~~~shell
 $ LIBVMI_DEBUG=1 ./build/examples/vmi-process-list -n winxp -j /etc/libvmi/winxp-profile.json
 ~~~
 
