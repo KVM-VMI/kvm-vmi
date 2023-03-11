@@ -1,0 +1,66 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  kvm:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-22.04]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: install build dependencies
+        run: sudo apt-get install -y dwarves bc fakeroot flex bison libelf-dev libssl-dev ncurses-dev
+
+      - name: copy Ubuntu kernel config
+        run: cp /boot/config-$(uname -r) .config
+        working-directory: kvm
+
+      - name: configure kernel
+        run: |
+          # disable kernel signature
+          ./scripts/config --disable SYSTEM_TRUSTED_KEYS
+          ./scripts/config --disable SYSTEM_REVOCATION_KEYS
+          # compress debug info (otherwise might fail with 'no space left on device' on the runnner)
+          ./scripts/config --enable DEBUG_INFO_COMPRESSED
+          # enable KVM
+          ./scripts/config --module KVM
+          ./scripts/config --module KVM_INTEL
+          ./scripts/config --module KVM_AMD
+          ./scripts/config --enable KVM_INTROSPECTION
+          # fix ERROR: "unlock_device_hotplug" [drivers/dax/kmem.ko] undefined!
+          ./scripts/config --disable TRANSPARENT_HUGEPAGE
+          # tweak locaversion
+          ./scripts/config --set-str CONFIG_LOCALVERSION -kvmi
+        working-directory: kvm
+
+      - name: configure kernel (Ubuntu 22.04)
+        run: |
+          # fix: arch/x86/entry/thunk_64.o: warning: objtool: missing symbol table
+          ./scripts/config --enable PREEMPT
+          # fix: error: call to '__compiletime_assert_653' in drivers/net/ethernet/netronome/nfp/bpf/jit.c
+          ./scripts/config --disable NET_VENDOR_NETRONOME
+        working-directory: kvm
+        if: ${{ matrix.os == 'ubuntu-22.04' }}
+
+      - name: olddefconfig
+        run: make olddefconfig
+        working-directory: kvm
+
+      - name: generate debian package
+        run: make -j$(nproc) bindeb-pkg
+        working-directory: kvm
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: kvm-${{ matrix.os }}
+          path: '*.deb'
