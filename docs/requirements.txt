@@ -2,7 +2,7 @@ alabaster==0.7.12
 appdirs==1.4.3
 Babel==2.9.1
 CacheControl==0.12.6
-certifi==2022.12.7
+certifi==2023.7.22
 chardet==3.0.4
 colorama==0.4.3
 commonmark==0.9.1
