@@ -7,18 +7,14 @@ KVM-based Virtual Machine Instrospection.
 </h3>
 
 <p align="center">
-  <a href="https://travis-ci.com/KVM-VMI/kvm-vmi">
-    <img src="https://travis-ci.com/KVM-VMI/kvm-vmi.svg?branch=master" alt="CI">
-  </a>
   <a href="https://kvm-vmi.slack.com">
     <img src="https://img.shields.io/badge/Slack-KVM--VMI-important" alt="Slack">
   </a>
-  <img src="https://kvm-vmi.herokuapp.com/badge.svg" alt="Slack_Users">
-  <a href="https://kvm-vmi.herokuapp.com">
-    <img src="https://img.shields.io/badge/Slack-Join%20KVM--VMI-blue">
+  <a href="mailto:mathieu.tarral@protonmail.com">
+    <img src="https://img.shields.io/badge/📧-Ask Slack Invite-blue">
   <a>
   <a href="https://kvm-vmi.github.io/kvm-vmi/master/">
-    <img src="https://img.shields.io/badge/-Documentation-green">
+    <img src="https://img.shields.io/badge/📖-Documentation-green">
   <a>
 </p>
 
