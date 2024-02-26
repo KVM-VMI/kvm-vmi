@@ -290,7 +290,7 @@ Modify the XML configuration as the following.
 
 Note that you need to **add** `xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'`.
 
-Note: If you want to use the remote memory mapping feature (and setup a VM with the introspection tool) you'll find detailed instructions [here](https://hvmi.github.io/blog/2020/08/10/getting-started-on-kvm.html).
+Note: If you want to use the remote memory mapping feature (and setup a VM with the introspection tool) you'll find detailed instructions [here](https://web.archive.org/web/20220331032239/https://hvmi.github.io/blog/2020/08/10/getting-started-on-kvm.html).
 
 Validate the new configuration and start the domain.
 
