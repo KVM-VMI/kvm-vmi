@@ -17,12 +17,12 @@ jobs:
         kvmi_ver: [master, kvmi, kvmi-v6, kvmi-v7]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: ${{ matrix.kvmi_ver }}
 
       - name: Set up Python
-        uses: actions/setup-python@v4.5.0
+        uses: actions/setup-python@v5.2.0
         with:
           python-version: "3.10"
 
@@ -32,7 +32,7 @@ jobs:
       - name: Build documentation 🔨
         run: sphinx-build -M html docs "docs/_build/${{ matrix.kvmi_ver }}"
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.kvmi_ver }}
           path: "docs/_build/${{ matrix.kvmi_ver }}/html" 
@@ -41,31 +41,34 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
 
       # the deploy action below depends on a checkout of the repo
       # otherwise it fails trying to remote the 'origin' remote
       # https://github.com/JamesIves/github-pages-deploy-action/issues/335
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       # download artifacts
-      - uses: actions/download-artifact@v4.1.7
+      - uses: actions/download-artifact@v4
         with:
           name: master
           path: _web/master
 
-      - uses: actions/download-artifact@v4.1.7
+      - uses: actions/download-artifact@v4
         with:
           name: kvmi
           path: _web/kvmi
 
-      - uses: actions/download-artifact@v4.1.7
+      - uses: actions/download-artifact@v4
         with:
           name: kvmi-v6
           path: _web/kvmi-v6
 
-      - uses: actions/download-artifact@v4.1.7
+      - uses: actions/download-artifact@v4
         with:
           name: kvmi-v7
           path: _web/kvmi-v7
@@ -76,11 +79,9 @@ jobs:
         run: touch _web/.nojekyll
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v4.6.4
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages
           # note: FOLDER doesn't care about the job's working directory
-          FOLDER: _web
-          SINGLE_COMMIT: true
+          folder: _web
+          sngle-commit: true
 
