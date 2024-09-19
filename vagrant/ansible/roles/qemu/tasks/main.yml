@@ -14,7 +14,7 @@
     - libseccomp-dev
 
 - name: configure QEMU
-  command: ./configure --target-list=x86_64-softmmu --enable-spice --enable-seccomp --prefix=/usr/local --disable-werror
+  command: ./configure --target-list=x86_64-softmmu --enable-spice --enable-seccomp --prefix=/usr/local --disable-werror --disable-pie
   args:
     chdir: "{{ root_dir }}/qemu"
   become: false
