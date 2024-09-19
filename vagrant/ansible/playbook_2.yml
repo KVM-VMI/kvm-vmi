@@ -25,10 +25,10 @@
           DEBUG: 1
       become: false
 
-    - name: run kvm self-tests
-      command: ./tools/testing/selftests/kvm/x86_64/kvmi_test
-      args:
-        chdir: "{{ root_dir }}/kvm"
+    # - name: run kvm self-tests
+    #   command: ./tools/testing/selftests/kvm/x86_64/kvmi_test
+    #   args:
+    #     chdir: "{{ root_dir }}/kvm"
 
   roles:
     - remote

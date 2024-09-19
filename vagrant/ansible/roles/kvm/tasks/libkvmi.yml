@@ -4,6 +4,8 @@
     name: "{{ item }}"
   with_items:
     - uuid-dev
+    - autoconf
+    - libtool
 
 - name: bootstrap libkvmi
   command: ./bootstrap

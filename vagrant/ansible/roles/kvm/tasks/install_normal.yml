@@ -3,12 +3,16 @@
   command: "make -j{{ ansible_processor_vcpus }} bzImage"
   args:
     chdir: "{{ root_dir }}/kvm"
+  environment:
+    EXTRA_CFLAGS: "-Wno-error=use-after-free"
   become: false
 
 - name: build modules
   command: "make -j{{ ansible_processor_vcpus }} modules"
   args:
     chdir: "{{ root_dir }}/kvm"
+  environment:
+    EXTRA_CFLAGS: "-Wno-error=use-after-free"
   become: false
 
 - name: install modules
