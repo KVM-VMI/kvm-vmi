@@ -14,6 +14,7 @@
     - bison
     - libelf-dev
     - libssl-dev
+    - pahole
 
 # because of Windows filesystem restrictions, the KVM repo cannot be checked out on Windows
 # it contains some files like
@@ -56,12 +57,16 @@
     # -> !TRANSPARENT_HUGEPAGE
     - { switch: "--disable", option: "TRANSPARENT_HUGEPAGE" }
     - { switch: "--enable", option: "REMOTE_MAPPING" }
+    # fix: arch/x86/entry/thunk_64.o: warning: objtool: missing symbol table
+    - { switch: "--enable", option: "PREEMPT" }
+    # fix: error: call to '__compiletime_assert_653' in drivers/net/ethernet/netronome/nfp/bpf/jit.c
+    - { switch: "--disable", option: "NET_VENDOR_NETRONOME" }
 
 - name: append -kvmi to kernel version string
   lineinfile:
     dest: "{{ root_dir }}/kvm/Makefile"
-    regexp: '^EXTRAVERSION ='
-    line: 'EXTRAVERSION = -kvmi'
+    regexp: "^EXTRAVERSION ="
+    line: "EXTRAVERSION = -kvmi"
   become: false
 
 - name: set default config to new options
@@ -81,7 +86,7 @@
 - name: set kvmi kernel as default
   lineinfile:
     dest: /etc/default/grub
-    regexp: '^GRUB_DEFAULT'
+    regexp: "^GRUB_DEFAULT"
     line: 'GRUB_DEFAULT="1>0"'
 
 - name: update GRUB configuration
