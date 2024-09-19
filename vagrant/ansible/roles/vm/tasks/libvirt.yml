@@ -4,7 +4,6 @@
     name: "{{ item }}"
   with_items:
     - libvirt-daemon-system
-    - python-libvirt
     - python3-libvirt
 
 # kvm group to access /dev/kvm, libvirt-qemu for rw on memory access socket
@@ -17,18 +16,18 @@
 - name: include local config for libvirt-qemu apparmor profile
   lineinfile:
     path: /etc/apparmor.d/libvirt/TEMPLATE.qemu
-    line: '#include <local/libvirt-qemu>'
-    insertafter: '#include <abstractions/libvirt-qemu>'
+    line: "#include <local/libvirt-qemu>"
+    insertafter: "#include <abstractions/libvirt-qemu>"
 
 - name: add local QEMU apparmor profile for libvirtd
   lineinfile:
     path: /etc/apparmor.d/local/usr.sbin.libvirtd
-    line: '/usr/local/bin/qemu-system-x86_64 PUx,'
+    line: "/usr/local/bin/qemu-system-x86_64 PUx,"
 
 - name: add local QEMU apparmor profile for libvirt-qemu
   lineinfile:
     path: /etc/apparmor.d/local/libvirt-qemu
-    line: '/usr/local/bin/qemu-system-x86_64 PUx,'
+    line: "/usr/local/bin/qemu-system-x86_64 PUx,"
     create: yes
 
 - name: reload apparmor
