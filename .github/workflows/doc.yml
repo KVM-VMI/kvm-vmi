@@ -79,9 +79,9 @@ jobs:
         run: touch _web/.nojekyll
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v4.6.4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           # note: FOLDER doesn't care about the job's working directory
           folder: _web
-          sngle-commit: true
+          single-commit: true
 
