@@ -87,7 +87,7 @@
   lineinfile:
     dest: /etc/default/grub
     regexp: "^GRUB_DEFAULT"
-    line: 'GRUB_DEFAULT="1>0"'
+    line: 'GRUB_DEFAULT="1>6"'
 
 - name: update GRUB configuration
   command: update-grub
