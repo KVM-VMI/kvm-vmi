@@ -14,7 +14,7 @@
     - bison
     - libelf-dev
     - libssl-dev
-    - pahole
+    - dwarves
 
 # because of Windows filesystem restrictions, the KVM repo cannot be checked out on Windows
 # it contains some files like
@@ -76,11 +76,11 @@
   become: false
 
 - name: install kvm
-  include: install_deb.yml
+  include_tasks: install_deb.yml
   when: kvm_install_package
 
 - name: install kvm
-  include: install_normal.yml
+  include_tasks: install_normal.yml
   when: not kvm_install_package
 
 - name: set kvmi kernel as default
@@ -93,4 +93,4 @@
   command: update-grub
 
 - name: setup libkvmi
-  include: libkvmi.yml
+  include_tasks: libkvmi.yml
