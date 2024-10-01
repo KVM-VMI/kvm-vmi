@@ -17,8 +17,9 @@
     <apic/>
     <vmport state='off'/>
   </features>
-  <cpu mode='host-model'>
-    <model fallback='allow'/>
+  <cpu mode="custom" match="exact" check="partial">
+    <model fallback="allow">core2duo</model>
+    <feature policy="optional" name="monitor"/>
   </cpu>
   <clock offset='utc'>
     <timer name='rtc' tickpolicy='catchup'/>
