@@ -12,12 +12,44 @@
     group: vagrant
 
 - name: setup libvirt
-  include: libvirt.yml
+  include_tasks: libvirt.yml
 
-- name: install Packer
-  apt:
-    name: packer
+- name: Create temporary directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: packer
+  register: temp_dir
+
+- name: Download Packer zip archive
+  ansible.builtin.get_url:
+    url: "https://releases.hashicorp.com/packer/1.6.0/packer_1.6.0_linux_amd64.zip"
+    dest: "{{ temp_dir.path }}/packer.zip"
+    mode: "0644"
+
+- name: Install unzip
+  ansible.builtin.apt:
+    name: unzip
     state: present
+  become: true
+
+- name: Unzip Packer archive
+  ansible.builtin.unarchive:
+    src: "{{ temp_dir.path }}/packer.zip"
+    dest: "{{ temp_dir.path }}"
+    remote_src: true
+
+- name: Move Packer binary to /usr/local/bin
+  ansible.builtin.copy:
+    src: "{{ temp_dir.path }}/packer"
+    dest: "/usr/local/bin/packer"
+    mode: "0755"
+    remote_src: true
+  become: true
+
+- name: Clean up temporary directory
+  ansible.builtin.file:
+    path: "{{ temp_dir.path }}"
+    state: absent
 
 - name: upload templates
   synchronize:
@@ -33,35 +65,40 @@
     mode: 0666
 
 - name: setup Windows XP
-  include: setup.yml
+  include_tasks: setup.yml
   with_items:
     - {
-        name: 'winxp',
-        ram: '512',
-        packer_template: 'windows.json',
-        packer_varfile: 'winxp.json',
-        image_url: 'https://www.dropbox.com/s/0zycew5u3xnf8m7/winxp.qcow2?dl=1',
-        checksum_url: 'sha1:8550675150ee1601859c4665d49eb29005065446'
+        name: "winxp",
+        ram: "512",
+        packer_template: "windows.json",
+        packer_varfile: "winxp.json",
+        image_url: "https://www.dropbox.com/s/0zycew5u3xnf8m7/winxp.qcow2?dl=1",
+        checksum_url: "sha1:8550675150ee1601859c4665d49eb29005065446",
       }
   when: enabled_vms['winxp']
 
 - name: setup Windows 7
-  include: setup.yml
+  include_tasks: setup.yml
   with_items:
     - {
-        name: 'win7',
-        ram: '1500',
-        packer_template: 'windows.json',
-        packer_varfile: 'win7.json',
-        image_url: 'https://www.dropbox.com/s/x9uyexfbhumphe7/win7.qcow2?dl=1',
-        checksum_url: 'sha1:64c1c051efa70c902b0fd4b10c7d8da90215bbca'
+        name: "win7",
+        ram: "1500",
+        packer_template: "windows.json",
+        packer_varfile: "win7.json",
+        image_url: "https://www.dropbox.com/s/x9uyexfbhumphe7/win7.qcow2?dl=1",
+        checksum_url: "sha1:64c1c051efa70c902b0fd4b10c7d8da90215bbca",
       }
   when: enabled_vms['win7']
 
 - name: setup Ubuntu
-  include: setup.yml
+  include_tasks: setup.yml
   with_items:
-    - { name: 'ubuntu', ram: '1024', packer_template: 'ubuntu.json', packer_varfile: 'ubuntu-16.04-server-i386.json' }
+    - {
+        name: "ubuntu",
+        ram: "1024",
+        packer_template: "ubuntu.json",
+        packer_varfile: "ubuntu-16.04-server-i386.json",
+      }
   when: enabled_vms['ubuntu']
 
 - name: refresh libvirt pool
