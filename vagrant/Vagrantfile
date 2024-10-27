@@ -114,7 +114,7 @@ Vagrant.configure(2) do |config|
     # set stdout_callback = yaml to improve error output
     # note: problem with \1yaml -> \x01yaml in ansible.cfg
     config.vm.provision "shell",
-        inline: "apt-get install -y ansible && mkdir -p /etc/ansible && echo -e '[defaults]\nstdout_callback = yaml' > /etc/ansible/ansible.cfg"
+        inline: "apt-get update && apt-get install -y ansible && mkdir -p /etc/ansible && echo -e '[defaults]\nstdout_callback = yaml' > /etc/ansible/ansible.cfg"
 
     config.vm.provision "ansible_local" do |ansible|
         # debug
