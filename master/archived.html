@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archived &mdash; KVM-VMI 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="KVMi subsystem for KVM" href="kvmi.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            KVM-VMI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kvmi.html">KVMi subsystem for KVM</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Archived</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#nitro">Nitro</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">KVM-VMI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Archived</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/archived.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="archived">
+<h1>Archived<a class="headerlink" href="#archived" title="Link to this heading"></a></h1>
+<section id="nitro">
+<h2>Nitro<a class="headerlink" href="#nitro" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">KVM-VMI</span></code> started as an improved fork of <a class="reference external" href="http://nitro.pfoh.net/">Nitro</a>, a set of VMI patches
+for <code class="docutils literal notranslate"><span class="pre">QEMU/KVM</span></code> to intercept system calls and rebuild the execution context.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Nitro</span></code> is the name of the userland component that will receive and interpret the syscalls,
+as well as the name of the set of patches for <code class="docutils literal notranslate"><span class="pre">QEMU/KVM</span></code>.</p>
+<p>A backup branch <code class="docutils literal notranslate"><span class="pre">nitro</span></code> is still available in the repo</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">KVM</span><span class="o">-</span><span class="n">VMI</span><span class="o">/</span><span class="n">kvm</span><span class="o">-</span><span class="n">vmi</span><span class="o">.</span><span class="n">git</span> <span class="o">--</span><span class="n">recursive</span> <span class="o">--</span><span class="n">b</span> <span class="n">nitro</span>
+</pre></div>
+</div>
+<p>Details:</p>
+<p>Once the traps are set, the VM will be in a “<em>paused</em>” state and go back to the
+hypervisor on every system call.
+In details, the traps are working directly at the instruction level, on <code class="docutils literal notranslate"><span class="pre">syscall</span></code>
+and <code class="docutils literal notranslate"><span class="pre">sysret</span></code>, which means that you can also stop the VM when the system call
+returns from the kernel.</p>
+<p>When the VM is “<em>paused</em>”, some introspection can be done by reading or writing
+into the memory. Therefore it is possible to reconstruct VM state and understand
+the system call <code class="docutils literal notranslate"><span class="pre">context</span></code> (process name, system call name).</p>
+<p>Furthermore, we are able to decode the system call
+parameters and display what file is being created (in the case of <code class="docutils literal notranslate"><span class="pre">NtCreateFile</span></code>,
+for <code class="docutils literal notranslate"><span class="pre">Windows</span></code> only).</p>
+<p>A hooking API allows you to define <code class="docutils literal notranslate"><span class="pre">callbacks</span></code> on top of the system calls you intercept:</p>
+<p><a class="reference external" href="https://msdn.microsoft.com/en-us/library/bb432380.aspx">NtCreateFile</a></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">enter_NtCreateFile</span><span class="p">(</span><span class="n">syscall</span><span class="p">):</span>
+    <span class="n">DesiredAccess</span> <span class="o">=</span> <span class="n">syscall</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">object_attributes</span> <span class="o">=</span> <span class="n">syscall</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">ObjectAttributes</span><span class="p">(</span><span class="n">object_attributes</span><span class="p">,</span> <span class="n">syscall</span><span class="o">.</span><span class="n">process</span><span class="p">)</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">ObjectName</span><span class="o">.</span><span class="n">Buffer</span>
+    <span class="n">access</span> <span class="o">=</span> <span class="n">FileAccessMask</span><span class="p">(</span><span class="n">DesiredAccess</span><span class="p">)</span>
+    <span class="n">syscall</span><span class="o">.</span><span class="n">hook</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;object_name&#39;</span><span class="p">:</span> <span class="n">buffer</span><span class="p">,</span>
+        <span class="s1">&#39;access&#39;</span><span class="p">:</span> <span class="n">access</span><span class="o">.</span><span class="n">rights</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Resulting in this output:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;event&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;cr3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x76f9e000&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;vcpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;rax&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x52&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;enter&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;syscall&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NtCreateFile&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;process&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2344</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;powershell.exe&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;hook&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;object_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;\\??\\C:\\Program Files\\Windows Sidebar\\Gadgets\\PicturePuzzle.Gadget\\en-US\\gadget.xml&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;access&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;SYNCHRONIZE&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;GENERIC_READ&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;FILE_READ_ATTRIBUTES&quot;</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="kvmi.html" class="btn btn-neutral float-left" title="KVMi subsystem for KVM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Mathieu Tarral.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

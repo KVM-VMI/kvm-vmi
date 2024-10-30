@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup &mdash; KVM-VMI 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="KVMi subsystem for KVM" href="kvmi.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            KVM-VMI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cloning-the-sources">Cloning the sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#option-1-vagrant-virtual-machine-based-setup">Option 1: Vagrant - Virtual Machine based setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linux-setup">Linux Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows-setup">Windows Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#starting-the-vagrant-virtual-machine">Starting the Vagrant Virtual Machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#managing-remote-vms">Managing remote VMs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#linux-manage-your-vms-via-virt-manager">Linux - Manage your VMs via virt-manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows-manage-your-vms">Windows - Manage your VMs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#running-libvmi-tools">Running LibVMI tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#opening-the-firewall-for-nfs-linux">Opening the firewall for NFS (Linux)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#option-2-bare-metal-setup">Option 2: Bare-metal setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kvm">KVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qemu">QEMU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preparing-a-domain">Preparing a domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#libkvmi">libkvmi</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#libkvmi-examples">Libkvmi examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#libvmi">LibVMI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#json-profiles">JSON profiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-output">Debug output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kvmi.html">KVMi subsystem for KVM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archived.html">Archived</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">KVM-VMI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Setup</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/setup.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="setup">
+<h1>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h1>
+<p>This guide will help you setup and configure KVM introspection.</p>
+<p>Currently 2 setup methods are supported:</p>
+<ol class="simple">
+<li><p>Vagrant: contained in a virtual machine (on both Linux and Windows)</p></li>
+<li><p>bare-metal: directly on the host</p></li>
+</ol>
+<section id="cloning-the-sources">
+<h2>Cloning the sources<a class="headerlink" href="#cloning-the-sources" title="Link to this heading"></a></h2>
+<p>The first is to clone the main <code class="docutils literal notranslate"><span class="pre">KVM-VMI</span></code> repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive
+</pre></div>
+</div>
+<p>If you have already cloned the repository, the following commands
+will make sure that you have the submodules checked out, on the right commits:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd kvm-vmi
+$ git checkout master
+$ git submodule update
+</pre></div>
+</div>
+<p>⚠️ <strong>Note</strong>: If you are running on Windows, you will not be able to clone the <code class="docutils literal notranslate"><span class="pre">kvm</span></code> submodule.
+This is due to a Windows filesystem limitation.
+However, you will still be able to setup <code class="docutils literal notranslate"><span class="pre">KVM-VMI</span></code>, by following the <code class="docutils literal notranslate"><span class="pre">Vagrant</span></code> option.</p>
+<p>This setup will help you configure 3 components:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">KVM</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QEMU</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LibVMI</span></code></p></li>
+</ul>
+</section>
+<section id="option-1-vagrant-virtual-machine-based-setup">
+<h2>Option 1: Vagrant - Virtual Machine based setup<a class="headerlink" href="#option-1-vagrant-virtual-machine-based-setup" title="Link to this heading"></a></h2>
+<p>This guide will help you setup a <code class="docutils literal notranslate"><span class="pre">KVM-VMI</span></code> development environment,
+contained in a virtual machine.</p>
+<p><a class="reference external" href="https://www.vagrantup.com/">Vagrant</a> is a tool that helps create reproductible dev environment.</p>
+<p>A Vagrant setup is available for KVM-VMI, and it will configure and install all the components
+as well as a test virtual machine for you.</p>
+<p>➡️ <strong>Start by installing</strong> <a class="reference external" href="https://www.vagrantup.com/downloads">Vagrant</a> <strong>for your platform</strong> (Linux or Windows)</p>
+<p>⚠️ <strong>Note</strong>: Your Linux distribution might provide a package to install Vagrant.</p>
+<section id="linux-setup">
+<h3>Linux Setup<a class="headerlink" href="#linux-setup" title="Link to this heading"></a></h3>
+<p>If you are running Linux, Vagrant will use the <a class="reference external" href="https://github.com/vagrant-libvirt/vagrant-libvirt">libvirt</a> provider
+to leverage the <code class="docutils literal notranslate"><span class="pre">KVM</span></code> hypervisor.</p>
+<p><strong>1</strong> Install <code class="docutils literal notranslate"><span class="pre">vagrant-libvirt</span></code> plugin</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">ruby</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">vagrant</span> <span class="n">plugin</span> <span class="n">install</span> <span class="n">vagrant</span><span class="o">-</span><span class="n">libvirt</span>
+</pre></div>
+</div>
+<p>⚠️ <strong>Note</strong>: Your Linux distribution might provide a package to install <code class="docutils literal notranslate"><span class="pre">vagrant-libvirt</span></code>.</p>
+<p><strong>2</strong> Install <code class="docutils literal notranslate"><span class="pre">vagrant-reload</span></code> plugin</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">plugin</span> <span class="n">install</span> <span class="n">vagrant</span><span class="o">-</span><span class="n">reload</span>
+</pre></div>
+</div>
+</section>
+<section id="windows-setup">
+<h3>Windows Setup<a class="headerlink" href="#windows-setup" title="Link to this heading"></a></h3>
+<p>If you are running Windows, Vagrant will use the <a class="reference external" href="https://www.vagrantup.com/docs/providers/hyperv">Hyper-V</a> provider.</p>
+<p><strong>1</strong> Install <code class="docutils literal notranslate"><span class="pre">vagrant-reload</span></code> plugin</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">plugin</span> <span class="n">install</span> <span class="n">vagrant</span><span class="o">-</span><span class="n">reload</span>
+</pre></div>
+</div>
+<p>The next part assumes that you don’t have cloned the submodules.
+It is not possible to clone the <code class="docutils literal notranslate"><span class="pre">kvm</span></code> submodule on Windows, as it contains
+a couple of files that are violating the Windows filesystem naming conventions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.h</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include/soc/arc/aux.h</span></code></p></li>
+</ul>
+<p>⚠️ <strong>Note</strong>: For more information, please have a look at <a class="reference external" href="https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN#naming-conventions">MSDN Naming Conventions</a></p>
+<p><strong>2</strong> Checkout the other submodules</p>
+<p>We need to checkout <code class="docutils literal notranslate"><span class="pre">qemu</span></code> and <code class="docutils literal notranslate"><span class="pre">libvmi</span></code> submodules</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">kvm</span><span class="o">-</span><span class="n">vmi</span>
+<span class="n">git</span> <span class="n">submodule</span> <span class="n">update</span> <span class="o">--</span><span class="n">init</span> <span class="n">qemu</span> <span class="n">libvmi</span>
+</pre></div>
+</div>
+</section>
+<section id="starting-the-vagrant-virtual-machine">
+<h3>Starting the Vagrant Virtual Machine<a class="headerlink" href="#starting-the-vagrant-virtual-machine" title="Link to this heading"></a></h3>
+<p><strong>1</strong> Tune the <code class="docutils literal notranslate"><span class="pre">Vagrantfile</span></code> to your needs (CPUs, RAM)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">kvm</span><span class="o">-</span><span class="n">vmi</span><span class="o">/</span><span class="n">vagrant</span>
+<span class="n">vim</span> <span class="n">Vagrantfile</span>
+</pre></div>
+</div>
+<p><strong>2</strong> Start the Vagrant VM setup</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">up</span> <span class="o">--</span><span class="n">provider</span> <span class="n">libvirt</span>           <span class="c1"># On Linux</span>
+<span class="n">vagrant</span> <span class="n">up</span> <span class="o">--</span><span class="n">provider</span> <span class="n">hyperv</span> <span class="o">--</span><span class="n">color</span>    <span class="c1"># On Windows (use an elevated powershell)</span>
+</pre></div>
+</div>
+<p><strong>3</strong> Wait, this is going to take a long time (~2h) ☕</p>
+</section>
+<section id="managing-remote-vms">
+<h3>Managing remote VMs<a class="headerlink" href="#managing-remote-vms" title="Link to this heading"></a></h3>
+<section id="linux-manage-your-vms-via-virt-manager">
+<h4>Linux - Manage your VMs via virt-manager<a class="headerlink" href="#linux-manage-your-vms-via-virt-manager" title="Link to this heading"></a></h4>
+<p>On Linux, you can use <code class="docutils literal notranslate"><span class="pre">virt-manager</span></code> to manage the remote VMs in your Vagrant VM.</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">vagrant</span> <span class="pre">ssh</span></code> to SSH into the VM</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">a</span></code> to get the VM’s IP address
+<img alt="ip a" src="_images/ip_a.png" /></p></li>
+<li><p>open <code class="docutils literal notranslate"><span class="pre">virt-manager</span></code></p></li>
+<li><p>File ➡️ Add a connection</p></li>
+<li><p>[x] check <em>Connect with SSH</em>
+<img alt="add_connection" src="_images/add_connection.png" /></p></li>
+<li><p>fill the hostname and click <em>Connect</em></p></li>
+<li><p>answer <code class="docutils literal notranslate"><span class="pre">yes</span></code></p></li>
+<li><p>password is <code class="docutils literal notranslate"><span class="pre">vagrant</span></code></p></li>
+</ol>
+<p>You can now manage your remote VMs from <code class="docutils literal notranslate"><span class="pre">virt-manager</span></code></p>
+</section>
+<section id="windows-manage-your-vms">
+<h4>Windows - Manage your VMs<a class="headerlink" href="#windows-manage-your-vms" title="Link to this heading"></a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">virsh</span></code> will be your main management tool</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">vagrant</span> <span class="pre">ssh</span></code>
+<img alt="vagrant_ssh" src="_images/vagrant_ssh.png" /></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">virsh</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">--all</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">winxp</span></code>
+<img alt="start_winxp" src="_images/start_winxp.png" /></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">a</span></code> to get the guest’s IP address
+<img alt="ip a" src="_images/ip_a1.png" /></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">netstat</span> <span class="pre">-ltp</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">qemu</span></code> to get QEMU’s VNC port</p></li>
+<li><p>Connect with a VNC client to the remote VM !</p></li>
+</ol>
+<p><img alt="vnc connect" src="_images/vnc_connect.png" />
+<img alt="vnc opened" src="_images/vnc_warning.png" />
+<img alt="vnc winxp" src="_images/winxp.png" /></p>
+</section>
+</section>
+<section id="running-libvmi-tools">
+<h3>Running LibVMI tools<a class="headerlink" href="#running-libvmi-tools" title="Link to this heading"></a></h3>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">vagrant</span> <span class="pre">ssh</span></code></p></li>
+<li><p>Start the VM</p></li>
+</ol>
+<p>Some Libvmi example programs are installed system wide:</p>
+<p><img alt="vmi-win-guid" src="_images/vmi-win-guid.png" /></p>
+<p><img alt="vmi-process-list" src="_images/vmi-process-list.png" /></p>
+<p>You can also run the examples from the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory:</p>
+<ol class="simple">
+<li><p>Go to <code class="docutils literal notranslate"><span class="pre">/vagrant/libvmi/build</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./examples/cr3-event-example</span> <span class="pre">winxp</span> <span class="pre">/tmp/introspector</span></code></p></li>
+</ol>
+<p><img alt="cr3-example" src="_images/cr3-event.png" />
+🎉</p>
+</section>
+<section id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h3>
+<section id="opening-the-firewall-for-nfs-linux">
+<h4>Opening the firewall for NFS (Linux)<a class="headerlink" href="#opening-the-firewall-for-nfs-linux" title="Link to this heading"></a></h4>
+<p>You need to open your firewall for <code class="docutils literal notranslate"><span class="pre">NFS</span></code>. The following commands should make it work for a <code class="docutils literal notranslate"><span class="pre">Vagrant</span></code> box
+to access your host <code class="docutils literal notranslate"><span class="pre">NFS</span></code> server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">permanent</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">service</span><span class="o">=</span><span class="n">nfs</span>
+<span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">permanent</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">service</span><span class="o">=</span><span class="n">rpc</span><span class="o">-</span><span class="n">bind</span>
+<span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">permanent</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">service</span><span class="o">=</span><span class="n">mountd</span>
+<span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">reload</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="option-2-bare-metal-setup">
+<h2>Option 2: Bare-metal setup<a class="headerlink" href="#option-2-bare-metal-setup" title="Link to this heading"></a></h2>
+<p>This guide will help you setup <code class="docutils literal notranslate"><span class="pre">KVM-VMI</span></code> directly on your system.</p>
+<p><img alt="bare_setup" src="_images/bare-metal.png" /></p>
+<section id="kvm">
+<h3>KVM<a class="headerlink" href="#kvm" title="Link to this heading"></a></h3>
+<p>You will have to compile and install an entire kernel.
+It is not possible to compile the KVM modules using an “out-of-tree” build.</p>
+<p>First we need to install the kernel build dependencies</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>bc<span class="w"> </span>fakeroot<span class="w"> </span>flex<span class="w"> </span>bison<span class="w"> </span>libelf-dev<span class="w"> </span>libssl-dev<span class="w"> </span>dwarves
+</pre></div>
+</div>
+<p>Let’s configure the kernel</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>kvm-vmi/kvm
+</pre></div>
+</div>
+<p>Use your current kernel config as a base config</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>/boot/config-<span class="k">$(</span>uname<span class="w"> </span>-r<span class="k">)</span><span class="w"> </span>.config
+</pre></div>
+</div>
+<p>Apply the following configuration:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># disable kernel modules signature</span>
+./scripts/config<span class="w"> </span>--disable<span class="w"> </span>SYSTEM_TRUSTED_KEYS
+./scripts/config<span class="w"> </span>--disable<span class="w"> </span>SYSTEM_REVOCATION_KEYS
+<span class="c1"># enable KVM</span>
+./scripts/config<span class="w"> </span>--module<span class="w"> </span>KVM
+./scripts/config<span class="w"> </span>--module<span class="w"> </span>KVM_INTEL
+./scripts/config<span class="w"> </span>--module<span class="w"> </span>KVM_AMD
+<span class="c1"># enable intospection</span>
+./scripts/config<span class="w"> </span>--enable<span class="w"> </span>KVM_INTROSPECTION
+<span class="c1"># disable hugepage due to compilation issue</span>
+./scripts/config<span class="w"> </span>--disable<span class="w"> </span>TRANSPARENT_HUGEPAGE
+<span class="c1"># tweak localversion</span>
+./scripts/config<span class="w"> </span>--set-str<span class="w"> </span>CONFIG_LOCALVERSION<span class="w"> </span>-kvmi
+<span class="c1"># ubuntu 22.04 compatibility</span>
+./scripts/config<span class="w"> </span>--enable<span class="w"> </span>PREEMPT
+./scripts/config<span class="w"> </span>--disable<span class="w"> </span>NET_VENDOR_NETRONOME
+</pre></div>
+</div>
+<p>Configure the rest of the kernel options with default values</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>olddefconfig
+</pre></div>
+</div>
+<p>Generate a debian package</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span><span class="w"> </span>bindeb-pkg
+</pre></div>
+</div>
+<p>Install the Linux image</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>../linux-image-5.4.24-kvmi+_5.4.24*deb
+</pre></div>
+</div>
+<p>Reboot.
+Run <code class="docutils literal notranslate"><span class="pre">uname</span> <span class="pre">-a</span></code>
+You should be on kernel <code class="docutils literal notranslate"><span class="pre">5.4.24+</span></code> (<code class="docutils literal notranslate"><span class="pre">kvmi</span> <span class="pre">v7</span></code>)</p>
+</section>
+<section id="qemu">
+<h3>QEMU<a class="headerlink" href="#qemu" title="Link to this heading"></a></h3>
+<p>Dependencies</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libpixman-1-dev<span class="w"> </span>pkg-config<span class="w"> </span>zlib1g-dev<span class="w"> </span>libglib2.0-dev<span class="w"> </span>dh-autoreconf<span class="w"> </span>libspice-server-dev
+</pre></div>
+</div>
+<p>Configure, build and install QEMU</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>kvm-vmi/qemu
+$<span class="w"> </span>./configure<span class="w"> </span>--target-list<span class="o">=</span>x86_64-softmmu<span class="w"> </span>--enable-spice<span class="w"> </span>--prefix<span class="o">=</span>/usr/local
+$<span class="w"> </span>make<span class="w"> </span>-j4
+$<span class="w"> </span>sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+<p>Your modified QEMU has been installed at <code class="docutils literal notranslate"><span class="pre">/usr/local/bin/qemu-system-x86_64</span></code></p>
+<p>Note: You might need to modify your <strong>Apparmor</strong> configuration to allow its execution.</p>
+</section>
+<section id="preparing-a-domain">
+<h3>Preparing a domain<a class="headerlink" href="#preparing-a-domain" title="Link to this heading"></a></h3>
+<p>The Virtual Machine should be available in <code class="docutils literal notranslate"><span class="pre">libvirt</span></code>.
+Modify the XML configuration as the following.</p>
+<div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;domain</span><span class="w"> </span><span class="na">type=</span><span class="s">&#39;kvm&#39;</span><span class="w"> </span><span class="na">xmlns:qemu=</span><span class="s">&#39;http://libvirt.org/schemas/domain/qemu/1.0&#39;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;qemu:commandline&gt;</span>
+<span class="w">      </span><span class="nt">&lt;qemu:arg</span><span class="w"> </span><span class="na">value=</span><span class="s">&#39;-chardev&#39;</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;qemu:arg</span><span class="w"> </span><span class="na">value=</span><span class="s">&#39;socket,path=/tmp/introspector,id=chardev0,reconnect=10&#39;</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;qemu:arg</span><span class="w"> </span><span class="na">value=</span><span class="s">&#39;-object&#39;</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;qemu:arg</span><span class="w"> </span><span class="na">value=</span><span class="s">&#39;introspection,id=kvmi,chardev=chardev0&#39;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/qemu:commandline&gt;</span>
+<span class="w">  </span>...
+<span class="w">  </span><span class="nt">&lt;devices&gt;</span>
+<span class="w">      </span><span class="nt">&lt;emulator&gt;</span>/usr/local/bin/qemu-system-x86_64<span class="nt">&lt;/emulator&gt;</span>
+</pre></div>
+</div>
+<p>Note that you need to <strong>add</strong> <code class="docutils literal notranslate"><span class="pre">xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'</span></code>.</p>
+<p>Note: If you want to use the remote memory mapping feature (and setup a VM with the introspection tool) you’ll find detailed instructions <a class="reference external" href="https://web.archive.org/web/20220331032239/https://hvmi.github.io/blog/2020/08/10/getting-started-on-kvm.html">here</a>.</p>
+<p>Validate the new configuration and start the domain.</p>
+</section>
+<section id="libkvmi">
+<h3>libkvmi<a class="headerlink" href="#libkvmi" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/bitdefender/libkvmi"><code class="docutils literal notranslate"><span class="pre">libkvmi</span></code></a> is a wrapper over the low-level KVMi API (ioctls)
+You should use this library to build your applications.</p>
+<p><img alt="libkvmi" src="_images/libkvmi.png" /></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>kvm-vmi/libkvmi
+$<span class="w"> </span>./bootstrap
+$<span class="w"> </span>./configure
+$<span class="w"> </span>make
+$<span class="w"> </span>sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+<section id="libkvmi-examples">
+<h4>Libkvmi examples<a class="headerlink" href="#libkvmi-examples" title="Link to this heading"></a></h4>
+<p>Run the example provided by libkvmi: <code class="docutils literal notranslate"><span class="pre">hookguest-libkvmi</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>libkvmi/examples
+$<span class="w"> </span>./hookguest-libkvmi<span class="w"> </span>/tmp/introspector
+</pre></div>
+</div>
+<p>Give it at least <code class="docutils literal notranslate"><span class="pre">10</span></code> seconds (waiting on QEMU to connect to the socket <code class="docutils literal notranslate"><span class="pre">/tmp/introspector</span></code>) and you should see some output ! :tada:</p>
+</section>
+</section>
+<section id="libvmi">
+<h3>LibVMI<a class="headerlink" href="#libvmi" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/libvmi/libvmi">LibVMI</a> is a VMI library providing a unified access on <code class="docutils literal notranslate"><span class="pre">Xen</span></code> and <code class="docutils literal notranslate"><span class="pre">KVM</span></code>, as well as a semantic layer.</p>
+<p>Dependencies</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>build-essential<span class="w"> </span>gcc<span class="w"> </span>libtool<span class="w"> </span>cmake<span class="w"> </span>pkg-config<span class="w"> </span>check<span class="w"> </span>libglib2.0-dev<span class="w"> </span>libvirt-dev<span class="w"> </span>flex<span class="w"> </span>bison<span class="w"> </span>libjson-c-dev
+</pre></div>
+</div>
+<p>Build and install</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>kvm-vmi/libvmi
+$<span class="w"> </span>mkdir<span class="w"> </span>build
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+$<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/usr/local<span class="w"> </span>-DENABLE_KVM<span class="o">=</span>ON<span class="w"> </span>-DENABLE_XEN<span class="o">=</span>OFF<span class="w"> </span>-DENABLE_BAREFLANK<span class="o">=</span>OFF
+$<span class="w"> </span>make<span class="w"> </span>-j2
+$<span class="w"> </span>sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+<section id="json-profiles">
+<h4>JSON profiles<a class="headerlink" href="#json-profiles" title="Link to this heading"></a></h4>
+<p>TO use all the features of LibVMI, you need a Rekall/Volatility profile.</p>
+<p>You can generate one like this:</p>
+<ol class="simple">
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">./examples/vmi-win-guid</span></code> and note the <code class="docutils literal notranslate"><span class="pre">Kernel</span> <span class="pre">filename</span></code> and <code class="docutils literal notranslate"><span class="pre">PDB</span> <span class="pre">GUID</span></code> fields.</p></li>
+<li><p>Use Volatility3 to extract the JSON profile</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/volatilityfoundation/volatility3
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>volatility3
+$<span class="w"> </span>virtualenv<span class="w"> </span>-p<span class="w"> </span>python3<span class="w"> </span>venv
+$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>venv/bin/activate
+<span class="o">(</span>venv<span class="o">)</span><span class="w"> </span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+<span class="o">(</span>venv<span class="o">)</span><span class="w"> </span>$<span class="w"> </span>python<span class="w"> </span>volatility/framework/symbols/windows/pdbconv.py<span class="w"> </span>-o<span class="w"> </span>profile.json<span class="w"> </span>-p<span class="w"> </span>&lt;Kernel<span class="w"> </span>filename&gt;<span class="w"> </span>-g<span class="w"> </span>&lt;PDB<span class="w"> </span>GUID&gt;
+</pre></div>
+</div>
+</section>
+<section id="debug-output">
+<h4>Debug output<a class="headerlink" href="#debug-output" title="Link to this heading"></a></h4>
+<p>The debug output can be configured via <code class="docutils literal notranslate"><span class="pre">CMake</span></code>.
+The constants should be used from <code class="docutils literal notranslate"><span class="pre">libvmi/debug.h</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build<span class="w"> </span>
+cmake<span class="w"> </span>..<span class="w"> </span>-DVMI_DEBUG<span class="o">=</span><span class="s1">&#39;(VMI_DEBUG_KVM | VMI_DEBUG_DRIVER)&#39;</span>
+make
+sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+<p>Toggling the debug output is controlled by an environment variable: <code class="docutils literal notranslate"><span class="pre">LIBVMI_DEBUG</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nv">LIBVMI_DEBUG</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>./build/examples/vmi-process-list<span class="w"> </span>-n<span class="w"> </span>winxp<span class="w"> </span>-j<span class="w"> </span>/etc/libvmi/winxp-profile.json
+</pre></div>
+</div>
+<p>Go to <a class="reference external" href="https://github.com/libvmi/libvmi">LibVMI</a> for the rest of the documentation.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kvmi.html" class="btn btn-neutral float-right" title="KVMi subsystem for KVM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Mathieu Tarral.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

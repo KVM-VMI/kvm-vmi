@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Setup &mdash; KVM-VMI 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> KVM-VMI
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cloning-the-sources">Cloning the sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#option-1-vagrant-virtual-machine-based-setup">Option 1: Vagrant - Virtual Machine based setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#option-2-bare-metal-setup">Option 2: Bare-metal setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kvm">KVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qemu">QEMU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preparing-a-domain">Preparing a domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#libkvmi">libkvmi</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#libkvmi-examples">Libkvmi examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#libvmi">LibVMI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#json-profiles">JSON profiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-output">Debug output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">KVM-VMI</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Setup</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/setup.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="setup">
+<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cloning-the-sources">
+<h2>Cloning the sources<a class="headerlink" href="#cloning-the-sources" title="Permalink to this headline">¶</a></h2>
+<p>First let’s make sure that we have the repository, on the right branches.</p>
+<p>If you <strong>haven’t</strong> cloned <code class="docutils literal notranslate"><span class="pre">KVM-VMI</span></code> yet, use the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/KVM-VMI/kvm-vmi.git --recursive
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd kvm-vmi
+$ git checkout master
+$ git submodule update
+</pre></div>
+</div>
+<p>This setup will help you configure 3 components:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">KVM</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QEMU</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LibVMI</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="option-1-vagrant-virtual-machine-based-setup">
+<h2>Option 1: Vagrant - Virtual Machine based setup<a class="headerlink" href="#option-1-vagrant-virtual-machine-based-setup" title="Permalink to this headline">¶</a></h2>
+<p>This guide will help you setup a <code class="docutils literal notranslate"><span class="pre">KVM-VMI</span></code> development environment,
+contained in a virtual machine, on KVM.</p>
+<p><img alt="vagrant_setup" src="_images/vagrant-kvm-vmi.png" /></p>
+<p><a class="reference external" href="https://www.vagrantup.com/">Vagrant</a> is a tool that helps create reproductible dev environment.
+A Vagrant setup is available for KVM-VMI, and it will configure and install all the components
+as well as a test virtual machine for you.</p>
+<p>Go to <code class="docutils literal notranslate"><span class="pre">kvm-vmi/vagrant</span></code> and follow the instructions there.</p>
+<p>Otherwise, keep reading</p>
+</div>
+<div class="section" id="option-2-bare-metal-setup">
+<h2>Option 2: Bare-metal setup<a class="headerlink" href="#option-2-bare-metal-setup" title="Permalink to this headline">¶</a></h2>
+<p>This guide will help you setup <code class="docutils literal notranslate"><span class="pre">KVM-VMI</span></code> directly on your system.</p>
+<p><img alt="bare_setup" src="_images/bare-metal.png" /></p>
+<div class="section" id="kvm">
+<h3>KVM<a class="headerlink" href="#kvm" title="Permalink to this headline">¶</a></h3>
+<p>You will have to compile and install an entire kernel.
+It is not possible to compile the KVM modules using an “out-of-tree” build.</p>
+<p>First we need to install the kernel build dependencies</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install bc fakeroot flex bison libelf-dev libssl-dev ncurses-dev
+</pre></div>
+</div>
+<p>Let’s configure the kernel</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd kvm-vmi/kvm
+$ make olddefconfig
+$ make menuconfig
+</pre></div>
+</div>
+<p>Apply the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CONFIG_KVM</span><span class="o">=</span><span class="n">m</span>
+<span class="n">CONFIG_KVM_INTEL</span><span class="o">=</span><span class="n">m</span>
+<span class="n">CONFIG_KVM_AMD</span><span class="o">=</span><span class="n">m</span>
+<span class="n">CONFIG_KSM</span><span class="o">=</span><span class="n">n</span>
+<span class="n">CONFIG_REMOTE_MAPPING</span><span class="o">=</span><span class="n">y</span>
+<span class="n">CONFIG_KVM_INTROSPECTION</span><span class="o">=</span><span class="n">y</span>
+</pre></div>
+</div>
+<p>Build and install the kernel</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make -j4 bzImage
+$ make -j4 modules
+$ sudo make modules_install
+$ sudo make install
+</pre></div>
+</div>
+<p>Reboot.
+Run <code class="docutils literal notranslate"><span class="pre">uname</span> <span class="pre">-a</span></code>
+You should be on kernel <code class="docutils literal notranslate"><span class="pre">5.0.0-rc7</span></code> (<code class="docutils literal notranslate"><span class="pre">kvmi</span> <span class="pre">v6</span></code>)</p>
+</div>
+<div class="section" id="qemu">
+<h3>QEMU<a class="headerlink" href="#qemu" title="Permalink to this headline">¶</a></h3>
+<p>Dependencies</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install libpixman-1-dev pkg-config zlib1g-dev libglib2.0-dev dh-autoreconf libspice-server-dev
+</pre></div>
+</div>
+<p>Configure, build and install QEMU</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd kvm-vmi/qemu
+$ ./configure --target-list=x86_64-softmmu --enable-spice --prefix=/usr/local
+$ make -j4
+$ sudo make install
+</pre></div>
+</div>
+<p>Your modified QEMU has been installed at <code class="docutils literal notranslate"><span class="pre">/usr/local/bin/qemu-system-x86_64</span></code></p>
+<p>Note: You might need to modify your <strong>Apparmor</strong> configuration to allow its execution.</p>
+</div>
+<div class="section" id="preparing-a-domain">
+<h3>Preparing a domain<a class="headerlink" href="#preparing-a-domain" title="Permalink to this headline">¶</a></h3>
+<p>The Virtual Machine should be available in <code class="docutils literal notranslate"><span class="pre">libvirt</span></code>.
+Modify the XML configuration as the following.</p>
+<div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;domain</span> <span class="na">type=</span><span class="s">&#39;kvm&#39;</span> <span class="na">xmlns:qemu=</span><span class="s">&#39;http://libvirt.org/schemas/domain/qemu/1.0&#39;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;qemu:commandline&gt;</span>
+      <span class="nt">&lt;qemu:arg</span> <span class="na">value=</span><span class="s">&#39;-chardev&#39;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;qemu:arg</span> <span class="na">value=</span><span class="s">&#39;socket,path=/tmp/introspector,id=chardev0,reconnect=10&#39;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;qemu:arg</span> <span class="na">value=</span><span class="s">&#39;-object&#39;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;qemu:arg</span> <span class="na">value=</span><span class="s">&#39;secret,id=key0,data=some&#39;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;qemu:arg</span> <span class="na">value=</span><span class="s">&#39;-object&#39;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;qemu:arg</span> <span class="na">value=</span><span class="s">&#39;introspection,id=kvmi,chardev=chardev0,key=key0&#39;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;qemu:arg</span> <span class="na">value=</span><span class="s">&#39;-accel&#39;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;qemu:arg</span> <span class="na">value=</span><span class="s">&#39;kvm,introspection=kvmi&#39;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/qemu:commandline&gt;</span>
+  ...
+  <span class="nt">&lt;devices&gt;</span>
+      <span class="nt">&lt;emulator&gt;</span>/usr/local/bin/qemu-system-x86_64<span class="nt">&lt;/emulator&gt;</span>
+</pre></div>
+</div>
+<p>Note that you need to <strong>add</strong> <code class="docutils literal notranslate"><span class="pre">xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'</span></code>.</p>
+<p>Validate the new configuration and start the domain.</p>
+</div>
+<div class="section" id="libkvmi">
+<h3>libkvmi<a class="headerlink" href="#libkvmi" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://github.com/bitdefender/libkvmi"><code class="docutils literal notranslate"><span class="pre">libkvmi</span></code></a> is a wrapper over the low-level KVMi API (ioctls)
+You should use this library to build your applications.</p>
+<p><img alt="libkvmi" src="_images/libkvmi.png" /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/bitdefender/libkvmi --branch kvmi-v6
+$ ./bootstrap
+$ ./configure
+$ make
+$ sudo make install
+</pre></div>
+</div>
+<div class="section" id="libkvmi-examples">
+<h4>Libkvmi examples<a class="headerlink" href="#libkvmi-examples" title="Permalink to this headline">¶</a></h4>
+<p>Run the example provided by libkvmi: <code class="docutils literal notranslate"><span class="pre">hookguest-libkvmi</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd libkvmi/examples
+$ ./hookguest-libkvmi /tmp/introspector
+</pre></div>
+</div>
+<p>Give it at least <code class="docutils literal notranslate"><span class="pre">10</span></code> seconds (waiting on QEMU to connect to the socket <code class="docutils literal notranslate"><span class="pre">/tmp/introspector</span></code>) and you should see some output ! :tada:</p>
+</div>
+</div>
+<div class="section" id="libvmi">
+<h3>LibVMI<a class="headerlink" href="#libvmi" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://github.com/libvmi/libvmi">LibVMI</a> is a VMI library providing a unified access on <code class="docutils literal notranslate"><span class="pre">Xen</span></code> and <code class="docutils literal notranslate"><span class="pre">KVM</span></code>, as well as a semantic layer.</p>
+<p>Dependencies</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install build-essential gcc libtool cmake pkg-config check libglib2.0-dev libvirt-dev flex bison libjson-c-dev
+</pre></div>
+</div>
+<p>Build and install</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd kvm-vmi/libvmi
+$ mkdir build
+$ cd build
+$ cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DENABLE_KVM=ON -DENABLE_XEN=OFF -DENABLE_BAREFLANK=OFF
+$ make -j2
+$ sudo make install
+</pre></div>
+</div>
+<div class="section" id="json-profiles">
+<h4>JSON profiles<a class="headerlink" href="#json-profiles" title="Permalink to this headline">¶</a></h4>
+<p>TO use all the features of LibVMI, you need a Rekall/Volatility profile.</p>
+<p>You can generate one like this:</p>
+<ol class="simple">
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">./examples/vmi-win-guid</span></code> and note the <code class="docutils literal notranslate"><span class="pre">Kernel</span> <span class="pre">filename</span></code> and <code class="docutils literal notranslate"><span class="pre">PDB</span> <span class="pre">GUID</span></code> fields.</p></li>
+<li><p>Use Volatility3 to extract the JSON profile</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/volatilityfoundation/volatility3
+$ cd volatility3
+$ virtualenv -p python3 venv
+$ source venv/bin/activate
+(venv) $ pip install -e .
+(venv) $ python volatility/framework/symbols/windows/pdbconv.py -o profile.json -p &lt;Kernel filename&gt; -g &lt;PDB GUID&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="debug-output">
+<h4>Debug output<a class="headerlink" href="#debug-output" title="Permalink to this headline">¶</a></h4>
+<p>The debug output can be configured via <code class="docutils literal notranslate"><span class="pre">CMake</span></code>.
+The constants should be used from <code class="docutils literal notranslate"><span class="pre">libvmi/debug.h</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">build</span> 
+<span class="n">cmake</span> <span class="o">..</span> <span class="o">-</span><span class="n">DVMI_DEBUG</span><span class="o">=</span><span class="s1">&#39;(VMI_DEBUG_KVM | VMI_DEBUG_DRIVER)&#39;</span>
+<span class="n">make</span>
+<span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>Toggling the debug output is controlled by an environment variable: <code class="docutils literal notranslate"><span class="pre">LIBVMI_DEBUG</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ LIBVMI_DEBUG=1 ./build/examples/vmi-process-list -n winxp -j /etc/libvmi/winxp-profile.json
+</pre></div>
+</div>
+<p>Go to <a class="reference external" href="https://github.com/libvmi/libvmi">LibVMI</a> for the rest of the documentation.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Mathieu Tarral
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
