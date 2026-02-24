@@ -88,11 +88,11 @@ a couple of files that are violating the Windows filesystem naming conventions:
 
 **2** Checkout the other submodules
 
-We need to checkout `qemu` and `libvmi` submodules
+We need to checkout `qemu`, `libvmi` and `libkvmi` submodules
 
 ~~~
 cd kvm-vmi
-git submodule update --init qemu libvmi
+git submodule update --init qemu libvmi libkvmi
 ~~~
 
 ### Starting the Vagrant Virtual Machine
