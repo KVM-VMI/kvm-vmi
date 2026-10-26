@@ -52,6 +52,7 @@
 
 - name: define libvirt pool
   command: virsh -c qemu:///system pool-define-as default --type dir --target /data/vms
+  ignore_errors: yes
 
 - name: build libvirt pool
   command: virsh -c qemu:///system pool-build default
