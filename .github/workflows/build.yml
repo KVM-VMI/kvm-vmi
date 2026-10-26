@@ -60,7 +60,7 @@ jobs:
         run: make -j$(nproc) bindeb-pkg
         working-directory: kvm
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: kvm-${{ matrix.os }}
           path: '*.deb'
